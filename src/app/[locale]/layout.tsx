@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -40,6 +40,10 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+
+  // Enable static rendering and set locale for getMessages()
+  setRequestLocale(locale);
+
   const messages = await getMessages();
 
   return (
