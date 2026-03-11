@@ -3,6 +3,7 @@
 import { ReactNode, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
@@ -28,6 +29,7 @@ interface NavItem {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
+  const t = useTranslations();
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -35,29 +37,54 @@ export function AppLayout({ children }: AppLayoutProps) {
     () => [
       {
         id: "dashboard",
-        name: "Dashboard",
+        name: t("navigation.dashboard"),
         href: "/dashboard",
         icon: LayoutDashboard,
       },
-      { id: "finance", name: "Финансы", href: "/finance", icon: Wallet },
-      { id: "nutrition", name: "Питание", href: "/nutrition", icon: Utensils },
-      { id: "workouts", name: "Тренировки", href: "/workouts", icon: Dumbbell },
-      { id: "products", name: "Продукты", href: "/products", icon: Package },
+      {
+        id: "finance",
+        name: t("navigation.finance"),
+        href: "/finance",
+        icon: Wallet,
+      },
+      {
+        id: "nutrition",
+        name: t("navigation.nutrition"),
+        href: "/nutrition",
+        icon: Utensils,
+      },
+      {
+        id: "workouts",
+        name: t("navigation.workouts"),
+        href: "/workouts",
+        icon: Dumbbell,
+      },
+      {
+        id: "products",
+        name: t("navigation.products"),
+        href: "/products",
+        icon: Package,
+      },
       {
         id: "analytics",
-        name: "Аналитика",
+        name: t("navigation.analytics"),
         href: "/analytics",
         icon: BarChart3,
       },
     ],
-    [],
+    [t],
   );
 
   const secondaryNavigation = useMemo<NavItem[]>(
     () => [
-      { id: "settings", name: "Настройки", href: "/settings", icon: Settings },
+      {
+        id: "settings",
+        name: t("navigation.settings"),
+        href: "/settings",
+        icon: Settings,
+      },
     ],
-    [],
+    [t],
   );
 
   const renderNavItem = (item: NavItem, onClick?: () => void) => {
@@ -174,7 +201,9 @@ export function AppLayout({ children }: AppLayoutProps) {
               )}
             >
               <Settings className="h-5 w-5" aria-hidden={true} />
-              <span className="truncate w-full text-center">Настройки</span>
+              <span className="truncate w-full text-center">
+                {t("navigation.settings")}
+              </span>
             </Link>
           </div>
         </nav>
