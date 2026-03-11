@@ -39,10 +39,21 @@
     "comingSoon": "Скоро: транзакции, счета, категории и аналитика",
     "filter": "Фильтр",
     "export": "Экспорт",
+    "accounts": {
+      "cash": "Наличные",
+      "bank_card": "Банковская карта",
+      "savings": "Накопления"
+    },
     "addTransaction": {
       "title": "Добавить транзакцию",
       "button": "Добавить транзакцию",
       "amount": "Сумма",
+      "account": "Счёт",
+      "fromAccount": "Со счёта",
+      "toAccount": "На счёт",
+      "selectAccount": "Выберите счёт",
+      "selectFromAccount": "Выберите счёт откуда",
+      "selectToAccount": "Выберите счёт куда",
       "category": "Категория",
       "subcategory": "Подкатегория",
       "selectCategory": "Выберите категорию",
@@ -50,22 +61,24 @@
       "description": "Описание",
       "descriptionPlaceholder": "например, Покупка продуктов",
       "date": "Дата",
-      "toAccount": "Перевод на счёт",
-      "toAccountPlaceholder": "Счёт назначения"
+      "error": "Не удалось создать транзакцию"
     },
     "summary": {
       "balance": "Баланс",
       "income": "Доходы",
-      "expenses": "Расходы"
+      "expenses": "Расходы",
+      "transfers": "Переводы"
     },
     "filters": {
       "all": "Все",
       "income": "Доходы",
-      "expenses": "Расходы"
+      "expenses": "Расходы",
+      "transfers": "Переводы"
     },
     "transactions": {
       "title": "Транзакции",
-      "noData": "Транзакции не найдены"
+      "noData": "Транзакции не найдены",
+      "confirmDelete": "Удалить эту транзакцию?"
     },
     "transactionTypes": {
       "income": "Доход",

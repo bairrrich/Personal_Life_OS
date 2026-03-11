@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslations } from "next-intl";
 import {
@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -20,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createTransaction } from "@/actions/transactions";
+import { createTransaction, getAccounts } from "@/actions/transactions";
 import { cn } from "@/lib/utils";
 import {
   expenseCategories,
@@ -42,7 +43,8 @@ interface FormData {
   subcategory?: string;
   description: string;
   date: string;
-  toAccount?: string;
+  accountId: string; // From account (for transfer)
+  toAccount?: string; // To account (for transfer)
 }
 
 export function AddTransactionDialog({
@@ -56,15 +58,42 @@ export function AddTransactionDialog({
   const [selectedSubcategories, setSelectedSubcategories] = useState<
     { id: string; nameKey: string }[]
   >([]);
+  const [accounts, setAccounts] = useState<{ id: string; name: string }[]>([]);
+
+  // Load accounts on mount (with defaults)
+  useEffect(() => {
+    const loadAccounts = async () => {
+      // Default accounts
+      const defaultAccounts = [
+        { id: "cash", name: t("finance.accounts.cash") },
+        { id: "bank_card", name: t("finance.accounts.bank_card") },
+        { id: "savings", name: t("finance.accounts.savings") },
+      ];
+
+      try {
+        const accs = await getAccounts();
+        if (accs.length > 0) {
+          setAccounts(accs.map((a) => ({ id: a.id, name: a.name })));
+        } else {
+          setAccounts(defaultAccounts);
+        }
+      } catch (error) {
+        console.error("Failed to load accounts:", error);
+        setAccounts(defaultAccounts);
+      }
+    };
+    loadAccounts();
+  }, [open, t]);
 
   const form = useForm<FormData>({
     defaultValues: {
       amount: 0,
-      type: "expense",
+      type: "expense", // Default to expense
       category: "",
       subcategory: "",
       description: "",
       date: new Date().toISOString().split("T")[0],
+      accountId: "",
       toAccount: "",
     },
   });
@@ -98,7 +127,8 @@ export function AddTransactionDialog({
       category: data.category,
       description: data.description,
       date: data.date,
-      accountId: data.toAccount,
+      accountId: data.accountId,
+      toAccountId: data.type === "transfer" ? data.toAccount : undefined,
     });
 
     setLoading(false);
@@ -108,7 +138,7 @@ export function AddTransactionDialog({
       onSuccess?.();
       onOpenChange(false);
     } else {
-      setError(result.error || "Failed to create transaction");
+      setError(result.error || t("finance.addTransaction.error"));
     }
   };
 
@@ -128,44 +158,74 @@ export function AddTransactionDialog({
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {/* Type Selection */}
-          <div className="grid grid-cols-3 gap-2">
-            <Button
-              type="button"
-              variant={form.watch("type") === "expense" ? "default" : "outline"}
-              onClick={() => form.setValue("type", "expense")}
-              className={cn(
-                form.watch("type") === "expense" &&
-                  "bg-red-600 hover:bg-red-700",
-              )}
-            >
-              {t("finance.transactionTypes.expense")}
-            </Button>
-            <Button
-              type="button"
-              variant={form.watch("type") === "income" ? "default" : "outline"}
-              onClick={() => form.setValue("type", "income")}
-              className={cn(
-                form.watch("type") === "income" &&
-                  "bg-green-600 hover:bg-green-700",
-              )}
-            >
-              {t("finance.transactionTypes.income")}
-            </Button>
-            <Button
-              type="button"
-              variant={
-                form.watch("type") === "transfer" ? "default" : "outline"
-              }
-              onClick={() => form.setValue("type", "transfer")}
-              className={cn(
-                form.watch("type") === "transfer" &&
-                  "bg-blue-600 hover:bg-blue-700",
-              )}
-            >
-              {t("finance.transactionTypes.transfer")}
-            </Button>
-          </div>
+          {/* Type Selection - Tabs with color coding */}
+          <Tabs
+            value={form.watch("type")}
+            onValueChange={(value) =>
+              form.setValue("type", value as "income" | "expense" | "transfer")
+            }
+            className="w-full"
+          >
+            <TabsList className="grid w-full grid-cols-3 gap-2 bg-transparent p-0 h-auto">
+              <TabsTrigger
+                value="income"
+                data-color="income"
+                className={cn(
+                  "flex-1 py-2 px-4 rounded-md font-medium transition-all",
+                  "data-[state=inactive]:bg-muted/50 data-[state=inactive]:text-muted-foreground hover:data-[state=inactive]:bg-muted",
+                )}
+                style={
+                  form.watch("type") === "income"
+                    ? {
+                        backgroundColor: "#16a34a",
+                        color: "white",
+                        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                      }
+                    : undefined
+                }
+              >
+                {t("finance.transactionTypes.income")}
+              </TabsTrigger>
+              <TabsTrigger
+                value="expense"
+                data-color="expense"
+                className={cn(
+                  "flex-1 py-2 px-4 rounded-md font-medium transition-all",
+                  "data-[state=inactive]:bg-muted/50 data-[state=inactive]:text-muted-foreground hover:data-[state=inactive]:bg-muted",
+                )}
+                style={
+                  form.watch("type") === "expense"
+                    ? {
+                        backgroundColor: "#dc2626",
+                        color: "white",
+                        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                      }
+                    : undefined
+                }
+              >
+                {t("finance.transactionTypes.expense")}
+              </TabsTrigger>
+              <TabsTrigger
+                value="transfer"
+                data-color="transfer"
+                className={cn(
+                  "flex-1 py-2 px-4 rounded-md font-medium transition-all",
+                  "data-[state=inactive]:bg-muted/50 data-[state=inactive]:text-muted-foreground hover:data-[state=inactive]:bg-muted",
+                )}
+                style={
+                  form.watch("type") === "transfer"
+                    ? {
+                        backgroundColor: "#2563eb",
+                        color: "white",
+                        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+                      }
+                    : undefined
+                }
+              >
+                {t("finance.transactionTypes.transfer")}
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
 
           {/* Amount */}
           <div className="space-y-2">
@@ -192,23 +252,79 @@ export function AddTransactionDialog({
                 valueAsNumber: true,
                 min: 0.01,
                 onChange: (e) => {
-                  // Prevent non-numeric input
                   const value = e.target.value.replace(/[^0-9.]/g, "");
                   e.target.value = value;
                   form.setValue("amount", parseFloat(value) || 0);
                 },
               })}
               onKeyDown={(e) => {
-                // Prevent arrow keys and e/E
                 if (["e", "E", "ArrowUp", "ArrowDown"].includes(e.key)) {
                   e.preventDefault();
                 }
               }}
               onWheel={(e) => {
-                // Prevent mouse wheel changing value
                 e.currentTarget.blur();
               }}
             />
+          </div>
+
+          {/* Account Fields - One Row */}
+          <div className="grid grid-cols-2 gap-4">
+            {/* From Account */}
+            <div className="space-y-2">
+              <Label htmlFor="accountId" className="text-sm font-medium">
+                {transactionType === "transfer"
+                  ? t("finance.addTransaction.fromAccount")
+                  : t("finance.addTransaction.account")}
+              </Label>
+              <Select
+                value={form.watch("accountId")}
+                onValueChange={(value) => form.setValue("accountId", value)}
+              >
+                <SelectTrigger className="h-10 w-full">
+                  <SelectValue
+                    placeholder={
+                      transactionType === "transfer"
+                        ? t("finance.addTransaction.selectFromAccount")
+                        : t("finance.addTransaction.selectAccount")
+                    }
+                  />
+                </SelectTrigger>
+                <SelectContent>
+                  {accounts.map((acc) => (
+                    <SelectItem key={acc.id} value={acc.id}>
+                      {acc.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* To Account (for transfers only) */}
+            {transactionType === "transfer" && (
+              <div className="space-y-2">
+                <Label htmlFor="toAccount" className="text-sm font-medium">
+                  {t("finance.addTransaction.toAccount")}
+                </Label>
+                <Select
+                  value={form.watch("toAccount")}
+                  onValueChange={(value) => form.setValue("toAccount", value)}
+                >
+                  <SelectTrigger className="h-10 w-full">
+                    <SelectValue
+                      placeholder={t("finance.addTransaction.selectToAccount")}
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {accounts.map((acc) => (
+                      <SelectItem key={acc.id} value={acc.id}>
+                        {acc.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
           </div>
 
           {/* Category & Subcategory Row */}
@@ -300,22 +416,6 @@ export function AddTransactionDialog({
               {...form.register("date", { required: true })}
             />
           </div>
-
-          {/* Transfer To Account */}
-          {form.watch("type") === "transfer" && (
-            <div className="space-y-2">
-              <Label htmlFor="toAccount" className="text-sm font-medium">
-                {t("finance.addTransaction.toAccount")}
-              </Label>
-              <Input
-                id="toAccount"
-                type="text"
-                className="w-full"
-                placeholder={t("finance.addTransaction.toAccountPlaceholder")}
-                {...form.register("toAccount")}
-              />
-            </div>
-          )}
 
           {/* Error */}
           {error && <p className="text-sm text-destructive">{error}</p>}

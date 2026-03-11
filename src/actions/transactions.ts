@@ -28,6 +28,7 @@ export interface CreateTransactionInput {
   description: string;
   date?: string;
   accountId?: string;
+  toAccountId?: string; // For transfers
 }
 
 export interface UpdateTransactionInput {
@@ -41,6 +42,28 @@ export interface UpdateTransactionInput {
 
 /**
  * Create a new transaction using Entity Engine
+ *
+ * @param input - Transaction input data
+ * @param input.amount - Transaction amount (must be positive)
+ * @param input.type - Transaction type (income/expense/transfer)
+ * @param input.category - Category ID
+ * @param input.description - Transaction description
+ * @param input.date - Transaction date (ISO string)
+ * @param input.accountId - Source account ID
+ * @param input.toAccountId - Destination account ID (for transfers only)
+ * @returns Object with success status and transaction data or error
+ *
+ * @example
+ * ```typescript
+ * const result = await createTransaction({
+ *   amount: 100,
+ *   type: "expense",
+ *   category: "food",
+ *   description: "Grocery shopping",
+ *   date: "2026-03-11",
+ *   accountId: "bank_card",
+ * })
+ * ```
  */
 export async function createTransaction(
   input: CreateTransactionInput,
@@ -61,6 +84,7 @@ export async function createTransaction(
         transactionType: input.type,
         date: dateValue,
         note: input.description,
+        toAccountId: input.toAccountId, // For transfers
       },
     });
 
@@ -227,10 +251,15 @@ export async function getTransactionSummary(): Promise<{
 /**
  * Get accounts using Entity Engine
  */
-export async function getAccounts(): Promise<AccountEntity[]> {
+export async function getAccounts(): Promise<
+  Array<{ id: string; name: string }>
+> {
   try {
-    const entities = await getEntitiesByType("account", false);
-    return entities as AccountEntity[];
+    const entities = (await getEntitiesByType(
+      "account",
+      false,
+    )) as AccountEntity[];
+    return entities.map((a) => ({ id: a.id, name: a.data.name }));
   } catch (error) {
     console.error("Failed to get accounts:", error);
     return [];

@@ -9,7 +9,7 @@ import {
   queryEntities,
   getEntitiesByType,
 } from "@/entity-engine/engine";
-import type { CreateEntityInput, BaseEntity } from "@/entity-engine/types";
+import type { CreateEntityInput } from "@/entity-engine/types";
 
 describe("Entity Engine", () => {
   beforeAll(async () => {
@@ -34,6 +34,7 @@ describe("Entity Engine", () => {
           amount: 5,
           currency: "USD",
           accountId: "acc_1",
+          categoryId: "food",
           transactionType: "expense",
           date: Date.now(),
         },
@@ -178,6 +179,7 @@ describe("Entity Engine", () => {
           amount: 100,
           currency: "USD",
           accountId: "acc1",
+          categoryId: "food",
           transactionType: "expense",
           date: 1000,
         },
@@ -189,6 +191,7 @@ describe("Entity Engine", () => {
           amount: 200,
           currency: "USD",
           accountId: "acc1",
+          categoryId: "salary",
           transactionType: "income",
           date: 2000,
         },
@@ -203,9 +206,7 @@ describe("Entity Engine", () => {
     it("should filter by type", async () => {
       const transactions = await queryEntities({ type: "transaction" });
       expect(transactions).toHaveLength(2);
-      expect(
-        transactions.every((e: BaseEntity) => e.type === "transaction"),
-      ).toBe(true);
+      expect(transactions.every((e) => e.type === "transaction")).toBe(true);
     });
 
     it("should exclude deleted entities by default", async () => {
@@ -244,8 +245,16 @@ describe("Entity Engine", () => {
 
   describe("getEntitiesByType", () => {
     beforeEach(async () => {
-      await createEntity({ type: "exercise", name: "Pushups", data: {} });
-      await createEntity({ type: "exercise", name: "Squats", data: {} });
+      await createEntity({
+        type: "exercise",
+        name: "Pushups",
+        data: {},
+      });
+      await createEntity({
+        type: "exercise",
+        name: "Squats",
+        data: {},
+      });
     });
 
     it("should return all entities of type", async () => {

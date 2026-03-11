@@ -50,7 +50,7 @@ export interface TransactionEntity extends BaseEntity {
     transactionType: TransactionType;
     date: number;
     note?: string;
-    transferAccountId?: string;
+    toAccountId?: string; // For transfers
   };
 }
 

@@ -39,10 +39,21 @@
     "comingSoon": "Coming soon: transactions, accounts, categories, and analytics",
     "filter": "Filter",
     "export": "Export",
+    "accounts": {
+      "cash": "Cash",
+      "bank_card": "Bank Card",
+      "savings": "Savings"
+    },
     "addTransaction": {
       "title": "Add Transaction",
       "button": "Add Transaction",
       "amount": "Amount",
+      "account": "Account",
+      "fromAccount": "From Account",
+      "toAccount": "To Account",
+      "selectAccount": "Select account",
+      "selectFromAccount": "Select from account",
+      "selectToAccount": "Select to account",
       "category": "Category",
       "subcategory": "Subcategory",
       "selectCategory": "Select category",
@@ -50,22 +61,24 @@
       "description": "Description",
       "descriptionPlaceholder": "e.g., Grocery shopping",
       "date": "Date",
-      "toAccount": "Transfer To Account",
-      "toAccountPlaceholder": "Destination account"
+      "error": "Failed to create transaction"
     },
     "summary": {
       "balance": "Balance",
       "income": "Income",
-      "expenses": "Expenses"
+      "expenses": "Expenses",
+      "transfers": "Transfers"
     },
     "filters": {
       "all": "All",
       "income": "Income",
-      "expenses": "Expenses"
+      "expenses": "Expenses",
+      "transfers": "Transfers"
     },
     "transactions": {
       "title": "Transactions",
-      "noData": "No transactions found"
+      "noData": "No transactions found",
+      "confirmDelete": "Delete this transaction?"
     },
     "transactionTypes": {
       "income": "Income",
