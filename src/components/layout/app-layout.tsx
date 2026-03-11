@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { ReactNode, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
@@ -14,24 +14,72 @@ import {
   Menu,
   X,
 } from 'lucide-react'
-import { useState } from 'react'
 
 interface AppLayoutProps {
   children: ReactNode
 }
 
-const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-  { name: 'Финансы', href: '/finance', icon: Wallet },
-  { name: 'Питание', href: '/nutrition', icon: Utensils },
-  { name: 'Тренировки', href: '/workouts', icon: Dumbbell },
-  { name: 'Продукты', href: '/products', icon: Package },
-  { name: 'Аналитика', href: '/analytics', icon: BarChart3 },
-]
+interface NavItem {
+  id: string
+  name: string
+  href: string
+  icon: React.ComponentType<{ className?: string; 'aria-hidden'?: boolean }>
+}
 
 export function AppLayout({ children }: AppLayoutProps) {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  const navigation = useMemo<NavItem[]>(() => [
+    { id: 'dashboard', name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { id: 'finance', name: 'Финансы', href: '/finance', icon: Wallet },
+    { id: 'nutrition', name: 'Питание', href: '/nutrition', icon: Utensils },
+    { id: 'workouts', name: 'Тренировки', href: '/workouts', icon: Dumbbell },
+    { id: 'products', name: 'Продукты', href: '/products', icon: Package },
+    { id: 'analytics', name: 'Аналитика', href: '/analytics', icon: BarChart3 },
+  ], [])
+
+  const renderNavItem = (item: NavItem, onClick?: () => void) => {
+    const isActive = pathname === item.href
+    const Icon = item.icon
+    return (
+      <Link
+        key={item.id}
+        href={item.href}
+        onClick={onClick}
+        className={cn(
+          'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all',
+          isActive
+            ? 'bg-[oklch(68%_0.22_260_/_0.9)] text-white shadow-md'
+            : 'text-muted-foreground hover:bg-[oklch(96%_0.03_200_/_0.5)] hover:text-foreground'
+        )}
+      >
+        <Icon className="h-4 w-4" aria-hidden={true} />
+        {item.name}
+      </Link>
+    )
+  }
+
+  const renderMobileNavItem = (item: NavItem) => {
+    const isActive = pathname === item.href
+    const Icon = item.icon
+    return (
+      <Link
+        key={item.id}
+        href={item.href}
+        onClick={() => setMobileMenuOpen(false)}
+        className={cn(
+          'flex flex-col items-center justify-center gap-1 rounded-xl p-2 text-xs font-medium transition-all',
+          isActive
+            ? 'text-primary'
+            : 'text-muted-foreground hover:text-foreground'
+        )}
+      >
+        <Icon className="h-5 w-5" aria-hidden={true} />
+        <span className="truncate w-full text-center">{item.name}</span>
+      </Link>
+    )
+  }
 
   return (
     <div className="min-h-screen flex bg-gradient-to-br from-background via-muted/30 to-background">
@@ -43,24 +91,7 @@ export function AppLayout({ children }: AppLayoutProps) {
           </Link>
         </div>
         <nav className="flex-1 overflow-y-auto p-4 space-y-1">
-          {navigation.map((item) => {
-            const isActive = pathname === item.href
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={cn(
-                  'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all',
-                  isActive
-                    ? 'bg-[oklch(68%_0.22_260_/_0.9)] text-white shadow-md'
-                    : 'text-muted-foreground hover:bg-[oklch(96%_0.03_200_/_0.5)] hover:text-foreground'
-                )}
-              >
-                <item.icon className="h-4 w-4" aria-hidden="true" />
-                {item.name}
-              </Link>
-            )
-          })}
+          {navigation.map((item) => renderNavItem(item))}
         </nav>
       </aside>
 
@@ -80,29 +111,11 @@ export function AppLayout({ children }: AppLayoutProps) {
               {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
-          
+
           {/* Mobile Menu Dropdown */}
           {mobileMenuOpen && (
             <nav className="glass border-t border-white/10 px-4 py-2 space-y-1">
-              {navigation.map((item) => {
-                const isActive = pathname === item.href
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={cn(
-                      'flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all',
-                      isActive
-                        ? 'bg-[oklch(68%_0.22_260_/_0.9)] text-white'
-                        : 'text-muted-foreground hover:bg-[oklch(96%_0.03_200_/_0.5)]'
-                    )}
-                  >
-                    <item.icon className="h-4 w-4" aria-hidden="true" />
-                    {item.name}
-                  </Link>
-                )
-              })}
+              {navigation.map((item) => renderNavItem(item))}
             </nav>
           )}
         </header>
@@ -115,24 +128,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         {/* Mobile Bottom Navigation */}
         <nav className="fixed bottom-0 left-0 right-0 z-50 glass border-t md:hidden safe-area-pb">
           <div className="grid grid-cols-6 gap-1 p-2">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={cn(
-                    'flex flex-col items-center justify-center gap-1 rounded-xl p-2 text-xs font-medium transition-all',
-                    isActive
-                      ? 'text-primary'
-                      : 'text-muted-foreground hover:text-foreground'
-                  )}
-                >
-                  <item.icon className="h-5 w-5" aria-hidden="true" />
-                  <span className="truncate w-full text-center">{item.name}</span>
-                </Link>
-              )
-            })}
+            {navigation.map((item) => renderMobileNavItem(item))}
           </div>
         </nav>
       </div>
