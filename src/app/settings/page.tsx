@@ -287,18 +287,6 @@ export default function SettingsPage() {
             ))}
           </div>
         </GlassCard>
-
-        {/* Current Settings Preview */}
-        <GlassCard className="p-6 bg-muted/50">
-          <h3 className="text-sm font-semibold mb-3 text-muted-foreground">
-            {settings.language === "ru"
-              ? "Текущие настройки:"
-              : "Current settings:"}
-          </h3>
-          <pre className="text-xs font-mono bg-background/50 p-4 rounded-lg overflow-x-auto">
-            {JSON.stringify(settings, null, 2)}
-          </pre>
-        </GlassCard>
       </div>
     </AppLayout>
   );
