@@ -13,7 +13,6 @@ import {
   Globe,
   DollarSign,
   Calendar,
-  Save,
   RotateCcw,
   Check,
 } from "lucide-react";
@@ -43,7 +42,7 @@ export default function SettingsPage() {
   const pathname = usePathname();
   const router = useRouter();
   const [settings, setSettings] = useState<Settings>(defaultSettings);
-  const [saved, setSaved] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Load settings from localStorage on mount
   useEffect(() => {
@@ -51,14 +50,18 @@ export default function SettingsPage() {
     if (stored) {
       const parsed = JSON.parse(stored);
       setSettings(parsed);
-      // Apply theme from stored settings
       if (parsed.theme) {
         setTheme(parsed.theme);
       }
     }
+    setIsInitialized(true);
   }, [setTheme]);
 
-  const handleSave = () => {
+  // Auto-apply settings when they change
+  useEffect(() => {
+    if (!isInitialized) return;
+
+    // Save to localStorage
     localStorage.setItem("settings", JSON.stringify(settings));
 
     // Apply theme immediately
@@ -66,20 +69,23 @@ export default function SettingsPage() {
       setTheme(settings.theme);
     }
 
-    // Change locale if language changed
-    if (settings.language && settings.language !== "ru") {
-      router.replace(`/${settings.language}${pathname}`);
-    } else if (settings.language === "ru") {
-      router.replace(`${pathname}`);
-    }
+    // Apply language change
+    if (settings.language) {
+      const newPath =
+        settings.language === "ru"
+          ? pathname.replace(/^\/en/, "")
+          : pathname.replace(/^\/ru/, `/${settings.language}`);
 
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
-  };
+      if (newPath !== pathname) {
+        router.replace(newPath);
+      }
+    }
+  }, [settings, isInitialized, theme, setTheme, router, pathname]);
 
   const handleReset = () => {
     setSettings(defaultSettings);
     setTheme("system");
+    localStorage.removeItem("settings");
   };
 
   const themes: { value: Theme; label: string; icon: React.ReactNode }[] = [
@@ -111,12 +117,28 @@ export default function SettingsPage() {
     { value: "saturday", label: t("saturday") },
   ];
 
+  if (!isInitialized) {
+    return (
+      <AppLayout>
+        <div className="flex items-center justify-center min-h-screen">
+          <div className="animate-spin rounded-full border-4 border-primary border-t-transparent w-16 h-16" />
+        </div>
+      </AppLayout>
+    );
+  }
+
   return (
     <AppLayout>
       <div className="space-y-6 max-w-4xl mx-auto">
-        <div>
-          <h1 className="text-3xl font-bold">{t("title")}</h1>
-          <p className="text-muted-foreground">{t("description")}</p>
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">{t("title")}</h1>
+            <p className="text-muted-foreground">{t("description")}</p>
+          </div>
+          <Button variant="outline" onClick={handleReset} className="gap-2">
+            <RotateCcw className="h-4 w-4" />
+            {t("reset")}
+          </Button>
         </div>
 
         {/* Theme Settings */}
@@ -265,18 +287,6 @@ export default function SettingsPage() {
             ))}
           </div>
         </GlassCard>
-
-        {/* Action Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-end">
-          <Button variant="outline" onClick={handleReset} className="gap-2">
-            <RotateCcw className="h-4 w-4" />
-            {t("reset")}
-          </Button>
-          <Button onClick={handleSave} className="gap-2" disabled={saved}>
-            <Save className="h-4 w-4" />
-            {saved ? t("saved") : t("save")}
-          </Button>
-        </div>
 
         {/* Current Settings Preview */}
         <GlassCard className="p-6 bg-muted/50">
