@@ -33,46 +33,51 @@ export function AppLayout({ children }: AppLayoutProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Get base path without locale
+  const getLocalizedPath = (path: string) => {
+    return pathname.startsWith("/ru") ? `/ru${path}` : path;
+  };
+
   const navigation = useMemo<NavItem[]>(
     () => [
       {
         id: "dashboard",
         name: t("dashboard"),
-        href: "/dashboard",
+        href: getLocalizedPath("/dashboard"),
         icon: LayoutDashboard,
       },
       {
         id: "finance",
         name: t("finance"),
-        href: "/finance",
+        href: getLocalizedPath("/finance"),
         icon: Wallet,
       },
       {
         id: "nutrition",
         name: t("nutrition"),
-        href: "/nutrition",
+        href: getLocalizedPath("/nutrition"),
         icon: Utensils,
       },
       {
         id: "workouts",
         name: t("workouts"),
-        href: "/workouts",
+        href: getLocalizedPath("/workouts"),
         icon: Dumbbell,
       },
       {
         id: "products",
         name: t("products"),
-        href: "/products",
+        href: getLocalizedPath("/products"),
         icon: Package,
       },
       {
         id: "analytics",
         name: t("analytics"),
-        href: "/analytics",
+        href: getLocalizedPath("/analytics"),
         icon: BarChart3,
       },
     ],
-    [t],
+    [t, pathname],
   );
 
   const secondaryNavigation = useMemo<NavItem[]>(
@@ -80,11 +85,11 @@ export function AppLayout({ children }: AppLayoutProps) {
       {
         id: "settings",
         name: t("settings"),
-        href: "/settings",
+        href: getLocalizedPath("/settings"),
         icon: Settings,
       },
     ],
-    [t],
+    [t, pathname],
   );
 
   const renderNavItem = (item: NavItem, onClick?: () => void) => {
