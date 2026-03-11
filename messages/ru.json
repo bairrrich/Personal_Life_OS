@@ -1,0 +1,98 @@
+{
+  "common": {
+    "title": "Personal Life OS",
+    "description": "Offline-first персональная life-management система",
+    "loading": "Загрузка...",
+    "error": "Ошибка",
+    "retry": "Попробовать снова",
+    "home": "Главная",
+    "back": "Назад",
+    "cancel": "Отмена",
+    "save": "Сохранить",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "add": "Добавить",
+    "search": "Поиск",
+    "noData": "Нет данных",
+    "settings": "Настройки"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "finance": "Финансы",
+    "nutrition": "Питание",
+    "workouts": "Тренировки",
+    "products": "Продукты",
+    "analytics": "Аналитика",
+    "settings": "Настройки"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "description": "Обзор всех метрик и активности",
+    "widgetsInDevelopment": "Виджеты в разработке",
+    "comingSoon": "Здесь будут отображаться ваши финансы, питание и тренировки"
+  },
+  "finance": {
+    "title": "Финансы",
+    "description": "Учёт доходов, расходов и бюджетов",
+    "inDevelopment": "Финансовый модуль в разработке",
+    "comingSoon": "Скоро: транзакции, счета, категории и аналитика"
+  },
+  "nutrition": {
+    "title": "Питание",
+    "description": "Трекинг еды и макронутриентов",
+    "inDevelopment": "Модуль питания в разработке",
+    "comingSoon": "Скоро: дневник питания, калории, БЖУ и рецепты"
+  },
+  "workouts": {
+    "title": "Тренировки",
+    "description": "Управление упражнениями и программами",
+    "inDevelopment": "Модуль тренировок в разработке",
+    "comingSoon": "Скоро: упражнения, программы, сеты и прогресс"
+  },
+  "products": {
+    "title": "Продукты",
+    "description": "Каталог продуктов и добавок",
+    "inDevelopment": "Каталог продуктов в разработке",
+    "comingSoon": "Скоро: база продуктов, сканер штрих-кодов"
+  },
+  "analytics": {
+    "title": "Аналитика",
+    "description": "Отчёты и графики по всем направлениям",
+    "inDevelopment": "Аналитика в разработке",
+    "comingSoon": "Скоро: графики, отчёты и тенденции"
+  },
+  "settings": {
+    "title": "Настройки",
+    "description": "Настройте приложение под себя",
+    "theme": "Тема оформления",
+    "themeDescription": "Выберите цветовую схему интерфейса",
+    "light": "Светлая",
+    "dark": "Тёмная",
+    "system": "Системная",
+    "language": "Язык",
+    "languageDescription": "Выберите язык интерфейса",
+    "russian": "Русский",
+    "english": "English",
+    "currency": "Валюта по умолчанию",
+    "currencyDescription": "Основная валюта для финансовых операций",
+    "weekStart": "Начало недели",
+    "weekStartDescription": "Первый день недели для календарей и отчётов",
+    "monday": "Понедельник",
+    "sunday": "Воскресенье",
+    "saturday": "Суббота",
+    "reset": "Сбросить",
+    "saved": "Сохранено!",
+    "save": "Сохранить"
+  },
+  "errors": {
+    "notFound": "Страница не найдена",
+    "notFoundDescription": "Страница не существует или была перемещена",
+    "errorOccurred": "Произошла ошибка",
+    "somethingWentWrong": "Что-то пошло не так",
+    "retry": "Попробовать снова",
+    "common": {
+      "home": "Главная",
+      "back": "Назад"
+    }
+  }
+}
