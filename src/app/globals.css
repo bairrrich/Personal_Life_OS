@@ -1,23 +1,132 @@
 @import "tailwindcss";
 
-/* OKLCH Color System */
+/* ===================================
+   OKLCH Color System
+   =================================== */
 @theme {
+  /* Primary colors - Blue based */
   --color-primary: oklch(68% 0.22 260);
   --color-primary-foreground: oklch(98% 0.01 260);
+  --color-primary-hover: oklch(60% 0.22 260);
+  --color-primary-active: oklch(52% 0.22 260);
+  --color-primary-muted: oklch(76% 0.14 260);
+
+  /* Secondary colors */
+  --color-secondary: oklch(90% 0.04 240);
+  --color-secondary-foreground: oklch(25% 0.05 260);
+
+  /* Background / Foreground */
   --color-background: oklch(99% 0.015 240);
   --color-foreground: oklch(12% 0.04 260);
+
+  /* Card / Popover */
   --color-card: oklch(99.4% 0.012 240);
-  --color-border: oklch(88% 0.02 240);
+  --color-card-foreground: oklch(12% 0.04 260);
+  --color-popover: oklch(99% 0.015 240);
+  --color-popover-foreground: oklch(12% 0.04 260);
+
+  /* Muted */
   --color-muted: oklch(94% 0.008 240);
+  --color-muted-foreground: oklch(48% 0.04 260);
+
+  /* Accent */
+  --color-accent: oklch(96% 0.03 200);
+  --color-accent-foreground: oklch(30% 0.06 200);
+
+  /* Destructive */
   --color-destructive: oklch(62% 0.24 25);
+  --color-destructive-foreground: oklch(98% 0.01 25);
+
+  /* Success */
   --color-success: oklch(72% 0.19 142);
+  --color-success-foreground: oklch(15% 0.05 142);
+
+  /* Warning */
   --color-warning: oklch(78% 0.18 75);
+  --color-warning-foreground: oklch(20% 0.05 75);
+
+  /* Info */
   --color-info: oklch(76% 0.15 230);
+  --color-info-foreground: oklch(18% 0.04 230);
+
+  /* Border / Input / Ring */
+  --color-border: oklch(88% 0.02 240);
+  --color-input: oklch(94% 0.01 240);
   --color-ring: oklch(68% 0.22 260);
+
+  /* Glassmorphism - Apple Style */
+  --color-glass: oklch(98% 0.01 240 / 0.6);
+  --color-glass-border: oklch(90% 0.02 240 / 0.3);
+  --color-glass-shadow: 0 8px 32px oklch(0% 0 0 / 0.1);
+  
+  --color-glass-dark: oklch(20% 0.02 260 / 0.7);
+  --color-glass-border-dark: oklch(40% 0.03 260 / 0.2);
+  --color-glass-shadow-dark: 0 8px 32px oklch(0% 0 0 / 0.5);
+
+  /* Radius */
   --radius: 0.5rem;
+  --radius-sm: calc(var(--radius) - 0.25rem);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 0.25rem);
+  --radius-xl: calc(var(--radius) + 0.5rem);
+  --radius-2xl: calc(var(--radius) + 1rem);
+
+  /* Font */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Base Styles */
+/* ===================================
+   DARK THEME
+   =================================== */
+[data-theme="dark"] {
+  --color-primary: oklch(72% 0.20 260);
+  --color-primary-foreground: oklch(15% 0.04 260);
+  --color-primary-hover: oklch(65% 0.20 260);
+  --color-primary-active: oklch(58% 0.20 260);
+  --color-primary-muted: oklch(52% 0.14 260);
+
+  --color-secondary: oklch(25% 0.05 260);
+  --color-secondary-foreground: oklch(92% 0.02 260);
+
+  --color-background: oklch(12% 0.04 260);
+  --color-foreground: oklch(95% 0.02 260);
+
+  --color-card: oklch(14% 0.04 260);
+  --color-card-foreground: oklch(95% 0.02 260);
+  --color-popover: oklch(14% 0.04 260);
+  --color-popover-foreground: oklch(95% 0.02 260);
+
+  --color-muted: oklch(20% 0.04 260);
+  --color-muted-foreground: oklch(70% 0.04 260);
+
+  --color-accent: oklch(22% 0.05 200);
+  --color-accent-foreground: oklch(92% 0.02 200);
+
+  --color-destructive: oklch(58% 0.24 25);
+  --color-destructive-foreground: oklch(95% 0.02 25);
+
+  --color-success: oklch(65% 0.18 142);
+  --color-success-foreground: oklch(92% 0.02 142);
+
+  --color-warning: oklch(70% 0.16 75);
+  --color-warning-foreground: oklch(18% 0.04 75);
+
+  --color-info: oklch(68% 0.14 230);
+  --color-info-foreground: oklch(90% 0.02 230);
+
+  --color-border: oklch(25% 0.04 260);
+  --color-input: oklch(20% 0.04 260);
+  --color-ring: oklch(72% 0.20 260);
+
+  /* Glassmorphism Dark */
+  --color-glass: oklch(20% 0.02 260 / 0.7);
+  --color-glass-border: oklch(40% 0.03 260 / 0.2);
+  --color-glass-shadow: 0 8px 32px oklch(0% 0 0 / 0.5);
+}
+
+/* ===================================
+   BASE STYLES
+   =================================== */
 * {
   border-color: var(--color-border);
 }
@@ -25,17 +134,74 @@
 body {
   background-color: var(--color-background);
   color: var(--color-foreground);
-  font-family: var(--font-sans, system-ui, sans-serif);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Focus styles */
 :focus-visible {
   outline: 2px solid var(--color-ring);
   outline-offset: 2px;
 }
 
+/* Selection */
 ::selection {
   background-color: var(--color-primary);
   color: var(--color-primary-foreground);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-foreground);
+}
+
+/* ===================================
+   GLASSMORPHISM UTILITIES
+   =================================== */
+@layer components {
+  .glass {
+    background-color: var(--color-glass, oklch(98% 0.01 240 / 0.6));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--color-glass-border, oklch(90% 0.02 240 / 0.3));
+    box-shadow: var(--color-glass-shadow, 0 8px 32px oklch(0% 0 0 / 0.1));
+  }
+
+  .glass-dark {
+    background-color: var(--color-glass-dark, oklch(20% 0.02 260 / 0.7));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--color-glass-border-dark, oklch(40% 0.03 260 / 0.2));
+    box-shadow: var(--color-glass-shadow-dark, 0 8px 32px oklch(0% 0 0 / 0.5));
+  }
+
+  .glass-light {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .glass-medium {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .glass-heavy {
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
 }
