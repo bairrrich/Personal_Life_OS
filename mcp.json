@@ -1,0 +1,47 @@
+{
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@context7/mcp-server"
+      ]
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@chrome-devtools/mcp-server"
+      ]
+    },
+    "sequential-thinking": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@anthropic/sequential-thinking"
+      ]
+    }
+  },
+  "specKit": {
+    "enabled": true,
+    "aiAgent": "qwen",
+    "scriptType": "ps",
+    "version": "0.2.0",
+    "slashCommands": [
+      "/speckit.constitution",
+      "/speckit.specify",
+      "/speckit.clarify",
+      "/speckit.plan",
+      "/speckit.tasks",
+      "/speckit.implement",
+      "/speckit.analyze",
+      "/speckit.checklist"
+    ],
+    "artifacts": {
+      "constitution": ".specify/memory/constitution.md",
+      "specs": ".specify/specs/",
+      "templates": ".specify/templates/",
+      "scripts": ".specify/scripts/powershell/"
+    }
+  }
+}
