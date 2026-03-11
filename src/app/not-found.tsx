@@ -1,52 +1,34 @@
-import Link from 'next/link'
-import { GlassCard, GlassButton } from '@/components/custom-ui/glass-components'
-import { Home, Search, FileQuestion } from 'lucide-react'
+import Link from "next/link";
+import { GlassCard } from "@/components/custom-ui/glass-components";
+import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 export default function NotFound() {
+  const t = useTranslations("errors");
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <GlassCard className="max-w-md w-full p-8 text-center">
-        <div className="flex justify-center mb-6">
-          <div className="rounded-full bg-gradient-to-br from-orange-500 to-orange-600 p-4 shadow-lg">
-            <FileQuestion className="h-8 w-8 text-white" />
+        <div className="space-y-6">
+          <div className="mx-auto w-16 h-16 rounded-full bg-muted/50 flex items-center justify-center">
+            <span className="text-4xl font-bold text-muted-foreground">
+              404
+            </span>
           </div>
-        </div>
-
-        <h1 className="text-6xl font-bold mb-2 bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-          404
-        </h1>
-        <h2 className="text-2xl font-semibold mb-4">Страница не найдена</h2>
-        <p className="text-muted-foreground mb-6">
-          К сожалению, страница, которую вы ищете, не существует или была перемещена.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
-          <Link href="/">
-            <GlassButton className="flex items-center justify-center gap-2">
-              <Home className="h-4 w-4" />
-              На главную
-            </GlassButton>
-          </Link>
-
-          <Link href="/dashboard">
-            <GlassButton variant="outline" className="flex items-center justify-center gap-2">
-              <Search className="h-4 w-4" />
-              Поиск
-            </GlassButton>
-          </Link>
-        </div>
-
-        <div className="border-t border-white/10 pt-6">
-          <p className="text-sm text-muted-foreground">
-            Возможные причины:
-          </p>
-          <ul className="text-sm text-muted-foreground mt-2 space-y-1">
-            <li>• Неправильный URL</li>
-            <li>• Страница была удалена</li>
-            <li>• Страница перемещена</li>
-          </ul>
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold">{t("notFound")}</h2>
+            <p className="text-muted-foreground">{t("notFoundDescription")}</p>
+          </div>
+          <div className="flex gap-3 justify-center">
+            <Button onClick={() => window.history.back()} variant="outline">
+              {t("common.back")}
+            </Button>
+            <Link href="/">
+              <Button>{t("common.home")}</Button>
+            </Link>
+          </div>
         </div>
       </GlassCard>
     </div>
-  )
+  );
 }

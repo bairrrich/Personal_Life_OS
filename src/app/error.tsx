@@ -1,58 +1,59 @@
-'use client'
+"use client";
 
-import { useEffect } from 'react'
-import Link from 'next/link'
-import { GlassCard, GlassButton } from '@/components/custom-ui/glass-components'
-import { AlertTriangle, Home, RefreshCcw } from 'lucide-react'
+import { useEffect } from "react";
+import { GlassCard } from "@/components/custom-ui/glass-components";
+import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 export default function Error({
   error,
   reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
+  const t = useTranslations("errors");
+
   useEffect(() => {
-    console.error('Application error:', error)
-  }, [error])
+    console.error("Application error:", error);
+  }, [error]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <GlassCard className="max-w-md w-full p-8 text-center">
-        <div className="flex justify-center mb-6">
-          <div className="rounded-full bg-gradient-to-br from-red-500 to-red-600 p-4 shadow-lg">
-            <AlertTriangle className="h-8 w-8 text-white" />
+        <div className="space-y-6">
+          <div className="mx-auto w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center">
+            <svg
+              className="w-8 h-8 text-destructive"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+              />
+            </svg>
           </div>
-        </div>
-
-        <h1 className="text-2xl font-bold mb-2">Что-то пошло не так</h1>
-        <p className="text-muted-foreground mb-6">
-          Произошла непредвиденная ошибка. Попробуйте обновить страницу или вернуться на главную.
-        </p>
-
-        {error.digest && (
-          <p className="text-xs text-muted-foreground mb-6 font-mono bg-black/20 rounded-lg p-2">
-            Error ID: {error.digest}
-          </p>
-        )}
-
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <GlassButton
-            onClick={reset}
-            className="flex items-center justify-center gap-2"
-          >
-            <RefreshCcw className="h-4 w-4" />
-            Попробовать снова
-          </GlassButton>
-
-          <Link href="/">
-            <GlassButton variant="outline" className="flex items-center justify-center gap-2">
-              <Home className="h-4 w-4" />
-              На главную
-            </GlassButton>
-          </Link>
+          <div className="space-y-2">
+            <h2 className="text-2xl font-bold">{t("errorOccurred")}</h2>
+            <p className="text-muted-foreground">
+              {error.message || t("somethingWentWrong")}
+            </p>
+          </div>
+          <div className="flex gap-3 justify-center">
+            <Button onClick={reset}>{t("retry")}</Button>
+            <Button
+              onClick={() => (window.location.href = "/")}
+              variant="outline"
+            >
+              {t("common.home")}
+            </Button>
+          </div>
         </div>
       </GlassCard>
     </div>
-  )
+  );
 }

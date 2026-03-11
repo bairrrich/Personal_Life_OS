@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { GlassCard } from "@/components/custom-ui/glass-components";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 import {
   Moon,
   Sun,
@@ -33,36 +34,8 @@ const defaultSettings: Settings = {
   weekStart: "monday",
 };
 
-const themes: { value: Theme; label: string; icon: React.ReactNode }[] = [
-  { value: "light", label: "Светлая", icon: <Sun className="h-4 w-4" /> },
-  { value: "dark", label: "Тёмная", icon: <Moon className="h-4 w-4" /> },
-  {
-    value: "system",
-    label: "Системная",
-    icon: <RotateCcw className="h-4 w-4" />,
-  },
-];
-
-const languages: { value: Language; label: string }[] = [
-  { value: "ru", label: "Русский" },
-  { value: "en", label: "English" },
-];
-
-const currencies: { value: Currency; label: string; symbol: string }[] = [
-  { value: "RUB", label: "Российский рубль", symbol: "₽" },
-  { value: "USD", label: "Доллар США", symbol: "$" },
-  { value: "EUR", label: "Евро", symbol: "€" },
-  { value: "KZT", label: "Казахстанский тенге", symbol: "₸" },
-  { value: "BYN", label: "Белорусский рубль", symbol: "Br" },
-];
-
-const weekStarts: { value: WeekStart; label: string }[] = [
-  { value: "monday", label: "Понедельник" },
-  { value: "sunday", label: "Воскресенье" },
-  { value: "saturday", label: "Суббота" },
-];
-
 export default function SettingsPage() {
+  const t = useTranslations("settings");
   const [settings, setSettings] = useState<Settings>(defaultSettings);
   const [saved, setSaved] = useState(false);
 
@@ -76,12 +49,49 @@ export default function SettingsPage() {
     setSettings(defaultSettings);
   };
 
+  const themes = [
+    {
+      value: "light" as Theme,
+      label: t("light"),
+      icon: <Sun className="h-4 w-4" />,
+    },
+    {
+      value: "dark" as Theme,
+      label: t("dark"),
+      icon: <Moon className="h-4 w-4" />,
+    },
+    {
+      value: "system" as Theme,
+      label: t("system"),
+      icon: <RotateCcw className="h-4 w-4" />,
+    },
+  ];
+
+  const languages = [
+    { value: "ru" as Language, label: t("russian") },
+    { value: "en" as Language, label: t("english") },
+  ];
+
+  const currencies = [
+    { value: "RUB" as Currency, label: "Российский рубль", symbol: "₽" },
+    { value: "USD" as Currency, label: "US Dollar", symbol: "$" },
+    { value: "EUR" as Currency, label: "Euro", symbol: "€" },
+    { value: "KZT" as Currency, label: "Kazakhstani Tenge", symbol: "₸" },
+    { value: "BYN" as Currency, label: "Belarusian Ruble", symbol: "Br" },
+  ];
+
+  const weekStarts = [
+    { value: "monday" as WeekStart, label: t("monday") },
+    { value: "sunday" as WeekStart, label: t("sunday") },
+    { value: "saturday" as WeekStart, label: t("saturday") },
+  ];
+
   return (
     <AppLayout>
       <div className="space-y-6 max-w-4xl mx-auto">
         <div>
-          <h1 className="text-3xl font-bold">Настройки</h1>
-          <p className="text-muted-foreground">Настройте приложение под себя</p>
+          <h1 className="text-3xl font-bold">{t("title")}</h1>
+          <p className="text-muted-foreground">{t("description")}</p>
         </div>
 
         <GlassCard className="p-6">
@@ -90,9 +100,9 @@ export default function SettingsPage() {
               <Sun className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold">Тема оформления</h2>
+              <h2 className="text-lg font-semibold">{t("theme")}</h2>
               <p className="text-sm text-muted-foreground">
-                Выберите цветовую схему интерфейса
+                {t("themeDescription")}
               </p>
             </div>
           </div>
@@ -120,9 +130,9 @@ export default function SettingsPage() {
               <Globe className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold">Язык</h2>
+              <h2 className="text-lg font-semibold">{t("language")}</h2>
               <p className="text-sm text-muted-foreground">
-                Выберите язык интерфейса
+                {t("languageDescription")}
               </p>
             </div>
           </div>
@@ -151,9 +161,9 @@ export default function SettingsPage() {
               <DollarSign className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold">Валюта по умолчанию</h2>
+              <h2 className="text-lg font-semibold">{t("currency")}</h2>
               <p className="text-sm text-muted-foreground">
-                Основная валюта для финансовых операций
+                {t("currencyDescription")}
               </p>
             </div>
           </div>
@@ -188,9 +198,9 @@ export default function SettingsPage() {
               <Calendar className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold">Начало недели</h2>
+              <h2 className="text-lg font-semibold">{t("weekStart")}</h2>
               <p className="text-sm text-muted-foreground">
-                Первый день недели для календарей и отчётов
+                {t("weekStartDescription")}
               </p>
             </div>
           </div>
@@ -216,11 +226,11 @@ export default function SettingsPage() {
         <div className="flex flex-col sm:flex-row gap-4 justify-end">
           <Button variant="outline" onClick={handleReset} className="gap-2">
             <RotateCcw className="h-4 w-4" />
-            Сбросить
+            {t("reset")}
           </Button>
           <Button onClick={handleSave} className="gap-2" disabled={saved}>
             <Save className="h-4 w-4" />
-            {saved ? "Сохранено!" : "Сохранить"}
+            {saved ? t("saved") : t("save")}
           </Button>
         </div>
       </div>
