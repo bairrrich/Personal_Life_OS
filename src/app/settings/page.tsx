@@ -71,14 +71,8 @@ export default function SettingsPage() {
 
     // Apply language change
     if (settings.language) {
-      const newPath =
-        settings.language === "ru"
-          ? pathname.replace(/^\/en/, "")
-          : pathname.replace(/^\/ru/, `/${settings.language}`);
-
-      if (newPath !== pathname) {
-        router.replace(newPath);
-      }
+      // Use next-intl router for locale switching
+      router.push(`/${settings.language}${pathname}`);
     }
   }, [settings, isInitialized, theme, setTheme, router, pathname]);
 
