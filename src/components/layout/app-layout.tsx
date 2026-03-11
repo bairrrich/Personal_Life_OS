@@ -202,7 +202,7 @@ export function AppLayout({ children }: AppLayoutProps) {
             >
               <Settings className="h-5 w-5" aria-hidden={true} />
               <span className="truncate w-full text-center">
-                {t("navigation.settings")}
+                {t("settings")}
               </span>
             </Link>
           </div>
