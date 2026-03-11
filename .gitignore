@@ -19,7 +19,5 @@ out/
 .vscode/
 
 # Spec-kit артефакты
-.specify/
+.specify/specs/
 .qwen/
-.personal_life_os_rules/
-.dev_rules/
