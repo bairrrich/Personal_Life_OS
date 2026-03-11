@@ -164,7 +164,7 @@ export default function SettingsPage() {
                 className={`relative flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${
                   settings.theme === themeOption.value
                     ? "border-primary bg-primary/5"
-                    : "border-border"
+                    : "border-border hover:bg-accent hover:border-primary/50"
                 }`}
               >
                 {settings.theme === themeOption.value && (
@@ -200,7 +200,7 @@ export default function SettingsPage() {
                 className={`relative p-4 rounded-xl border-2 transition-all ${
                   settings.language === lang.value
                     ? "border-primary bg-primary/5"
-                    : "border-border"
+                    : "border-border hover:bg-accent hover:border-primary/50"
                 }`}
               >
                 {settings.language === lang.value && (
@@ -235,7 +235,7 @@ export default function SettingsPage() {
                 className={`relative flex items-center gap-3 p-4 rounded-xl border-2 transition-all ${
                   settings.currency === currency.value
                     ? "border-primary bg-primary/5"
-                    : "border-border"
+                    : "border-border hover:bg-accent hover:border-primary/50"
                 }`}
               >
                 {settings.currency === currency.value && (
@@ -276,7 +276,7 @@ export default function SettingsPage() {
                 className={`relative p-4 rounded-xl border-2 transition-all ${
                   settings.weekStart === weekStart.value
                     ? "border-primary bg-primary/5"
-                    : "border-border"
+                    : "border-border hover:bg-accent hover:border-primary/50"
                 }`}
               >
                 {settings.weekStart === weekStart.value && (
