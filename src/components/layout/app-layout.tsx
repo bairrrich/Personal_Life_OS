@@ -29,7 +29,7 @@ interface NavItem {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
-  const t = useTranslations();
+  const t = useTranslations("navigation");
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -37,37 +37,37 @@ export function AppLayout({ children }: AppLayoutProps) {
     () => [
       {
         id: "dashboard",
-        name: t("navigation.dashboard"),
+        name: t("dashboard"),
         href: "/dashboard",
         icon: LayoutDashboard,
       },
       {
         id: "finance",
-        name: t("navigation.finance"),
+        name: t("finance"),
         href: "/finance",
         icon: Wallet,
       },
       {
         id: "nutrition",
-        name: t("navigation.nutrition"),
+        name: t("nutrition"),
         href: "/nutrition",
         icon: Utensils,
       },
       {
         id: "workouts",
-        name: t("navigation.workouts"),
+        name: t("workouts"),
         href: "/workouts",
         icon: Dumbbell,
       },
       {
         id: "products",
-        name: t("navigation.products"),
+        name: t("products"),
         href: "/products",
         icon: Package,
       },
       {
         id: "analytics",
-        name: t("navigation.analytics"),
+        name: t("analytics"),
         href: "/analytics",
         icon: BarChart3,
       },
@@ -79,7 +79,7 @@ export function AppLayout({ children }: AppLayoutProps) {
     () => [
       {
         id: "settings",
-        name: t("navigation.settings"),
+        name: t("settings"),
         href: "/settings",
         icon: Settings,
       },
