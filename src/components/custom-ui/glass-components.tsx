@@ -1,54 +1,80 @@
-import { ReactNode, HTMLAttributes } from 'react'
-import { cn } from '@/lib/utils'
+"use client";
+
+import { ReactNode, HTMLAttributes } from "react";
+import { cn } from "@/lib/utils";
 
 interface GlassCardProps extends HTMLAttributes<HTMLDivElement> {
-  children: ReactNode
-  className?: string
+  children: ReactNode;
+  className?: string;
 }
 
-export function GlassCard({ children, className, ...props }: GlassCardProps) {
+export function GlassCard({ children, className }: GlassCardProps) {
   return (
     <div
       className={cn(
-        'relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-xl',
-        'hover:border-white/20 hover:bg-white/10 transition-all duration-300',
-        className
+        "relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-xl",
+        className,
       )}
-      {...props}
     >
       {children}
     </div>
-  )
+  );
 }
 
-interface GlassButtonProps extends HTMLAttributes<HTMLButtonElement> {
-  children: ReactNode
-  className?: string
-  variant?: 'default' | 'outline' | 'ghost'
+interface GlassHeaderProps extends HTMLAttributes<HTMLElement> {
+  children: ReactNode;
+  className?: string;
 }
 
-export function GlassButton({ 
-  children, 
-  className, 
-  variant = 'default',
-  ...props 
+export function GlassHeader({ children, className }: GlassHeaderProps) {
+  return (
+    <header className={cn("sticky top-0 z-50 glass border-b", className)}>
+      {children}
+    </header>
+  );
+}
+
+interface GlassSidebarProps extends HTMLAttributes<HTMLElement> {
+  children: ReactNode;
+  className?: string;
+}
+
+export function GlassSidebar({ children, className }: GlassSidebarProps) {
+  return <aside className={cn("glass border-r", className)}>{children}</aside>;
+}
+
+interface GlassButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
+  variant?: "default" | "destructive" | "outline";
+}
+
+export function GlassButton({
+  children,
+  variant = "default",
+  className,
+  ...props
 }: GlassButtonProps) {
   const variants = {
-    default: 'bg-primary/20 hover:bg-primary/30 text-primary-foreground border-primary/30',
-    outline: 'bg-transparent hover:bg-white/10 text-foreground border-white/20',
-    ghost: 'bg-transparent hover:bg-white/10 text-foreground border-transparent',
-  }
+    default:
+      "bg-[oklch(68%_0.22_260_/_0.8)] hover:bg-[oklch(60%_0.22_260_/_0.9)] text-white",
+    destructive:
+      "bg-[oklch(62%_0.24_25_/_0.8)] hover:bg-[oklch(58%_0.24_25_/_0.9)] text-white",
+    outline:
+      "bg-[oklch(98%_0.01_240_/_0.4)] hover:bg-[oklch(96%_0.03_200_/_0.6)] border border-white/20",
+  };
 
   return (
     <button
       className={cn(
-        'inline-flex items-center justify-center rounded-xl border px-4 py-2 text-sm font-medium transition-all duration-300 backdrop-blur-sm',
+        "inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium",
+        "backdrop-blur-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "disabled:pointer-events-none disabled:opacity-50",
         variants[variant],
-        className
+        className,
       )}
       {...props}
     >
       {children}
     </button>
-  )
+  );
 }
