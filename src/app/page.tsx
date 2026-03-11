@@ -1,79 +1,136 @@
 import Link from 'next/link'
+import { GlassCard } from '@/components/custom-ui/glass-components'
+import {
+  LayoutDashboard,
+  Wallet,
+  Utensils,
+  Dumbbell,
+  Package,
+  BarChart3,
+  ArrowRight,
+} from 'lucide-react'
 
-const sections = [
+const features = [
   {
-    title: 'Foods',
-    description: 'Track your nutrition and meals',
-    href: '/foods',
-    icon: '🍎',
+    name: 'Dashboard',
+    description: 'Обзор всех метрик и виджетов',
+    href: '/dashboard',
+    icon: LayoutDashboard,
+    color: 'from-blue-500 to-blue-600',
   },
   {
-    title: 'Transactions',
-    description: 'Manage your finances and expenses',
-    href: '/transactions',
-    icon: '💰',
+    name: 'Финансы',
+    description: 'Учёт доходов и расходов',
+    href: '/finance',
+    icon: Wallet,
+    color: 'from-green-500 to-green-600',
   },
   {
-    title: 'Workouts',
-    description: 'Log your exercises and fitness progress',
+    name: 'Питание',
+    description: 'Трекинг еды и макронутриентов',
+    href: '/nutrition',
+    icon: Utensils,
+    color: 'from-orange-500 to-orange-600',
+  },
+  {
+    name: 'Тренировки',
+    description: 'Управление упражнениями',
     href: '/workouts',
-    icon: '💪',
+    icon: Dumbbell,
+    color: 'from-purple-500 to-purple-600',
   },
   {
-    title: 'Entities',
-    description: 'Browse all entities in the system',
-    href: '/entities',
-    icon: '📊',
+    name: 'Продукты',
+    description: 'Каталог продуктов и добавок',
+    href: '/products',
+    icon: Package,
+    color: 'from-pink-500 to-pink-600',
   },
   {
-    title: 'Events',
-    description: 'View event history and audit log',
-    href: '/events',
-    icon: '📜',
-  },
-  {
-    title: 'Tags',
-    description: 'Organize and categorize your data',
-    href: '/tags',
-    icon: '🏷️',
+    name: 'Аналитика',
+    description: 'Отчёты и графики',
+    href: '/analytics',
+    icon: BarChart3,
+    color: 'from-cyan-500 to-cyan-600',
   },
 ]
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <main className="min-h-screen bg-background p-4 sm:p-8">
-      <div className="mx-auto max-w-4xl">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Personal Life OS</h1>
-          <p className="mt-2 text-muted-foreground">
-            Your personal operating system for life management
-          </p>
-        </header>
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-background">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        <div className="container mx-auto px-4 py-16 md:py-24">
+          <div className="text-center space-y-6">
+            <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
+              Personal Life OS
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Offline-first персональная система управления жизнью
+            </p>
+            <div className="flex flex-wrap justify-center gap-4 pt-4">
+              <Link
+                href="/dashboard"
+                className="inline-flex items-center gap-2 rounded-xl bg-[oklch(68%_0.22_260_/_0.9)] px-6 py-3 text-sm font-medium text-white shadow-lg hover:bg-[oklch(60%_0.22_260_/_0.9)] transition-colors"
+              >
+                Начать работу
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/analytics"
+                className="inline-flex items-center gap-2 rounded-xl bg-[oklch(98%_0.01_240_/_0.6)] px-6 py-3 text-sm font-medium text-foreground shadow-lg hover:bg-[oklch(96%_0.03_200_/_0.6)] transition-colors border border-white/20"
+              >
+                Аналитика
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <nav className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {sections.map((section) => (
-            <Link
-              key={section.href}
-              href={section.href}
-              className="group flex flex-col gap-2 rounded-lg border border-border bg-card p-4 shadow-sm transition-colors hover:bg-muted"
-            >
-              <span className="text-2xl" aria-hidden="true">
-                {section.icon}
-              </span>
-              <h2 className="text-lg font-semibold text-foreground group-hover:text-primary">
-                {section.title}
-              </h2>
-              <p className="text-sm text-muted-foreground">{section.description}</p>
+      {/* Features Grid */}
+      <div className="container mx-auto px-4 pb-16">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature) => (
+            <Link key={feature.name} href={feature.href}>
+              <GlassCard className="h-full p-6 transition-all hover:scale-[1.02] hover:shadow-2xl cursor-pointer group">
+                <div className="flex items-start justify-between">
+                  <div
+                    className={`rounded-xl bg-gradient-to-br ${feature.color} p-3 shadow-lg`}
+                  >
+                    <feature.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                  </div>
+                  <ArrowRight className="h-5 w-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+                <div className="mt-4 space-y-2">
+                  <h3 className="text-lg font-semibold">{feature.name}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    {feature.description}
+                  </p>
+                </div>
+              </GlassCard>
             </Link>
           ))}
-        </nav>
-
-        <footer className="mt-12 border-t border-border pt-6">
-          <p className="text-center text-sm text-muted-foreground">
-            Built with Next.js 15, React 19, and Dexie.js
-          </p>
-        </footer>
+        </div>
       </div>
-    </main>
+
+      {/* Footer */}
+      <footer className="border-t border-white/10 glass">
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-sm text-muted-foreground">
+              © 2026 Personal Life OS. Offline-first life management system.
+            </p>
+            <div className="flex items-center gap-6">
+              <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Dashboard
+              </Link>
+              <Link href="/analytics" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                Аналитика
+              </Link>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
   )
 }
