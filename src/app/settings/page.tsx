@@ -31,8 +31,8 @@ interface Settings {
 
 const defaultSettings: Settings = {
   theme: "system",
-  language: "ru",
-  currency: "RUB",
+  language: "en",
+  currency: "USD",
   weekStart: "monday",
 };
 
