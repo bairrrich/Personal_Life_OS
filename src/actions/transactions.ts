@@ -1,174 +1,175 @@
-'use server'
+"use server";
 
-import { revalidatePath } from 'next/cache'
-import { generateId } from '@/lib/utils'
+import { revalidatePath } from "next/cache";
+import {
+  createEntity,
+  updateEntity,
+  deleteEntity,
+  queryEntities,
+  getEntitiesByType,
+} from "@/entity-engine/engine";
+import type { TransactionEntity, AccountEntity } from "@/entity-engine/types";
 
 export interface Transaction {
-  id: string
-  amount: number
-  type: 'income' | 'expense'
-  category: string
-  description: string
-  date: string
-  createdAt: string
-  updatedAt: string
+  id: string;
+  amount: number;
+  type: "income" | "expense" | "transfer";
+  category: string;
+  description: string;
+  date: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CreateTransactionInput {
-  amount: number
-  type: 'income' | 'expense'
-  category: string
-  description: string
-  date?: string
+  amount: number;
+  type: "income" | "expense" | "transfer";
+  category: string;
+  description: string;
+  date?: string;
+  accountId?: string;
 }
 
 export interface UpdateTransactionInput {
-  id: string
-  amount?: number
-  type?: 'income' | 'expense'
-  category?: string
-  description?: string
-  date?: string
+  id: string;
+  amount?: number;
+  type?: "income" | "expense";
+  category?: string;
+  description?: string;
+  date?: string;
 }
 
 /**
- * Create a new transaction
+ * Create a new transaction using Entity Engine
  */
 export async function createTransaction(
-  input: CreateTransactionInput
+  input: CreateTransactionInput,
 ): Promise<{ success: boolean; data?: Transaction; error?: string }> {
   try {
-    const now = new Date().toISOString()
-    
+    const now = Date.now();
+    const dateValue = input.date ? new Date(input.date).getTime() : now;
+
+    // Create transaction entity using Entity Engine
+    const id = await createEntity<TransactionEntity>({
+      type: "transaction",
+      name: input.description,
+      data: {
+        amount: input.amount,
+        currency: "USD",
+        accountId: input.accountId || "default",
+        categoryId: input.category,
+        transactionType: input.type,
+        date: dateValue,
+        note: input.description,
+      },
+    });
+
+    revalidatePath("/finance");
+    revalidatePath("/dashboard");
+    revalidatePath("/analytics");
+
     const transaction: Transaction = {
-      id: generateId(),
+      id,
       amount: input.amount,
       type: input.type,
       category: input.category,
       description: input.description,
-      date: input.date || now,
-      createdAt: now,
-      updatedAt: now,
-    }
+      date: input.date || new Date().toISOString(),
+      createdAt: new Date(now).toISOString(),
+      updatedAt: new Date(now).toISOString(),
+    };
 
-    // TODO: Implement database insertion
-    // For now, store in localStorage as fallback
-    if (typeof window !== 'undefined') {
-      const transactions = getStoredTransactions()
-      transactions.push(transaction)
-      localStorage.setItem('transactions', JSON.stringify(transactions))
-    }
-
-    revalidatePath('/finance')
-    revalidatePath('/dashboard')
-    revalidatePath('/analytics')
-
-    return { success: true, data: transaction }
+    return { success: true, data: transaction };
   } catch (error) {
-    console.error('Failed to create transaction:', error)
+    console.error("Failed to create transaction:", error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error occurred',
-    }
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
   }
 }
 
 /**
- * Update an existing transaction
+ * Update an existing transaction using Entity Engine
  */
 export async function updateTransaction(
-  input: UpdateTransactionInput
+  input: UpdateTransactionInput,
 ): Promise<{ success: boolean; data?: Transaction; error?: string }> {
   try {
-    const now = new Date().toISOString()
+    // Update using Entity Engine
+    const updateData: Record<string, unknown> = {};
+    if (input.amount !== undefined) updateData.amount = input.amount;
+    if (input.type !== undefined) updateData.transactionType = input.type;
+    if (input.category !== undefined) updateData.categoryId = input.category;
+    if (input.description !== undefined) updateData.note = input.description;
+    if (input.date !== undefined)
+      updateData.date = new Date(input.date).getTime();
 
-    // TODO: Implement database update
-    // For now, update in localStorage as fallback
-    if (typeof window !== 'undefined') {
-      const transactions = getStoredTransactions()
-      const index = transactions.findIndex((t) => t.id === input.id)
+    await updateEntity(input.id, updateData);
 
-      if (index === -1) {
-        return { success: false, error: 'Transaction not found' }
-      }
+    revalidatePath("/finance");
+    revalidatePath("/dashboard");
+    revalidatePath("/analytics");
 
-      const updatedTransaction: Transaction = {
-        ...transactions[index],
-        amount: input.amount ?? transactions[index].amount,
-        type: input.type ?? transactions[index].type,
-        category: input.category ?? transactions[index].category,
-        description: input.description ?? transactions[index].description,
-        date: input.date ?? transactions[index].date,
-        updatedAt: now,
-      }
+    // Fetch updated entity
+    const { getEntityById } = await import("@/entity-engine/engine");
+    const entity = await getEntityById(input.id);
 
-      transactions[index] = updatedTransaction
-      localStorage.setItem('transactions', JSON.stringify(transactions))
-
-      revalidatePath('/finance')
-      revalidatePath('/dashboard')
-      revalidatePath('/analytics')
-
-      return { success: true, data: updatedTransaction }
+    if (!entity) {
+      return { success: false, error: "Transaction not found" };
     }
 
-    return { success: false, error: 'Server-side update not implemented yet' }
+    const transaction = entityToTransaction(entity);
+    return { success: true, data: transaction };
   } catch (error) {
-    console.error('Failed to update transaction:', error)
+    console.error("Failed to update transaction:", error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error occurred',
-    }
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
   }
 }
 
 /**
- * Delete a transaction
+ * Delete a transaction using Entity Engine (soft delete)
  */
 export async function deleteTransaction(
-  id: string
+  id: string,
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    // TODO: Implement database deletion
-    // For now, delete from localStorage as fallback
-    if (typeof window !== 'undefined') {
-      const transactions = getStoredTransactions()
-      const filteredTransactions = transactions.filter((t) => t.id !== id)
+    // Delete using Entity Engine (soft delete)
+    await deleteEntity(id);
 
-      if (filteredTransactions.length === transactions.length) {
-        return { success: false, error: 'Transaction not found' }
-      }
+    revalidatePath("/finance");
+    revalidatePath("/dashboard");
+    revalidatePath("/analytics");
 
-      localStorage.setItem('transactions', JSON.stringify(filteredTransactions))
-
-      revalidatePath('/finance')
-      revalidatePath('/dashboard')
-      revalidatePath('/analytics')
-
-      return { success: true }
-    }
-
-    return { success: false, error: 'Server-side delete not implemented yet' }
+    return { success: true };
   } catch (error) {
-    console.error('Failed to delete transaction:', error)
+    console.error("Failed to delete transaction:", error);
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Unknown error occurred',
-    }
+      error: error instanceof Error ? error.message : "Unknown error occurred",
+    };
   }
 }
 
 /**
- * Get all transactions
+ * Get all transactions using Entity Engine
  */
 export async function getTransactions(): Promise<Transaction[]> {
-  // TODO: Implement database fetch
-  // For now, get from localStorage as fallback
-  if (typeof window !== 'undefined') {
-    return getStoredTransactions()
-  }
+  try {
+    // Get transactions using Entity Engine
+    const entities = await queryEntities(
+      { type: "transaction", deleted: false },
+      { sortBy: "createdAt", sortOrder: "desc" },
+    );
 
-  return []
+    return entities.map(entityToTransaction);
+  } catch (error) {
+    console.error("Failed to get transactions:", error);
+    return [];
+  }
 }
 
 /**
@@ -176,55 +177,94 @@ export async function getTransactions(): Promise<Transaction[]> {
  */
 export async function getTransactionsByDateRange(
   startDate: string,
-  endDate: string
+  endDate: string,
 ): Promise<Transaction[]> {
-  const transactions = await getTransactions()
-  return transactions.filter(
-    (t) => t.date >= startDate && t.date <= endDate
-  )
+  const start = new Date(startDate).getTime();
+  const end = new Date(endDate).getTime();
+
+  try {
+    const entities = await queryEntities(
+      {
+        type: "transaction",
+        deleted: false,
+        createdAt: { gte: start, lte: end },
+      },
+      { sortBy: "createdAt", sortOrder: "desc" },
+    );
+
+    return entities.map(entityToTransaction);
+  } catch (error) {
+    console.error("Failed to get transactions by date range:", error);
+    return [];
+  }
 }
 
 /**
  * Get total income and expenses
  */
 export async function getTransactionSummary(): Promise<{
-  totalIncome: number
-  totalExpenses: number
-  balance: number
+  totalIncome: number;
+  totalExpenses: number;
+  balance: number;
 }> {
-  const transactions = await getTransactions()
+  const transactions = await getTransactions();
 
   const totalIncome = transactions
-    .filter((t) => t.type === 'income')
-    .reduce((sum, t) => sum + t.amount, 0)
+    .filter((t) => t.type === "income")
+    .reduce((sum, t) => sum + t.amount, 0);
 
   const totalExpenses = transactions
-    .filter((t) => t.type === 'expense')
-    .reduce((sum, t) => sum + t.amount, 0)
+    .filter((t) => t.type === "expense")
+    .reduce((sum, t) => sum + t.amount, 0);
 
   return {
     totalIncome,
     totalExpenses,
     balance: totalIncome - totalExpenses,
+  };
+}
+
+/**
+ * Get accounts using Entity Engine
+ */
+export async function getAccounts(): Promise<AccountEntity[]> {
+  try {
+    const entities = await getEntitiesByType("account", false);
+    return entities as AccountEntity[];
+  } catch (error) {
+    console.error("Failed to get accounts:", error);
+    return [];
   }
 }
 
 /**
- * Helper function to get stored transactions from localStorage
+ * Get categories using Entity Engine
  */
-function getStoredTransactions(): Transaction[] {
-  if (typeof window === 'undefined') {
-    return []
-  }
-
-  const stored = localStorage.getItem('transactions')
-  if (!stored) {
-    return []
-  }
-
+export async function getCategories(): Promise<
+  Array<{ id: string; name: string; color: string }>
+> {
   try {
-    return JSON.parse(stored) as Transaction[]
-  } catch {
-    return []
+    // TODO: Implement categories when schema is added
+    return [];
+  } catch (error) {
+    console.error("Failed to get categories:", error);
+    return [];
   }
+}
+
+/**
+ * Helper: Convert Entity to Transaction
+ */
+function entityToTransaction(entity: unknown): Transaction {
+  const e = entity as TransactionEntity;
+  return {
+    id: e.id,
+    amount: e.data.amount,
+    type: e.data.transactionType,
+    category: e.data.categoryId || "",
+    description: e.data.note || e.name,
+    date: new Date(e.data.date).toISOString(),
+    createdAt: new Date(e.createdAt).toISOString(),
+    updatedAt: new Date(e.updatedAt).toISOString(),
+  };
 }

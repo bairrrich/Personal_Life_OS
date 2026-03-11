@@ -9,6 +9,7 @@
     "back": "Назад",
     "cancel": "Отмена",
     "save": "Сохранить",
+    "saving": "Сохранение...",
     "delete": "Удалить",
     "edit": "Редактировать",
     "add": "Добавить",
@@ -35,7 +36,99 @@
     "title": "Финансы",
     "description": "Учёт доходов, расходов и бюджетов",
     "inDevelopment": "Финансовый модуль в разработке",
-    "comingSoon": "Скоро: транзакции, счета, категории и аналитика"
+    "comingSoon": "Скоро: транзакции, счета, категории и аналитика",
+    "filter": "Фильтр",
+    "export": "Экспорт",
+    "addTransaction": {
+      "title": "Добавить транзакцию",
+      "button": "Добавить транзакцию",
+      "amount": "Сумма",
+      "category": "Категория",
+      "subcategory": "Подкатегория",
+      "selectCategory": "Выберите категорию",
+      "selectSubcategory": "Выберите подкатегорию",
+      "description": "Описание",
+      "descriptionPlaceholder": "например, Покупка продуктов",
+      "date": "Дата",
+      "toAccount": "Перевод на счёт",
+      "toAccountPlaceholder": "Счёт назначения"
+    },
+    "summary": {
+      "balance": "Баланс",
+      "income": "Доходы",
+      "expenses": "Расходы"
+    },
+    "filters": {
+      "all": "Все",
+      "income": "Доходы",
+      "expenses": "Расходы"
+    },
+    "transactions": {
+      "title": "Транзакции",
+      "noData": "Транзакции не найдены"
+    },
+    "transactionTypes": {
+      "income": "Доход",
+      "expense": "Расход",
+      "transfer": "Перевод"
+    },
+    "categories": {
+      "income": {
+        "salary": "Зарплата",
+        "salary_main": "Основная зарплата",
+        "salary_bonus": "Премия",
+        "salary_overtime": "Сверхурочные",
+        "freelance": "Фриланс",
+        "freelance_project": "Проект",
+        "freelance_consulting": "Консалтинг",
+        "investments": "Инвестиции",
+        "investments_dividends": "Дивиденды",
+        "investments_interest": "Проценты",
+        "investments_capitalGains": "Прирост капитала",
+        "gifts": "Подарки",
+        "other": "Другой доход"
+      },
+      "expense": {
+        "food": "Еда и продукты",
+        "food_groceries": "Продукты",
+        "food_restaurants": "Рестораны",
+        "food_delivery": "Доставка",
+        "food_coffee": "Кофейни",
+        "transport": "Транспорт",
+        "transport_fuel": "Топливо",
+        "transport_public": "Общественный транспорт",
+        "transport_taxi": "Такси",
+        "transport_parking": "Парковка",
+        "transport_maintenance": "Обслуживание",
+        "utilities": "Коммунальные услуги",
+        "utilities_electricity": "Электричество",
+        "utilities_water": "Вода",
+        "utilities_gas": "Газ",
+        "utilities_internet": "Интернет",
+        "utilities_phone": "Телефон",
+        "entertainment": "Развлечения",
+        "entertainment_movies": "Кино",
+        "entertainment_games": "Игры",
+        "entertainment_events": "Мероприятия",
+        "shopping": "Покупки",
+        "shopping_clothes": "Одежда",
+        "shopping_electronics": "Электроника",
+        "shopping_home": "Для дома",
+        "health": "Здоровье",
+        "health_doctor": "Врач",
+        "health_medicine": "Лекарства",
+        "health_sports": "Спорт",
+        "education": "Образование",
+        "education_courses": "Курсы",
+        "education_books": "Книги",
+        "education_tuition": "Обучение",
+        "subscriptions": "Подписки",
+        "subscriptions_streaming": "Стриминг",
+        "subscriptions_software": "ПО",
+        "subscriptions_gym": "Тренажёрный зал",
+        "other": "Другой расход"
+      }
+    }
   },
   "nutrition": {
     "title": "Питание",

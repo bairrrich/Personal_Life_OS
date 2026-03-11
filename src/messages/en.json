@@ -9,6 +9,7 @@
     "back": "Back",
     "cancel": "Cancel",
     "save": "Save",
+    "saving": "Saving...",
     "delete": "Delete",
     "edit": "Edit",
     "add": "Add",
@@ -35,7 +36,99 @@
     "title": "Finance",
     "description": "Track income, expenses, and budgets",
     "inDevelopment": "Finance module in development",
-    "comingSoon": "Coming soon: transactions, accounts, categories, and analytics"
+    "comingSoon": "Coming soon: transactions, accounts, categories, and analytics",
+    "filter": "Filter",
+    "export": "Export",
+    "addTransaction": {
+      "title": "Add Transaction",
+      "button": "Add Transaction",
+      "amount": "Amount",
+      "category": "Category",
+      "subcategory": "Subcategory",
+      "selectCategory": "Select category",
+      "selectSubcategory": "Select subcategory",
+      "description": "Description",
+      "descriptionPlaceholder": "e.g., Grocery shopping",
+      "date": "Date",
+      "toAccount": "Transfer To Account",
+      "toAccountPlaceholder": "Destination account"
+    },
+    "summary": {
+      "balance": "Balance",
+      "income": "Income",
+      "expenses": "Expenses"
+    },
+    "filters": {
+      "all": "All",
+      "income": "Income",
+      "expenses": "Expenses"
+    },
+    "transactions": {
+      "title": "Transactions",
+      "noData": "No transactions found"
+    },
+    "transactionTypes": {
+      "income": "Income",
+      "expense": "Expense",
+      "transfer": "Transfer"
+    },
+    "categories": {
+      "income": {
+        "salary": "Salary",
+        "salary_main": "Main Salary",
+        "salary_bonus": "Bonus",
+        "salary_overtime": "Overtime",
+        "freelance": "Freelance",
+        "freelance_project": "Project",
+        "freelance_consulting": "Consulting",
+        "investments": "Investments",
+        "investments_dividends": "Dividends",
+        "investments_interest": "Interest",
+        "investments_capitalGains": "Capital Gains",
+        "gifts": "Gifts",
+        "other": "Other Income"
+      },
+      "expense": {
+        "food": "Food & Groceries",
+        "food_groceries": "Groceries",
+        "food_restaurants": "Restaurants",
+        "food_delivery": "Delivery",
+        "food_coffee": "Coffee Shops",
+        "transport": "Transport",
+        "transport_fuel": "Fuel",
+        "transport_public": "Public Transport",
+        "transport_taxi": "Taxi/Rideshare",
+        "transport_parking": "Parking",
+        "transport_maintenance": "Maintenance",
+        "utilities": "Utilities",
+        "utilities_electricity": "Electricity",
+        "utilities_water": "Water",
+        "utilities_gas": "Gas",
+        "utilities_internet": "Internet",
+        "utilities_phone": "Phone",
+        "entertainment": "Entertainment",
+        "entertainment_movies": "Movies",
+        "entertainment_games": "Games",
+        "entertainment_events": "Events",
+        "shopping": "Shopping",
+        "shopping_clothes": "Clothes",
+        "shopping_electronics": "Electronics",
+        "shopping_home": "Home",
+        "health": "Health",
+        "health_doctor": "Doctor",
+        "health_medicine": "Medicine",
+        "health_sports": "Sports",
+        "education": "Education",
+        "education_courses": "Courses",
+        "education_books": "Books",
+        "education_tuition": "Tuition",
+        "subscriptions": "Subscriptions",
+        "subscriptions_streaming": "Streaming",
+        "subscriptions_software": "Software",
+        "subscriptions_gym": "Gym",
+        "other": "Other Expense"
+      }
+    }
   },
   "nutrition": {
     "title": "Nutrition",

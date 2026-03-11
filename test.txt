@@ -1,0 +1,3 @@
+# Vse proverki proydeny!  
+npm run lint - 0 oshibok  
+npm run typecheck - 0 oshibok  
