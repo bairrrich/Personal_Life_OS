@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -32,6 +31,15 @@ export const viewport: Viewport = {
   ],
 };
 
+// Static imports for all locales
+import enMessages from "../../../messages/en.json";
+import ruMessages from "../../../messages/ru.json";
+
+const messages = {
+  en: enMessages,
+  ru: ruMessages,
+};
+
 export default async function RootLayout({
   children,
   params,
@@ -41,11 +49,6 @@ export default async function RootLayout({
 }) {
   const { locale } = await params;
 
-  // Enable static rendering and set locale for getMessages()
-  setRequestLocale(locale);
-
-  const messages = await getMessages();
-
   return (
     <html lang={locale} suppressHydrationWarning>
       <body
@@ -53,7 +56,10 @@ export default async function RootLayout({
         suppressHydrationWarning
       >
         <ThemeProvider defaultTheme="system" storageKey="theme">
-          <NextIntlClientProvider locale={locale} messages={messages}>
+          <NextIntlClientProvider
+            locale={locale}
+            messages={messages[locale as keyof typeof messages]}
+          >
             {children}
           </NextIntlClientProvider>
         </ThemeProvider>
