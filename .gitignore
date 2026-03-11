@@ -1,8 +1,25 @@
-# Spec-kit ���䠪�� 
-.specify/ 
- 
-# Qwen Code ������� ����ன�� 
-.qwen/
+# Dependencies
+node_modules/
 
+# Next.js
+.next/
+out/
+
+# Production
+*.log
+
+# Local env files
+.env.local
+
+# TypeScript
+*.tsbuildinfo
+
+# IDE
+.idea/
+.vscode/
+
+# Spec-kit артефакты
+.specify/
+.qwen/
 .personal_life_os_rules/
 .dev_rules/
