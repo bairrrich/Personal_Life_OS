@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { GlassCard } from "@/components/custom-ui/glass-components";
 import { Button } from "@/components/ui/button";
