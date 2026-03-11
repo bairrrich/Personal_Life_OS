@@ -72,7 +72,14 @@ export default function SettingsPage() {
     // Apply language change
     if (settings.language) {
       // Use next-intl router for locale switching
-      router.push(`/${settings.language}${pathname}`);
+      // With localePrefix: 'as-needed', default locale (en) has no prefix
+      const basePath = pathname.replace(/^\/ru/, "").replace(/^\/en/, "");
+      const newPath =
+        settings.language === "en"
+          ? basePath // Default locale has no prefix
+          : `/${settings.language}${basePath}`;
+
+      router.push(newPath);
     }
   }, [settings, isInitialized, theme, setTheme, router, pathname]);
 
