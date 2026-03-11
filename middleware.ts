@@ -3,10 +3,9 @@ import createMiddleware from "next-intl/middleware";
 export default createMiddleware({
   locales: ["en", "ru"],
   defaultLocale: "en",
-  localePrefix: "as-needed",
+  localePrefix: "always", // Always use locale prefix
 });
 
 export const config = {
-  // Match all internationalized paths
   matcher: ["/", "/(ru|en)/:path*"],
 };

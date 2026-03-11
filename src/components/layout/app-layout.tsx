@@ -33,9 +33,10 @@ export function AppLayout({ children }: AppLayoutProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Get base path without locale
+  // Get localized path - with localePrefix: 'always', all locales have prefix
   const getLocalizedPath = (path: string) => {
-    return pathname.startsWith("/ru") ? `/ru${path}` : path;
+    const locale = pathname.startsWith("/ru") ? "ru" : "en";
+    return `/${locale}${path}`;
   };
 
   const navigation = useMemo<NavItem[]>(
