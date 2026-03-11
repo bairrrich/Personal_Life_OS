@@ -44,7 +44,10 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body
+        className={`${inter.variable} font-sans antialiased`}
+        suppressHydrationWarning
+      >
         <ThemeProvider defaultTheme="system" storageKey="theme">
           <NextIntlClientProvider locale={locale} messages={messages}>
             {children}

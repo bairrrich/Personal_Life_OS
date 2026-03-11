@@ -7,5 +7,6 @@ export default createMiddleware({
 });
 
 export const config = {
+  // Match all internationalized paths
   matcher: ["/", "/(ru|en)/:path*"],
 };
