@@ -2,23 +2,30 @@
   "mcpServers": {
     "context7": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@context7/mcp-server"
-      ]
+      "args": ["-y", "context7-mcp-server"]
     },
     "chrome-devtools": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@chrome-devtools/mcp-server"
-      ]
+      "args": ["-y", "chrome-devtools-mcp"]
     },
     "sequential-thinking": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@anthropic/sequential-thinking"
+      "args": ["-y", "sequential-thinking-mcp"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp"]
+    },
+    "skills": {
+      "command": "npx",
+      "args": ["-y", "@anthropic-ai/skills"],
+      "skills": [
+        "@anthropic-ai/skills:nextjs",
+        "@anthropic-ai/skills:react",
+        "@anthropic-ai/skills:typescript",
+        "@anthropic-ai/skills:tailwindcss",
+        "@anthropic-ai/skills:testing",
+        "@anthropic-ai/skills:accessibility"
       ]
     }
   },

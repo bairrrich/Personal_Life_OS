@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { GlassCard } from "@/components/custom-ui/glass-components";
 import { useTranslations } from "next-intl";
 import {
@@ -58,7 +58,7 @@ const features = [
   },
 ];
 
-export default function Home() {
+export default function HomePage() {
   const t = useTranslations();
 
   return (
@@ -83,7 +83,7 @@ export default function Home() {
               </Link>
               <Link
                 href="/analytics"
-                className="inline-flex items-center gap-2 rounded-xl bg-[oklch(98%_0.01_240_/_0.6)] px-6 py-3 text-sm font-medium text-foreground shadow-lg hover:bg-[oklch(96%_0.03_200_/_0.6)] transition-colors border border-white/20"
+                className="inline-flex items-center gap-2 rounded-xl bg-[oklch(98%_0.015_240_/_0.6)] px-6 py-3 text-sm font-medium text-foreground shadow-lg hover:bg-[oklch(96%_0.03_200_/_0.6)] transition-colors border border-white/20"
               >
                 {t("navigation.analytics")}
               </Link>

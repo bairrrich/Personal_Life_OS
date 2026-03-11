@@ -10,17 +10,26 @@ interface ThemeProviderProps {
   storageKey?: string;
 }
 
+// Create context first
+const ThemeContext = React.createContext<{
+  _theme: Theme;
+  setTheme: (_theme: Theme) => void;
+}>({
+  _theme: "system",
+  setTheme: () => null,
+});
+
 export function ThemeProvider({
   children,
-  defaultTheme = "system",
+  defaultTheme: _defaultTheme = "system",
   storageKey = "theme",
 }: ThemeProviderProps) {
-  const [theme, setTheme] = React.useState<Theme>("system");
-
-  React.useEffect(() => {
+  // Lazy initialization for useState
+  const [theme, setTheme] = React.useState<Theme>(() => {
+    if (typeof window === "undefined") return _defaultTheme;
     const stored = localStorage.getItem(storageKey);
-    if (stored) setTheme(stored as Theme);
-  }, [storageKey]);
+    return (stored as Theme) || _defaultTheme;
+  });
 
   React.useEffect(() => {
     const root = document.documentElement;
@@ -53,18 +62,13 @@ export function ThemeProvider({
   }, [theme, storageKey]);
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
+    <ThemeContext.Provider value={{ _theme: theme, setTheme }}>
       {children}
     </ThemeContext.Provider>
   );
 }
 
-const ThemeContext = React.createContext<{
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-}>({
-  theme: "system",
-  setTheme: () => null,
-});
-
-export const useTheme = () => React.useContext(ThemeContext);
+export const useTheme = () => {
+  const context = React.useContext(ThemeContext);
+  return { theme: context._theme, setTheme: context.setTheme };
+};

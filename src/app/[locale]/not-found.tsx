@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { GlassCard } from "@/components/custom-ui/glass-components";
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";

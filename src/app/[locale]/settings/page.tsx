@@ -36,6 +36,8 @@ const defaultSettings: Settings = {
   weekStart: "monday",
 };
 
+const SETTINGS_STORAGE_KEY = "settings:v1";
+
 export default function SettingsPage() {
   const t = useTranslations("settings");
   const { theme, setTheme } = useTheme();
@@ -44,15 +46,19 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState<Settings>(defaultSettings);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Load settings from localStorage on mount
+  // Load settings from localStorage on mount with error handling
   useEffect(() => {
-    const stored = localStorage.getItem("settings");
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      setSettings(parsed);
-      if (parsed.theme) {
-        setTheme(parsed.theme);
+    try {
+      const stored = localStorage.getItem(SETTINGS_STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        setSettings(parsed);
+        if (parsed.theme) {
+          setTheme(parsed.theme);
+        }
       }
+    } catch {
+      // Ignore errors (incognito mode, quota exceeded, parse errors)
     }
     setIsInitialized(true);
   }, [setTheme]);
@@ -61,32 +67,31 @@ export default function SettingsPage() {
   useEffect(() => {
     if (!isInitialized) return;
 
-    // Save to localStorage
-    localStorage.setItem("settings", JSON.stringify(settings));
+    // Save to localStorage with versioning
+    try {
+      localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(settings));
+    } catch {
+      // Ignore storage errors
+    }
 
     // Apply theme immediately
     if (settings.theme !== theme) {
       setTheme(settings.theme);
     }
 
-    // Apply language change
+    // Apply language change using next-intl router
     if (settings.language) {
-      // Use next-intl router for locale switching
-      // With localePrefix: 'as-needed', default locale (en) has no prefix
+      // Extract the current path without locale
       const basePath = pathname.replace(/^\/ru/, "").replace(/^\/en/, "");
-      const newPath =
-        settings.language === "en"
-          ? basePath // Default locale has no prefix
-          : `/${settings.language}${basePath}`;
-
-      router.push(newPath);
+      // Router will automatically add the new locale
+      router.replace(basePath, { locale: settings.language });
     }
   }, [settings, isInitialized, theme, setTheme, router, pathname]);
 
   const handleReset = () => {
     setSettings(defaultSettings);
     setTheme("system");
-    localStorage.removeItem("settings");
+    localStorage.removeItem(SETTINGS_STORAGE_KEY);
   };
 
   const themes: { value: Theme; label: string; icon: React.ReactNode }[] = [

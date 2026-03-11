@@ -32,8 +32,8 @@ export const viewport: Viewport = {
 };
 
 // Static imports for all locales
-import enMessages from "../../../messages/en.json";
-import ruMessages from "../../../messages/ru.json";
+import enMessages from "@/messages/en.json";
+import ruMessages from "@/messages/ru.json";
 
 const messages = {
   en: enMessages,
@@ -48,17 +48,19 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const validLocale = locale === "en" || locale === "ru" ? locale : "en";
+  const loadedMessages = messages[validLocale];
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={validLocale} suppressHydrationWarning>
       <body
         className={`${inter.variable} font-sans antialiased`}
         suppressHydrationWarning
       >
         <ThemeProvider defaultTheme="system" storageKey="theme">
           <NextIntlClientProvider
-            locale={locale}
-            messages={messages[locale as keyof typeof messages]}
+            locale={validLocale}
+            messages={loadedMessages}
           >
             {children}
           </NextIntlClientProvider>

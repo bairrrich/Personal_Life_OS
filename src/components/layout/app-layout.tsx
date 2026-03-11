@@ -1,10 +1,9 @@
 "use client";
 
 import { ReactNode, useMemo, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
+import { Link, usePathname } from "@/i18n/navigation";
 import {
   LayoutDashboard,
   Wallet,
@@ -33,52 +32,46 @@ export function AppLayout({ children }: AppLayoutProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Get localized path - with localePrefix: 'always', all locales have prefix
-  const getLocalizedPath = (path: string) => {
-    const locale = pathname.startsWith("/ru") ? "ru" : "en";
-    return `/${locale}${path}`;
-  };
-
   const navigation = useMemo<NavItem[]>(
     () => [
       {
         id: "dashboard",
         name: t("dashboard"),
-        href: getLocalizedPath("/dashboard"),
+        href: "/dashboard",
         icon: LayoutDashboard,
       },
       {
         id: "finance",
         name: t("finance"),
-        href: getLocalizedPath("/finance"),
+        href: "/finance",
         icon: Wallet,
       },
       {
         id: "nutrition",
         name: t("nutrition"),
-        href: getLocalizedPath("/nutrition"),
+        href: "/nutrition",
         icon: Utensils,
       },
       {
         id: "workouts",
         name: t("workouts"),
-        href: getLocalizedPath("/workouts"),
+        href: "/workouts",
         icon: Dumbbell,
       },
       {
         id: "products",
         name: t("products"),
-        href: getLocalizedPath("/products"),
+        href: "/products",
         icon: Package,
       },
       {
         id: "analytics",
         name: t("analytics"),
-        href: getLocalizedPath("/analytics"),
+        href: "/analytics",
         icon: BarChart3,
       },
     ],
-    [t, pathname],
+    [t],
   );
 
   const secondaryNavigation = useMemo<NavItem[]>(
@@ -86,11 +79,11 @@ export function AppLayout({ children }: AppLayoutProps) {
       {
         id: "settings",
         name: t("settings"),
-        href: getLocalizedPath("/settings"),
+        href: "/settings",
         icon: Settings,
       },
     ],
-    [t, pathname],
+    [t],
   );
 
   const renderNavItem = (item: NavItem, onClick?: () => void) => {
@@ -172,6 +165,7 @@ export function AppLayout({ children }: AppLayoutProps) {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 rounded-lg hover:bg-[oklch(96%_0.03_200_/_0.5)] transition-colors"
               aria-label="Toggle menu"
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? (
                 <X className="h-5 w-5" />
