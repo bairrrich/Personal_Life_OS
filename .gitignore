@@ -21,3 +21,5 @@ out/
 # Spec-kit артефакты
 .specify/specs/
 .qwen/
+
+.env.data
