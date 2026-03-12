@@ -30,7 +30,26 @@
     "title": "Dashboard",
     "description": "Overview of all metrics and activity",
     "widgetsInDevelopment": "Widgets in development",
-    "comingSoon": "Your finance, nutrition, and workouts will be displayed here"
+    "comingSoon": "Your finance, nutrition, and workouts will be displayed here",
+    "summary": {
+      "totalBalance": "Total Balance",
+      "income": "Income",
+      "expenses": "Expenses",
+      "activeBudgets": "Active Budgets"
+    },
+    "widgets": {
+      "recentTransactions": "Recent Transactions",
+      "noTransactions": "No transactions",
+      "balance": "Balance"
+    }
+  },
+  "currency": "Currency",
+  "selectCurrency": "Select currency",
+  "currencies": {
+    "usd": "US Dollar",
+    "eur": "Euro",
+    "rub": "Russian Ruble",
+    "gbp": "British Pound"
   },
   "finance": {
     "title": "Finance",
@@ -80,48 +99,71 @@
       "overBudget": "Over budget",
       "percentUsed": "Used"
     },
-    "addTransaction": {
-      "title": "Add Transaction",
-      "button": "Add Transaction",
-      "amount": "Amount",
-      "account": "Account",
-      "fromAccount": "From Account",
-      "toAccount": "To Account",
+    "recurring": {
+      "title": "Recurring",
+      "addRecurring": "Add Recurring",
+      "editRecurring": "Edit Recurring",
+      "deleteRecurring": "Delete Recurring",
+      "confirmDelete": "Delete this recurring transaction?",
+      "noRecurring": "No recurring transactions",
+      "frequency": "Frequency",
+      "selectFrequency": "Select frequency",
+      "nextDate": "Next Date",
+      "enabled": "Enabled",
+      "disabled": "Disabled",
+      "process": "Process",
+      "processed": "Transactions processed",
+      "frequencies": {
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly",
+        "yearly": "Yearly"
+      }
+    },
+    "goals": {
+      "title": "Savings Goals",
+      "addGoal": "Add Goal",
+      "editGoal": "Edit Goal",
+      "deleteGoal": "Delete Goal",
+      "confirmDelete": "Delete this goal?",
+      "noGoals": "No savings goals",
+      "name": "Goal Name",
+      "targetAmount": "Target Amount",
+      "currentAmount": "Saved",
+      "progress": "Progress",
+      "deadline": "Deadline",
+      "selectDeadline": "Select deadline (optional)",
+      "icon": "Icon",
+      "color": "Color",
+      "addContribution": "Add Contribution",
+      "contributionAmount": "Contribution Amount",
+      "completed": "Completed",
+      "daysLeft": "days left",
+      "monthlyTarget": "Need to save monthly",
+      "linkedAccount": "Linked Account (optional)",
       "selectAccount": "Select account",
-      "selectFromAccount": "Select from account",
-      "selectToAccount": "Select to account",
-      "category": "Category",
-      "subcategory": "Subcategory",
-      "selectCategory": "Select category",
-      "selectSubcategory": "Select subcategory",
-      "description": "Description",
-      "descriptionPlaceholder": "e.g., Grocery shopping",
-      "date": "Date",
-      "error": "Failed to create transaction"
-    },
-    "summary": {
-      "balance": "Balance",
-      "income": "Income",
-      "expenses": "Expenses",
-      "transfers": "Transfers"
-    },
-    "filters": {
-      "all": "All",
-      "income": "Income",
-      "expenses": "Expenses",
-      "transfers": "Transfers"
-    },
-    "transactions": {
-      "title": "Transactions",
-      "noData": "No transactions found",
-      "confirmDelete": "Delete this transaction?"
-    },
-    "transactionTypes": {
-      "income": "Income",
-      "expense": "Expense",
-      "transfer": "Transfer"
+      "none": "None"
     },
     "categories": {
+      "title": "Categories",
+      "addCategory": "Add Category",
+      "editCategory": "Edit Category",
+      "deleteCategory": "Delete Category",
+      "confirmDelete": "Delete this category?",
+      "noCategories": "No custom categories",
+      "builtinCategories": "Built-in Categories",
+      "customCategories": "Custom Categories",
+      "name": "Name",
+      "type": "Type",
+      "color": "Color",
+      "icon": "Icon",
+      "selectType": "Select type",
+      "selectColor": "Select color",
+      "selectIcon": "Select icon",
+      "types": {
+        "income": "Income",
+        "expense": "Expense"
+      },
       "income": {
         "salary": "Salary",
         "salary_main": "Main Salary",
@@ -177,6 +219,47 @@
         "subscriptions_gym": "Gym",
         "other": "Other Expense"
       }
+    },
+    "addTransaction": {
+      "title": "Add Transaction",
+      "button": "Add Transaction",
+      "amount": "Amount",
+      "account": "Account",
+      "fromAccount": "From Account",
+      "toAccount": "To Account",
+      "selectAccount": "Select account",
+      "selectFromAccount": "Select from account",
+      "selectToAccount": "Select to account",
+      "category": "Category",
+      "subcategory": "Subcategory",
+      "selectCategory": "Select category",
+      "selectSubcategory": "Select subcategory",
+      "description": "Description",
+      "descriptionPlaceholder": "e.g., Grocery shopping",
+      "date": "Date",
+      "error": "Failed to create transaction"
+    },
+    "summary": {
+      "balance": "Balance",
+      "income": "Income",
+      "expenses": "Expenses",
+      "transfers": "Transfers"
+    },
+    "filters": {
+      "all": "All",
+      "income": "Income",
+      "expenses": "Expenses",
+      "transfers": "Transfers"
+    },
+    "transactions": {
+      "title": "Transactions",
+      "noData": "No transactions found",
+      "confirmDelete": "Delete this transaction?"
+    },
+    "transactionTypes": {
+      "income": "Income",
+      "expense": "Expense",
+      "transfer": "Transfer"
     }
   },
   "nutrition": {
@@ -201,7 +284,19 @@
     "title": "Analytics",
     "description": "Reports and charts for all areas",
     "inDevelopment": "Analytics in development",
-    "comingSoon": "Coming soon: charts, reports, and trends"
+    "comingSoon": "Coming soon: charts, reports, and trends",
+    "spendingByCategory": "Spending by Category",
+    "incomeVsExpenses": "Income vs Expenses Trend",
+    "monthlyOverview": "Monthly Overview",
+    "totalSpent": "Total Spent",
+    "noData": "No data",
+    "period": "Period",
+    "year": "Year",
+    "periods": {
+      "week": "Week",
+      "month": "Month",
+      "year": "Year"
+    }
   },
   "settings": {
     "title": "Settings",

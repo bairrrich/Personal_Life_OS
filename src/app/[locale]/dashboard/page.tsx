@@ -1,8 +1,8 @@
-"use client";
-
 import { AppLayout } from "@/components/layout/app-layout";
-import { GlassCard } from "@/components/custom-ui/glass-components";
 import { useTranslations } from "next-intl";
+import { DashboardSummary } from "@/widgets/dashboard-summary";
+import { BalanceWidget } from "@/widgets/balance-widget";
+import { RecentTransactionsWidget } from "@/widgets/recent-transactions-widget";
 
 export default function DashboardPage() {
   const t = useTranslations();
@@ -14,14 +14,15 @@ export default function DashboardPage() {
           <h1 className="text-3xl font-bold">{t("dashboard.title")}</h1>
           <p className="text-muted-foreground">{t("dashboard.description")}</p>
         </div>
-        <GlassCard className="p-8 text-center">
-          <p className="text-lg font-medium">
-            {t("dashboard.widgetsInDevelopment")}
-          </p>
-          <p className="text-muted-foreground mt-2">
-            {t("dashboard.comingSoon")}
-          </p>
-        </GlassCard>
+
+        {/* Summary Cards */}
+        <DashboardSummary />
+
+        {/* Widgets Grid */}
+        <div className="grid gap-6 lg:grid-cols-2">
+          <BalanceWidget />
+          <RecentTransactionsWidget />
+        </div>
       </div>
     </AppLayout>
   );

@@ -131,9 +131,9 @@ export default function FinanceAnalyticsPage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold">Аналитика</h1>
+            <h1 className="text-3xl font-bold">{t("analytics.title")}</h1>
             <p className="text-muted-foreground">
-              Отчёты и графики по финансам
+              {t("analytics.description")}
             </p>
           </div>
           <div className="flex gap-2">
@@ -144,12 +144,18 @@ export default function FinanceAnalyticsPage() {
               }
             >
               <SelectTrigger className="w-[150px]">
-                <SelectValue placeholder="Период" />
+                <SelectValue placeholder={t("analytics.period")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="week">Неделя</SelectItem>
-                <SelectItem value="month">Месяц</SelectItem>
-                <SelectItem value="year">Год</SelectItem>
+                <SelectItem value="week">
+                  {t("analytics.periods.week")}
+                </SelectItem>
+                <SelectItem value="month">
+                  {t("analytics.periods.month")}
+                </SelectItem>
+                <SelectItem value="year">
+                  {t("analytics.periods.year")}
+                </SelectItem>
               </SelectContent>
             </Select>
             {selectedPeriod === "year" && (
@@ -158,7 +164,7 @@ export default function FinanceAnalyticsPage() {
                 onValueChange={(value) => setSelectedYear(Number(value))}
               >
                 <SelectTrigger className="w-[100px]">
-                  <SelectValue placeholder="Год" />
+                  <SelectValue placeholder={t("analytics.year")} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="2024">2024</SelectItem>
@@ -177,7 +183,7 @@ export default function FinanceAnalyticsPage() {
             <div className="flex items-center gap-2">
               <DollarSign className="h-5 w-5 text-muted-foreground" />
               <div className="text-sm font-medium text-muted-foreground">
-                Всего потрачено
+                {t("analytics.totalSpent")}
               </div>
             </div>
             <div className="text-2xl font-bold mt-2">
@@ -189,7 +195,7 @@ export default function FinanceAnalyticsPage() {
             <div className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-green-600" />
               <div className="text-sm font-medium text-muted-foreground">
-                Доходы
+                {t("dashboard.summary.income")}
               </div>
             </div>
             <div className="text-2xl font-bold mt-2 text-green-600">
@@ -201,7 +207,7 @@ export default function FinanceAnalyticsPage() {
             <div className="flex items-center gap-2">
               <TrendingDown className="h-5 w-5 text-red-600" />
               <div className="text-sm font-medium text-muted-foreground">
-                Расходы
+                {t("dashboard.summary.expenses")}
               </div>
             </div>
             <div className="text-2xl font-bold mt-2 text-red-600">
@@ -214,7 +220,7 @@ export default function FinanceAnalyticsPage() {
         <GlassCard className="p-6">
           <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <DollarSign className="h-5 w-5" />
-            Расходы по категориям
+            {t("analytics.spendingByCategory")}
           </h2>
           {loading ? (
             <div className="text-center py-8 text-muted-foreground">
@@ -222,7 +228,7 @@ export default function FinanceAnalyticsPage() {
             </div>
           ) : spendingByCategory.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
-              Нет данных
+              {t("analytics.noData")}
             </div>
           ) : (
             <div className="space-y-3">
@@ -270,7 +276,7 @@ export default function FinanceAnalyticsPage() {
         <GlassCard className="p-6">
           <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <Calendar className="h-5 w-5" />
-            Динамика доходов и расходов
+            {t("analytics.incomeVsExpenses")}
           </h2>
           {loading ? (
             <div className="text-center py-8 text-muted-foreground">
@@ -278,7 +284,7 @@ export default function FinanceAnalyticsPage() {
             </div>
           ) : incomeVsExpenses.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
-              Нет данных
+              {t("analytics.noData")}
             </div>
           ) : (
             <div className="space-y-3">
@@ -318,7 +324,7 @@ export default function FinanceAnalyticsPage() {
         {selectedPeriod === "year" && (
           <GlassCard className="p-6">
             <h2 className="text-lg font-semibold mb-4">
-              Месячная сводка за {selectedYear}
+              {t("analytics.monthlyOverview")} {selectedYear}
             </h2>
             {loading ? (
               <div className="text-center py-8 text-muted-foreground">

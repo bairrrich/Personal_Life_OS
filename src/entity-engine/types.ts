@@ -116,6 +116,47 @@ export interface BudgetEntity extends BaseEntity {
   };
 }
 
+export interface RecurringTransactionEntity extends BaseEntity {
+  type: "recurringTransaction";
+  data: {
+    amount: number;
+    currency: string;
+    transactionType: "income" | "expense";
+    categoryId: string;
+    description: string;
+    frequency: "daily" | "weekly" | "monthly" | "yearly";
+    nextDate: number;
+    accountId: string;
+    enabled?: boolean;
+  };
+}
+
+export interface CategoryEntity extends BaseEntity {
+  type: "category";
+  data: {
+    name: string;
+    type: "income" | "expense";
+    color?: string;
+    icon?: string;
+    parentId?: string;
+    isCustom?: boolean;
+  };
+}
+
+export interface SavingsGoalEntity extends BaseEntity {
+  type: "savingsGoal";
+  data: {
+    name: string;
+    targetAmount: number;
+    currentAmount: number;
+    currency: string;
+    deadline?: number;
+    icon?: string;
+    color?: string;
+    accountId?: string;
+  };
+}
+
 export type DomainEntity =
   | TransactionEntity
   | AccountEntity
@@ -123,7 +164,10 @@ export type DomainEntity =
   | MealEntity
   | ExerciseEntity
   | WorkoutEntity
-  | BudgetEntity;
+  | BudgetEntity
+  | RecurringTransactionEntity
+  | SavingsGoalEntity
+  | CategoryEntity;
 export type EntityType = DomainEntity["type"];
 
 export interface CreateEntityInput<T extends BaseEntity = BaseEntity> {

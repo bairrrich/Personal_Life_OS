@@ -30,7 +30,26 @@
     "title": "Dashboard",
     "description": "Обзор всех метрик и активности",
     "widgetsInDevelopment": "Виджеты в разработке",
-    "comingSoon": "Здесь будут отображаться ваши финансы, питание и тренировки"
+    "comingSoon": "Здесь будут отображаться ваши финансы, питание и тренировки",
+    "summary": {
+      "totalBalance": "Общий баланс",
+      "income": "Доходы",
+      "expenses": "Расходы",
+      "activeBudgets": "Активные бюджеты"
+    },
+    "widgets": {
+      "recentTransactions": "Последние транзакции",
+      "noTransactions": "Нет транзакций",
+      "balance": "Баланс"
+    }
+  },
+  "currency": "Валюта",
+  "selectCurrency": "Выберите валюту",
+  "currencies": {
+    "usd": "US Dollar",
+    "eur": "Euro",
+    "rub": "Russian Ruble",
+    "gbp": "British Pound"
   },
   "finance": {
     "title": "Финансы",
@@ -80,48 +99,71 @@
       "overBudget": "Превышен бюджет",
       "percentUsed": "Использовано"
     },
-    "addTransaction": {
-      "title": "Добавить транзакцию",
-      "button": "Добавить транзакцию",
-      "amount": "Сумма",
-      "account": "Счёт",
-      "fromAccount": "Со счёта",
-      "toAccount": "На счёт",
+    "recurring": {
+      "title": "Повторяющиеся",
+      "addRecurring": "Добавить повторяющуюся",
+      "editRecurring": "Редактировать повторяющуюся",
+      "deleteRecurring": "Удалить повторяющуюся",
+      "confirmDelete": "Удалить эту повторяющуюся транзакцию?",
+      "noRecurring": "Нет повторяющихся транзакций",
+      "frequency": "Частота",
+      "selectFrequency": "Выберите частоту",
+      "nextDate": "Следующая дата",
+      "enabled": "Активна",
+      "disabled": "Отключена",
+      "process": "Обработать",
+      "processed": "Обработано транзакций",
+      "frequencies": {
+        "daily": "Ежедневно",
+        "weekly": "Еженедельно",
+        "monthly": "Ежемесячно",
+        "yearly": "Ежегодно"
+      }
+    },
+    "goals": {
+      "title": "Цели накоплений",
+      "addGoal": "Добавить цель",
+      "editGoal": "Редактировать цель",
+      "deleteGoal": "Удалить цель",
+      "confirmDelete": "Удалить эту цель?",
+      "noGoals": "Нет целей накоплений",
+      "name": "Название цели",
+      "targetAmount": "Целевая сумма",
+      "currentAmount": "Накоплено",
+      "progress": "Прогресс",
+      "deadline": "Срок",
+      "selectDeadline": "Выберите срок (необязательно)",
+      "icon": "Иконка",
+      "color": "Цвет",
+      "addContribution": "Внести вклад",
+      "contributionAmount": "Сумма вклада",
+      "completed": "Достигнута",
+      "daysLeft": "дней осталось",
+      "monthlyTarget": "Нужно откладывать в месяц",
+      "linkedAccount": "Счёт (необязательно)",
       "selectAccount": "Выберите счёт",
-      "selectFromAccount": "Выберите счёт откуда",
-      "selectToAccount": "Выберите счёт куда",
-      "category": "Категория",
-      "subcategory": "Подкатегория",
-      "selectCategory": "Выберите категорию",
-      "selectSubcategory": "Выберите подкатегорию",
-      "description": "Описание",
-      "descriptionPlaceholder": "например, Покупка продуктов",
-      "date": "Дата",
-      "error": "Не удалось создать транзакцию"
-    },
-    "summary": {
-      "balance": "Баланс",
-      "income": "Доходы",
-      "expenses": "Расходы",
-      "transfers": "Переводы"
-    },
-    "filters": {
-      "all": "Все",
-      "income": "Доходы",
-      "expenses": "Расходы",
-      "transfers": "Переводы"
-    },
-    "transactions": {
-      "title": "Транзакции",
-      "noData": "Транзакции не найдены",
-      "confirmDelete": "Удалить эту транзакцию?"
-    },
-    "transactionTypes": {
-      "income": "Доход",
-      "expense": "Расход",
-      "transfer": "Перевод"
+      "none": "Нет"
     },
     "categories": {
+      "title": "Категории",
+      "addCategory": "Добавить категорию",
+      "editCategory": "Редактировать категорию",
+      "deleteCategory": "Удалить категорию",
+      "confirmDelete": "Удалить эту категорию?",
+      "noCategories": "Нет пользовательских категорий",
+      "builtinCategories": "Встроенные категории",
+      "customCategories": "Пользовательские категории",
+      "name": "Название",
+      "type": "Тип",
+      "color": "Цвет",
+      "icon": "Иконка",
+      "selectType": "Выберите тип",
+      "selectColor": "Выберите цвет",
+      "selectIcon": "Выберите иконку",
+      "types": {
+        "income": "Доход",
+        "expense": "Расход"
+      },
       "income": {
         "salary": "Зарплата",
         "salary_main": "Основная зарплата",
@@ -177,6 +219,47 @@
         "subscriptions_gym": "Тренажёрный зал",
         "other": "Другой расход"
       }
+    },
+    "addTransaction": {
+      "title": "Добавить транзакцию",
+      "button": "Добавить транзакцию",
+      "amount": "Сумма",
+      "account": "Счёт",
+      "fromAccount": "Со счёта",
+      "toAccount": "На счёт",
+      "selectAccount": "Выберите счёт",
+      "selectFromAccount": "Выберите счёт откуда",
+      "selectToAccount": "Выберите счёт куда",
+      "category": "Категория",
+      "subcategory": "Подкатегория",
+      "selectCategory": "Выберите категорию",
+      "selectSubcategory": "Выберите подкатегорию",
+      "description": "Описание",
+      "descriptionPlaceholder": "например, Покупка продуктов",
+      "date": "Дата",
+      "error": "Не удалось создать транзакцию"
+    },
+    "summary": {
+      "balance": "Баланс",
+      "income": "Доходы",
+      "expenses": "Расходы",
+      "transfers": "Переводы"
+    },
+    "filters": {
+      "all": "Все",
+      "income": "Доходы",
+      "expenses": "Расходы",
+      "transfers": "Переводы"
+    },
+    "transactions": {
+      "title": "Транзакции",
+      "noData": "Транзакции не найдены",
+      "confirmDelete": "Удалить эту транзакцию?"
+    },
+    "transactionTypes": {
+      "income": "Доход",
+      "expense": "Расход",
+      "transfer": "Перевод"
     }
   },
   "nutrition": {
@@ -201,7 +284,19 @@
     "title": "Аналитика",
     "description": "Отчёты и графики по всем направлениям",
     "inDevelopment": "Аналитика в разработке",
-    "comingSoon": "Скоро: графики, отчёты и тенденции"
+    "comingSoon": "Скоро: графики, отчёты и тенденции",
+    "spendingByCategory": "Расходы по категориям",
+    "incomeVsExpenses": "Динамика доходов и расходов",
+    "monthlyOverview": "Месячная сводка за",
+    "totalSpent": "Всего потрачено",
+    "noData": "Нет данных",
+    "period": "Период",
+    "year": "Год",
+    "periods": {
+      "week": "Неделя",
+      "month": "Месяц",
+      "year": "Год"
+    }
   },
   "settings": {
     "title": "Настройки",

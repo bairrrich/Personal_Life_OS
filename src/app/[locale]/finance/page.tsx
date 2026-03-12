@@ -27,6 +27,9 @@ import {
   BarChart3,
   Pencil,
   Trash2,
+  RefreshCw,
+  PiggyBank,
+  Tag,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -148,28 +151,86 @@ export default function FinancePage() {
     <AppLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-3xl font-bold">{t("finance.title")}</h1>
             <p className="text-muted-foreground">{t("finance.description")}</p>
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" asChild>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              className="hidden sm:inline-flex"
+            >
               <Link href="/finance/accounts">
                 <CreditCard className="h-4 w-4 mr-2" />
-                {t("finance.accounts.title")}
+                <span className="hidden lg:inline">
+                  {t("finance.accounts.title")}
+                </span>
               </Link>
             </Button>
-            <Button variant="outline" asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              className="hidden sm:inline-flex"
+            >
               <Link href="/finance/budgets">
                 <Target className="h-4 w-4 mr-2" />
-                {t("finance.budgets.title")}
+                <span className="hidden lg:inline">
+                  {t("finance.budgets.title")}
+                </span>
               </Link>
             </Button>
-            <Button variant="outline" asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              className="hidden sm:inline-flex"
+            >
               <Link href="/finance/analytics">
                 <BarChart3 className="h-4 w-4 mr-2" />
-                Аналитика
+                <span className="hidden lg:inline">{t("analytics.title")}</span>
+              </Link>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              className="hidden sm:inline-flex"
+            >
+              <Link href="/finance/recurring">
+                <RefreshCw className="h-4 w-4 mr-2" />
+                <span className="hidden lg:inline">
+                  {t("finance.recurring.title")}
+                </span>
+              </Link>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              className="hidden sm:inline-flex"
+            >
+              <Link href="/finance/goals">
+                <PiggyBank className="h-4 w-4 mr-2" />
+                <span className="hidden lg:inline">
+                  {t("finance.goals.title")}
+                </span>
+              </Link>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              asChild
+              className="hidden sm:inline-flex"
+            >
+              <Link href="/finance/categories">
+                <Tag className="h-4 w-4 mr-2" />
+                <span className="hidden lg:inline">
+                  {t("finance.categories.title")}
+                </span>
               </Link>
             </Button>
             <Button
@@ -188,10 +249,46 @@ export default function FinancePage() {
               <Download className="h-4 w-4" />
             </Button>
             <Button onClick={() => setShowAddDialog(true)}>
-              <Plus className="h-4 w-4 mr-2" />
-              {t("finance.addTransaction.button")}
+              <Plus className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">
+                {t("finance.addTransaction.button")}
+              </span>
             </Button>
           </div>
+        </div>
+
+        {/* Mobile Navigation Pills */}
+        <div className="flex gap-2 overflow-x-auto pb-2 sm:hidden">
+          <Button variant="outline" size="sm" asChild className="flex-shrink-0">
+            <Link href="/finance/accounts">
+              <CreditCard className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild className="flex-shrink-0">
+            <Link href="/finance/budgets">
+              <Target className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild className="flex-shrink-0">
+            <Link href="/finance/analytics">
+              <BarChart3 className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild className="flex-shrink-0">
+            <Link href="/finance/recurring">
+              <RefreshCw className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild className="flex-shrink-0">
+            <Link href="/finance/goals">
+              <PiggyBank className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild className="flex-shrink-0">
+            <Link href="/finance/categories">
+              <Tag className="h-4 w-4" />
+            </Link>
+          </Button>
         </div>
 
         {/* Summary Cards */}
@@ -330,28 +427,107 @@ export default function FinancePage() {
               {t("finance.transactions.noData")}
             </div>
           ) : (
-            <div className="rounded-md border">
-              <table className="w-full">
-                <thead className="bg-muted/50">
-                  <tr>
-                    <th className="p-3 text-left font-medium">Описание</th>
-                    <th className="p-3 text-right font-medium">Сумма</th>
-                    <th className="p-3 text-left font-medium">Тип</th>
-                    <th className="p-3 text-left font-medium">Дата</th>
-                    <th className="p-3 text-left font-medium">Категория</th>
-                    <th className="p-3 text-right font-medium">Действия</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredTransactions.map((transaction) => (
-                    <tr
-                      key={transaction.id}
-                      className="border-t hover:bg-muted/30 transition-colors"
-                    >
-                      <td className="p-3">{transaction.description}</td>
-                      <td
+            <>
+              {/* Desktop Table */}
+              <div className="hidden md:block rounded-md border">
+                <table className="w-full">
+                  <thead className="bg-muted/50">
+                    <tr>
+                      <th className="p-3 text-left font-medium">Описание</th>
+                      <th className="p-3 text-right font-medium">Сумма</th>
+                      <th className="p-3 text-left font-medium">Тип</th>
+                      <th className="p-3 text-left font-medium">Дата</th>
+                      <th className="p-3 text-left font-medium">Категория</th>
+                      <th className="p-3 text-right font-medium">Действия</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredTransactions.map((transaction) => (
+                      <tr
+                        key={transaction.id}
+                        className="border-t hover:bg-muted/30 transition-colors"
+                      >
+                        <td className="p-3">{transaction.description}</td>
+                        <td
+                          className={cn(
+                            "p-3 text-right font-medium",
+                            transaction.type === "income"
+                              ? "text-green-600"
+                              : transaction.type === "expense"
+                                ? "text-red-600"
+                                : "text-blue-600",
+                          )}
+                        >
+                          {transaction.type === "income"
+                            ? "+"
+                            : transaction.type === "expense"
+                              ? "-"
+                              : ""}
+                          ${transaction.amount.toFixed(2)}
+                        </td>
+                        <td className="p-3">
+                          <span
+                            className={cn(
+                              "px-2 py-1 rounded text-xs font-medium",
+                              transaction.type === "income"
+                                ? "bg-green-100 text-green-800"
+                                : transaction.type === "expense"
+                                  ? "bg-red-100 text-red-800"
+                                  : "bg-blue-100 text-blue-800",
+                            )}
+                          >
+                            {t(`finance.transactionTypes.${transaction.type}`)}
+                          </span>
+                        </td>
+                        <td className="p-3 text-muted-foreground">
+                          {new Date(transaction.date).toLocaleDateString()}
+                        </td>
+                        <td className="p-3 text-muted-foreground">
+                          {transaction.category}
+                        </td>
+                        <td className="p-3">
+                          <div className="flex justify-end gap-1">
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleEdit(transaction)}
+                            >
+                              <Pencil className="h-4 w-4" />
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              onClick={() => handleDelete(transaction.id)}
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Mobile Cards */}
+              <div className="md:hidden space-y-3">
+                {filteredTransactions.map((transaction) => (
+                  <div
+                    key={transaction.id}
+                    className="p-4 rounded-lg border bg-muted/30 hover:bg-muted/50 transition-colors"
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex-1">
+                        <div className="font-medium">
+                          {transaction.description}
+                        </div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                          {new Date(transaction.date).toLocaleDateString()}
+                        </div>
+                      </div>
+                      <div
                         className={cn(
-                          "p-3 text-right font-medium",
+                          "text-lg font-bold",
                           transaction.type === "income"
                             ? "text-green-600"
                             : transaction.type === "expense"
@@ -365,8 +541,10 @@ export default function FinancePage() {
                             ? "-"
                             : ""}
                         ${transaction.amount.toFixed(2)}
-                      </td>
-                      <td className="p-3">
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-2">
                         <span
                           className={cn(
                             "px-2 py-1 rounded text-xs font-medium",
@@ -379,36 +557,31 @@ export default function FinancePage() {
                         >
                           {t(`finance.transactionTypes.${transaction.type}`)}
                         </span>
-                      </td>
-                      <td className="p-3 text-muted-foreground">
-                        {new Date(transaction.date).toLocaleDateString()}
-                      </td>
-                      <td className="p-3 text-muted-foreground">
-                        {transaction.category}
-                      </td>
-                      <td className="p-3">
-                        <div className="flex justify-end gap-1">
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleEdit(transaction)}
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleDelete(transaction.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                        <span className="px-2 py-1 rounded text-xs bg-muted text-muted-foreground">
+                          {transaction.category}
+                        </span>
+                      </div>
+                      <div className="flex gap-1">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleEdit(transaction)}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDelete(transaction.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
           )}
         </GlassCard>
       </div>
