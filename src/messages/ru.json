@@ -360,6 +360,8 @@
     "recipeNamePlaceholder": "например, Курица с овощами",
     "recipeDescription": "Описание",
     "recipeDescriptionPlaceholder": "Краткое описание рецепта",
+    "recipeImage": "Изображение рецепта",
+    "recipeImageHint": "Введите URL изображения (например, с Unsplash или другого хостинга)",
     "prepTime": "Время подготовки",
     "cookTime": "Время готовки",
     "servings": "Порции",

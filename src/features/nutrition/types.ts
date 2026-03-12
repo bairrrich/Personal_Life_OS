@@ -155,6 +155,7 @@ export interface Recipe {
   id: string;
   name: string;
   description?: string;
+  image?: string; // URL или base64 изображение
   ingredients: RecipeIngredient[];
   totalMacros: NutritionMacros;
   servings: number; // количество порций в рецепте
@@ -170,6 +171,7 @@ export interface Recipe {
 export interface CreateRecipeInput {
   name: string;
   description?: string;
+  image?: string;
   ingredients: Array<{
     foodId: string;
     servings: number;
@@ -185,6 +187,7 @@ export interface UpdateRecipeInput {
   id: string;
   name?: string;
   description?: string;
+  image?: string;
   ingredients?: Array<{
     foodId: string;
     servings: number;

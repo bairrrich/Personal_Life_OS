@@ -360,6 +360,8 @@
     "recipeNamePlaceholder": "e.g., Chicken Stir Fry",
     "recipeDescription": "Description",
     "recipeDescriptionPlaceholder": "Brief description of the recipe",
+    "recipeImage": "Recipe Image",
+    "recipeImageHint": "Enter image URL (e.g., from Unsplash or other image hosting)",
     "prepTime": "Prep Time",
     "cookTime": "Cook Time",
     "servings": "Servings",

@@ -14,7 +14,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Minus, Search, X, Trash2 } from "lucide-react";
+import {
+  Plus,
+  Minus,
+  Search,
+  X,
+  Trash2,
+  Image as ImageIcon,
+} from "lucide-react";
 import { getFoods } from "@/features/nutrition/actions";
 import {
   createRecipe,
@@ -68,6 +75,8 @@ export function AddRecipeDialog({
   const [selectedIngredients, setSelectedIngredients] = useState<
     IngredientItem[]
   >([]);
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
 
   // Load foods on mount
   useEffect(() => {
@@ -115,9 +124,15 @@ export function AddRecipeDialog({
       form.setValue("cookTime", editRecipe.cookTime || 0);
       form.setValue("instructions", editRecipe.instructions?.join("\n") || "");
       form.setValue("tags", editRecipe.tags?.join(", ") || "");
+      if (editRecipe.image) {
+        setImagePreview(editRecipe.image);
+        setImageUrl(editRecipe.image);
+      }
     } else {
       setSelectedIngredients([]);
       form.reset();
+      setImagePreview("");
+      setImageUrl("");
     }
   }, [editRecipe, open]);
 
@@ -222,6 +237,7 @@ export function AddRecipeDialog({
           id: editRecipe.id,
           name: data.name,
           description: data.description || undefined,
+          image: imageUrl || undefined,
           ingredients: selectedIngredients,
           servings: data.servings,
           prepTime: data.prepTime || undefined,
@@ -233,6 +249,7 @@ export function AddRecipeDialog({
       : await createRecipe({
           name: data.name,
           description: data.description || undefined,
+          image: imageUrl || undefined,
           ingredients: selectedIngredients,
           servings: data.servings,
           prepTime: data.prepTime || undefined,
@@ -295,6 +312,47 @@ export function AddRecipeDialog({
               className="min-h-[60px]"
               {...form.register("description")}
             />
+          </div>
+
+          {/* Recipe Image */}
+          <div className="space-y-2">
+            <Label htmlFor="image">{t("nutrition.recipeImage")}</Label>
+            <div className="flex gap-4 items-start">
+              {imagePreview && (
+                <div className="relative w-32 h-32 rounded-lg overflow-hidden border bg-muted">
+                  <img
+                    src={imagePreview}
+                    alt="Recipe preview"
+                    className="w-full h-full object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setImagePreview("");
+                      setImageUrl("");
+                    }}
+                    className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1 hover:bg-destructive/90"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </div>
+              )}
+              <div className="flex-1 space-y-2">
+                <Input
+                  id="image"
+                  type="url"
+                  placeholder="https://example.com/image.jpg"
+                  value={imageUrl}
+                  onChange={(e) => {
+                    setImageUrl(e.target.value);
+                    setImagePreview(e.target.value);
+                  }}
+                />
+                <p className="text-xs text-muted-foreground">
+                  {t("nutrition.recipeImageHint")}
+                </p>
+              </div>
+            </div>
           </div>
 
           {/* Prep Time and Cook Time */}

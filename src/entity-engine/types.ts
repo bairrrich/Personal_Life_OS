@@ -115,6 +115,7 @@ export interface RecipeEntity extends BaseEntity {
   type: "recipe";
   data: {
     description?: string;
+    image?: string;
     ingredients?: Array<{
       foodId: string;
       servings: number;

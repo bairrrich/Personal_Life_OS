@@ -184,7 +184,9 @@ export function AppLayout({ children }: AppLayoutProps) {
         </header>
 
         {/* Page Content */}
-        <main className="p-4 md:p-6 pb-24 md:pb-6">{children}</main>
+        <main className="p-4 md:p-6 pb-24 md:pb-6">
+          <div className="mx-auto max-w-[1200px]">{children}</div>
+        </main>
 
         {/* Mobile Bottom Navigation */}
         <nav className="fixed bottom-0 left-0 right-0 z-50 glass border-t md:hidden safe-area-pb">
