@@ -3,6 +3,7 @@ import { useTranslations } from "next-intl";
 import { DashboardSummary } from "@/widgets/dashboard-summary";
 import { BalanceWidget } from "@/widgets/balance-widget";
 import { RecentTransactionsWidget } from "@/widgets/recent-transactions-widget";
+import { NutritionSummaryWidget } from "@/widgets/nutrition-summary-widget";
 
 export default function DashboardPage() {
   const t = useTranslations();
@@ -22,6 +23,11 @@ export default function DashboardPage() {
         <div className="grid gap-6 lg:grid-cols-2">
           <BalanceWidget />
           <RecentTransactionsWidget />
+        </div>
+
+        {/* Nutrition Widget */}
+        <div className="grid gap-6 lg:grid-cols-3">
+          <NutritionSummaryWidget />
         </div>
       </div>
     </AppLayout>

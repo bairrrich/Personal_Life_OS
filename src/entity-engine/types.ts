@@ -73,6 +73,9 @@ export interface FoodEntity extends BaseEntity {
     protein: number;
     fat: number;
     carbs: number;
+    fiber?: number;
+    sugar?: number;
+    servingSize: number;
     barcode?: string;
     brand?: string;
   };
@@ -83,6 +86,61 @@ export interface MealEntity extends BaseEntity {
   data: {
     date: number;
     mealType: "breakfast" | "lunch" | "dinner" | "snack";
+    foods?: Array<{
+      foodId: string;
+      servings: number;
+      totalGrams: number;
+      macros: {
+        calories: number;
+        protein: number;
+        fat: number;
+        carbs: number;
+        fiber?: number;
+        sugar?: number;
+      };
+    }>;
+    totalMacros?: {
+      calories: number;
+      protein: number;
+      fat: number;
+      carbs: number;
+      fiber?: number;
+      sugar?: number;
+    };
+    note?: string;
+  };
+}
+
+export interface RecipeEntity extends BaseEntity {
+  type: "recipe";
+  data: {
+    description?: string;
+    ingredients?: Array<{
+      foodId: string;
+      servings: number;
+      totalGrams: number;
+      macros: {
+        calories: number;
+        protein: number;
+        fat: number;
+        carbs: number;
+        fiber?: number;
+        sugar?: number;
+      };
+    }>;
+    totalMacros?: {
+      calories: number;
+      protein: number;
+      fat: number;
+      carbs: number;
+      fiber?: number;
+      sugar?: number;
+    };
+    servings: number;
+    prepTime?: number;
+    cookTime?: number;
+    instructions?: string[];
+    tags?: string[];
   };
 }
 
@@ -162,6 +220,7 @@ export type DomainEntity =
   | AccountEntity
   | FoodEntity
   | MealEntity
+  | RecipeEntity
   | ExerciseEntity
   | WorkoutEntity
   | BudgetEntity
