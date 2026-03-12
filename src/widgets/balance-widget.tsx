@@ -17,15 +17,14 @@ export function BalanceWidget({ className }: BalanceWidgetProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const loadSummary = async () => {
+      setLoading(true);
+      const data = await getTransactionSummary();
+      setSummary(data);
+      setLoading(false);
+    };
     loadSummary();
   }, []);
-
-  const loadSummary = async () => {
-    setLoading(true);
-    const data = await getTransactionSummary();
-    setSummary(data);
-    setLoading(false);
-  };
 
   if (loading) return <div className="p-4 text-center">Loading...</div>;
 

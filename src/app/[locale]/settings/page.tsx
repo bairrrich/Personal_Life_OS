@@ -52,10 +52,13 @@ export default function SettingsPage() {
       const stored = localStorage.getItem(SETTINGS_STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored);
-        setSettings(parsed);
-        if (parsed.theme) {
-          setTheme(parsed.theme);
-        }
+        // Don't call setState directly, use a functional update
+        setSettings(() => {
+          if (parsed.theme) {
+            setTheme(parsed.theme);
+          }
+          return parsed;
+        });
       }
     } catch {
       // Ignore errors (incognito mode, quota exceeded, parse errors)

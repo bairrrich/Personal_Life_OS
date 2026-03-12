@@ -195,7 +195,7 @@ export function AppLayout({ children }: AppLayoutProps) {
               href="/settings"
               className={cn(
                 "flex flex-col items-center justify-center gap-1 rounded-xl p-2 text-xs font-medium transition-all",
-                pathname === "/settings"
+                pathname.includes("settings")
                   ? "text-primary"
                   : "text-muted-foreground hover:text-foreground",
               )}

@@ -136,6 +136,30 @@ export const schemas: Record<string, EntitySchema> = {
       parentId: z.string().optional(),
     }),
   },
+  budget: {
+    type: "budget",
+    fields: [
+      { name: "amount", type: "number", label: "Amount", required: true },
+      { name: "currency", type: "string", label: "Currency", required: true },
+      { name: "categoryId", type: "string", label: "Category", required: true },
+      { name: "period", type: "string", label: "Period", required: true },
+      {
+        name: "startDate",
+        type: "number",
+        label: "Start Date",
+        required: true,
+      },
+      { name: "endDate", type: "number", label: "End Date" },
+    ],
+    zodSchema: z.object({
+      amount: z.number().positive(),
+      currency: z.string(),
+      categoryId: z.string(),
+      period: z.enum(["daily", "weekly", "monthly", "yearly"]),
+      startDate: z.number(),
+      endDate: z.number().optional(),
+    }),
+  },
 };
 
 export function getSchema(type: string): EntitySchema | undefined {

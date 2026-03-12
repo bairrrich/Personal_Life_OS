@@ -4,9 +4,14 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  // Temporarily disabled due to Turbopack + i18n bug in Next.js 16
+  // output: "standalone",
+  // Use webpack for production builds until Turbopack bug is fixed
   experimental: {
-    optimizePackageImports: ["lucide-react"],
+    // Force dynamic rendering for i18n routes
+    serverActions: {
+      bodySizeLimit: "2mb",
+    },
   },
   images: {
     remotePatterns: [

@@ -4,15 +4,17 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { AppLayout } from "@/components/layout/app-layout";
 import { GlassCard } from "@/components/custom-ui/glass-components";
-import { EntityTable } from "@/entities/common";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Link } from "@/i18n/navigation";
 import {
   getTransactions,
   deleteTransaction,
   type Transaction,
 } from "@/actions/transactions";
 import { AddTransactionDialog } from "@/features/add-transaction";
+import { EditTransactionDialog } from "@/features/edit-transaction";
+import { ImportExportDialog } from "@/features/import-export";
 import {
   Plus,
   Filter,
@@ -20,6 +22,11 @@ import {
   TrendingUp,
   TrendingDown,
   Wallet,
+  CreditCard,
+  Target,
+  BarChart3,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -45,6 +52,9 @@ export default function FinancePage() {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<TransactionFilter>("all");
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [editingTransaction, setEditingTransaction] =
+    useState<Transaction | null>(null);
+  const [showImportExport, setShowImportExport] = useState(false);
 
   /**
    * Load transactions from database
@@ -72,7 +82,7 @@ export default function FinancePage() {
    * Delete a transaction by ID
    * @param id - Transaction ID to delete
    */
-  const _handleDelete = async (id: string) => {
+  const handleDelete = async (id: string) => {
     if (!confirm(t("finance.transactions.confirmDelete"))) return;
     try {
       await deleteTransaction(id);
@@ -80,6 +90,14 @@ export default function FinancePage() {
     } catch (error) {
       console.error("Failed to delete transaction:", error);
     }
+  };
+
+  /**
+   * Edit a transaction
+   * @param transaction - Transaction to edit
+   */
+  const handleEdit = (transaction: Transaction) => {
+    setEditingTransaction(transaction);
   };
 
   /**
@@ -136,6 +154,24 @@ export default function FinancePage() {
             <p className="text-muted-foreground">{t("finance.description")}</p>
           </div>
           <div className="flex gap-2">
+            <Button variant="outline" asChild>
+              <Link href="/finance/accounts">
+                <CreditCard className="h-4 w-4 mr-2" />
+                {t("finance.accounts.title")}
+              </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/finance/budgets">
+                <Target className="h-4 w-4 mr-2" />
+                {t("finance.budgets.title")}
+              </Link>
+            </Button>
+            <Button variant="outline" asChild>
+              <Link href="/finance/analytics">
+                <BarChart3 className="h-4 w-4 mr-2" />
+                Аналитика
+              </Link>
+            </Button>
             <Button
               variant="outline"
               size="icon"
@@ -147,6 +183,7 @@ export default function FinancePage() {
               variant="outline"
               size="icon"
               aria-label={t("finance.export")}
+              onClick={() => setShowImportExport(true)}
             >
               <Download className="h-4 w-4" />
             </Button>
@@ -293,23 +330,85 @@ export default function FinancePage() {
               {t("finance.transactions.noData")}
             </div>
           ) : (
-            <EntityTable
-              entities={filteredTransactions.map((t) => ({
-                id: t.id,
-                type: "transaction" as const,
-                name: t.description,
-                data: {
-                  amount: t.amount,
-                  type: t.type,
-                  date: new Date(t.date).getTime(),
-                  category: t.category,
-                },
-                createdAt: new Date(t.createdAt).getTime(),
-                updatedAt: new Date(t.updatedAt).getTime(),
-              }))}
-              columns={["name", "amount", "type", "date", "category"]}
-              onRowClick={(entity) => console.log("Clicked:", entity)}
-            />
+            <div className="rounded-md border">
+              <table className="w-full">
+                <thead className="bg-muted/50">
+                  <tr>
+                    <th className="p-3 text-left font-medium">Описание</th>
+                    <th className="p-3 text-right font-medium">Сумма</th>
+                    <th className="p-3 text-left font-medium">Тип</th>
+                    <th className="p-3 text-left font-medium">Дата</th>
+                    <th className="p-3 text-left font-medium">Категория</th>
+                    <th className="p-3 text-right font-medium">Действия</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredTransactions.map((transaction) => (
+                    <tr
+                      key={transaction.id}
+                      className="border-t hover:bg-muted/30 transition-colors"
+                    >
+                      <td className="p-3">{transaction.description}</td>
+                      <td
+                        className={cn(
+                          "p-3 text-right font-medium",
+                          transaction.type === "income"
+                            ? "text-green-600"
+                            : transaction.type === "expense"
+                              ? "text-red-600"
+                              : "text-blue-600",
+                        )}
+                      >
+                        {transaction.type === "income"
+                          ? "+"
+                          : transaction.type === "expense"
+                            ? "-"
+                            : ""}
+                        ${transaction.amount.toFixed(2)}
+                      </td>
+                      <td className="p-3">
+                        <span
+                          className={cn(
+                            "px-2 py-1 rounded text-xs font-medium",
+                            transaction.type === "income"
+                              ? "bg-green-100 text-green-800"
+                              : transaction.type === "expense"
+                                ? "bg-red-100 text-red-800"
+                                : "bg-blue-100 text-blue-800",
+                          )}
+                        >
+                          {t(`finance.transactionTypes.${transaction.type}`)}
+                        </span>
+                      </td>
+                      <td className="p-3 text-muted-foreground">
+                        {new Date(transaction.date).toLocaleDateString()}
+                      </td>
+                      <td className="p-3 text-muted-foreground">
+                        {transaction.category}
+                      </td>
+                      <td className="p-3">
+                        <div className="flex justify-end gap-1">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleEdit(transaction)}
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            onClick={() => handleDelete(transaction.id)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </GlassCard>
       </div>
@@ -318,6 +417,23 @@ export default function FinancePage() {
       <AddTransactionDialog
         open={showAddDialog}
         onOpenChange={setShowAddDialog}
+        onSuccess={handleSuccess}
+      />
+
+      {/* Edit Transaction Dialog */}
+      <EditTransactionDialog
+        open={!!editingTransaction}
+        onOpenChange={(open) => {
+          if (!open) setEditingTransaction(null);
+        }}
+        onSuccess={handleSuccess}
+        transaction={editingTransaction}
+      />
+
+      {/* Import/Export Dialog */}
+      <ImportExportDialog
+        open={showImportExport}
+        onOpenChange={setShowImportExport}
         onSuccess={handleSuccess}
       />
     </AppLayout>

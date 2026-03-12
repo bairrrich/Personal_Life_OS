@@ -104,13 +104,26 @@ export interface WorkoutEntity extends BaseEntity {
   };
 }
 
+export interface BudgetEntity extends BaseEntity {
+  type: "budget";
+  data: {
+    amount: number;
+    currency: string;
+    categoryId: string;
+    period: "daily" | "weekly" | "monthly" | "yearly";
+    startDate: number;
+    endDate?: number;
+  };
+}
+
 export type DomainEntity =
   | TransactionEntity
   | AccountEntity
   | FoodEntity
   | MealEntity
   | ExerciseEntity
-  | WorkoutEntity;
+  | WorkoutEntity
+  | BudgetEntity;
 export type EntityType = DomainEntity["type"];
 
 export interface CreateEntityInput<T extends BaseEntity = BaseEntity> {

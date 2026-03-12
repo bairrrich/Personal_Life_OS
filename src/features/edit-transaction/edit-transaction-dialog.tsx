@@ -21,7 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createTransaction, getAccounts } from "@/actions/transactions";
+import { updateTransaction, type Transaction } from "@/actions/transactions";
 import { cn } from "@/lib/utils";
 import {
   expenseCategories,
@@ -30,10 +30,11 @@ import {
   type Category,
 } from "@/features/finance/categories";
 
-interface AddTransactionDialogProps {
+interface EditTransactionDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
+  transaction: Transaction | null;
 }
 
 interface FormData {
@@ -43,81 +44,66 @@ interface FormData {
   subcategory?: string;
   description: string;
   date: string;
-  accountId: string; // From account (for transfer)
-  toAccount?: string; // To account (for transfer)
 }
 
-export function AddTransactionDialog({
+export function EditTransactionDialog({
   open,
   onOpenChange,
   onSuccess,
-}: AddTransactionDialogProps) {
+  transaction,
+}: EditTransactionDialogProps) {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [selectedSubcategories, setSelectedSubcategories] = useState<
     { id: string; nameKey: string }[]
   >([]);
-  const [accounts, setAccounts] = useState<{ id: string; name: string }[]>([]);
-
-  // Load accounts on mount
-  useEffect(() => {
-    const loadAccounts = async () => {
-      try {
-        const accs = await getAccounts();
-        setAccounts(accs.map((a) => ({ id: a.id, name: a.name })));
-      } catch (error) {
-        console.error("Failed to load accounts:", error);
-        setAccounts([]);
-      }
-    };
-    loadAccounts();
-  }, [open, t]);
 
   const form = useForm<FormData>({
     defaultValues: {
       amount: 0,
-      type: "expense", // Default to expense
+      type: "expense",
       category: "",
       subcategory: "",
       description: "",
       date: new Date().toISOString().split("T")[0],
-      accountId: "",
-      toAccount: "",
     },
   });
+
+  // Update form when transaction changes
+  useEffect(() => {
+    if (transaction) {
+      form.reset({
+        amount: transaction.amount,
+        type: transaction.type,
+        category: transaction.category,
+        subcategory: "",
+        description: transaction.description,
+        date: transaction.date.split("T")[0],
+      });
+
+      // Load subcategories for the selected category
+      const subs = getSubcategories(transaction.category);
+      setSelectedSubcategories(subs);
+    }
+  }, [transaction, open, form]);
 
   const transactionType = form.watch("type");
   const selectedCategory = form.watch("category");
 
-  // Update subcategories when category changes
-  useState(() => {
-    if (selectedCategory) {
-      const subs = getSubcategories(selectedCategory);
-      setSelectedSubcategories(subs);
-      if (
-        !subs.find(
-          (s: { id: string; nameKey: string }) =>
-            s.id === form.watch("subcategory"),
-        )
-      ) {
-        form.setValue("subcategory", "");
-      }
-    }
-  });
-
   const onSubmit = async (data: FormData) => {
+    if (!transaction) return;
+
     setLoading(true);
     setError(null);
 
-    const result = await createTransaction({
+    const result = await updateTransaction({
+      id: transaction.id,
       amount: data.amount,
-      type: data.type,
+      type: data.type as "income" | "expense",
       category: data.category,
       description: data.description,
       date: data.date,
-      accountId: data.accountId,
-      toAccountId: data.type === "transfer" ? data.toAccount : undefined,
     });
 
     setLoading(false);
@@ -127,7 +113,7 @@ export function AddTransactionDialog({
       onSuccess?.();
       onOpenChange(false);
     } else {
-      setError(result.error || t("finance.addTransaction.error"));
+      setError(result.error || t("common.error"));
     }
   };
 
@@ -139,15 +125,17 @@ export function AddTransactionDialog({
 
   const categories = getCategories();
 
+  if (!transaction) return null;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{t("finance.addTransaction.title")}</DialogTitle>
+          <DialogTitle>{t("common.edit")}</DialogTitle>
         </DialogHeader>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          {/* Type Selection - Tabs with color coding */}
+          {/* Type Selection - Read-only for edit */}
           <Tabs
             value={form.watch("type")}
             onValueChange={(value) =>
@@ -218,15 +206,12 @@ export function AddTransactionDialog({
 
           {/* Amount */}
           <div className="space-y-2">
-            <Label htmlFor="amount" className="text-sm font-medium">
-              {t("finance.addTransaction.amount")}
-            </Label>
+            <Label htmlFor="amount">{t("finance.addTransaction.amount")}</Label>
             <Input
               id="amount"
               type="text"
               inputMode="decimal"
               placeholder="0.00"
-              autoFocus
               className={cn(
                 "w-full text-center [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
                 "[&:focus-visible]:outline-none! [&:focus-visible]:ring-0! [&:focus-visible]:ring-offset-0!",
@@ -257,70 +242,11 @@ export function AddTransactionDialog({
             />
           </div>
 
-          {/* Account Fields - One Row */}
-          <div className="grid grid-cols-2 gap-4">
-            {/* From Account */}
-            <div className="space-y-2">
-              <Label htmlFor="accountId" className="text-sm font-medium">
-                {transactionType === "transfer"
-                  ? t("finance.addTransaction.fromAccount")
-                  : t("finance.addTransaction.account")}
-              </Label>
-              <Select
-                value={form.watch("accountId")}
-                onValueChange={(value) => form.setValue("accountId", value)}
-              >
-                <SelectTrigger className="h-10 w-full">
-                  <SelectValue
-                    placeholder={
-                      transactionType === "transfer"
-                        ? t("finance.addTransaction.selectFromAccount")
-                        : t("finance.addTransaction.selectAccount")
-                    }
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  {accounts.map((acc) => (
-                    <SelectItem key={acc.id} value={acc.id}>
-                      {acc.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            {/* To Account (for transfers only) */}
-            {transactionType === "transfer" && (
-              <div className="space-y-2">
-                <Label htmlFor="toAccount" className="text-sm font-medium">
-                  {t("finance.addTransaction.toAccount")}
-                </Label>
-                <Select
-                  value={form.watch("toAccount")}
-                  onValueChange={(value) => form.setValue("toAccount", value)}
-                >
-                  <SelectTrigger className="h-10 w-full">
-                    <SelectValue
-                      placeholder={t("finance.addTransaction.selectToAccount")}
-                    />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {accounts.map((acc) => (
-                      <SelectItem key={acc.id} value={acc.id}>
-                        {acc.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
-          </div>
-
           {/* Category & Subcategory Row */}
           {transactionType !== "transfer" && (
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="category" className="text-sm font-medium">
+                <Label htmlFor="category">
                   {t("finance.addTransaction.category")}
                 </Label>
                 <Select
@@ -350,7 +276,7 @@ export function AddTransactionDialog({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="subcategory" className="text-sm font-medium">
+                <Label htmlFor="subcategory">
                   {t("finance.addTransaction.subcategory")}
                 </Label>
                 <Select
@@ -381,7 +307,7 @@ export function AddTransactionDialog({
 
           {/* Description */}
           <div className="space-y-2">
-            <Label htmlFor="description" className="text-sm font-medium">
+            <Label htmlFor="description">
               {t("finance.addTransaction.description")}
             </Label>
             <Input
@@ -395,9 +321,7 @@ export function AddTransactionDialog({
 
           {/* Date */}
           <div className="space-y-2">
-            <Label htmlFor="date" className="text-sm font-medium">
-              {t("finance.addTransaction.date")}
-            </Label>
+            <Label htmlFor="date">{t("finance.addTransaction.date")}</Label>
             <Input
               id="date"
               type="date"

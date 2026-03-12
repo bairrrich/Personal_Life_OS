@@ -42,7 +42,43 @@
     "accounts": {
       "cash": "Наличные",
       "bank_card": "Банковская карта",
-      "savings": "Накопления"
+      "savings": "Накопления",
+      "title": "Счета",
+      "addAccount": "Добавить счёт",
+      "editAccount": "Редактировать счёт",
+      "deleteAccount": "Удалить счёт",
+      "confirmDelete": "Удалить этот счёт?",
+      "noAccounts": "Нет счетов",
+      "totalBalance": "Общий баланс",
+      "initialBalance": "Начальный баланс",
+      "currentBalance": "Текущий баланс",
+      "icon": "Иконка",
+      "color": "Цвет",
+      "selectIcon": "Выберите иконку",
+      "selectColor": "Выберите цвет"
+    },
+    "budgets": {
+      "title": "Бюджеты",
+      "addBudget": "Добавить бюджет",
+      "editBudget": "Редактировать бюджет",
+      "deleteBudget": "Удалить бюджет",
+      "confirmDelete": "Удалить этот бюджет?",
+      "noBudgets": "Нет бюджетов",
+      "amount": "Сумма",
+      "spent": "Потрачено",
+      "remaining": "Остаток",
+      "period": "Период",
+      "category": "Категория",
+      "selectCategory": "Выберите категорию",
+      "selectPeriod": "Выберите период",
+      "periods": {
+        "daily": "Ежедневно",
+        "weekly": "Еженедельно",
+        "monthly": "Ежемесячно",
+        "yearly": "Ежегодно"
+      },
+      "overBudget": "Превышен бюджет",
+      "percentUsed": "Использовано"
     },
     "addTransaction": {
       "title": "Добавить транзакцию",

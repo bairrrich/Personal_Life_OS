@@ -42,7 +42,43 @@
     "accounts": {
       "cash": "Cash",
       "bank_card": "Bank Card",
-      "savings": "Savings"
+      "savings": "Savings",
+      "title": "Accounts",
+      "addAccount": "Add Account",
+      "editAccount": "Edit Account",
+      "deleteAccount": "Delete Account",
+      "confirmDelete": "Delete this account?",
+      "noAccounts": "No accounts",
+      "totalBalance": "Total Balance",
+      "initialBalance": "Initial Balance",
+      "currentBalance": "Current Balance",
+      "icon": "Icon",
+      "color": "Color",
+      "selectIcon": "Select icon",
+      "selectColor": "Select color"
+    },
+    "budgets": {
+      "title": "Budgets",
+      "addBudget": "Add Budget",
+      "editBudget": "Edit Budget",
+      "deleteBudget": "Delete Budget",
+      "confirmDelete": "Delete this budget?",
+      "noBudgets": "No budgets",
+      "amount": "Amount",
+      "spent": "Spent",
+      "remaining": "Remaining",
+      "period": "Period",
+      "category": "Category",
+      "selectCategory": "Select category",
+      "selectPeriod": "Select period",
+      "periods": {
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly",
+        "yearly": "Yearly"
+      },
+      "overBudget": "Over budget",
+      "percentUsed": "Used"
     },
     "addTransaction": {
       "title": "Add Transaction",
