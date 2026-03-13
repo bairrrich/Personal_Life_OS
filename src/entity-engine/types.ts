@@ -416,6 +416,85 @@ export interface ReadingGoalEntity extends BaseEntity {
   };
 }
 
+export interface MilestoneData {
+  id: string;
+  title: string;
+  description?: string;
+  targetValue: number;
+  currentValue: number;
+  unit: string;
+  deadline?: number;
+  completedAt?: number;
+  status: "pending" | "completed" | "skipped";
+  order: number;
+  createdAt: number;
+  updatedAt: number;
+}
+
+export interface GoalEntity extends BaseEntity {
+  type: "goal";
+  data: {
+    description?: string;
+    category: string;
+    status: string;
+    priority: string;
+    timeframe: string;
+    targetType: string;
+    targetValue: number;
+    currentValue: number;
+    unit: string;
+    startDate: number;
+    deadline?: number;
+    completedAt?: number;
+    progress: number;
+    milestones?: MilestoneData[];
+    linkedEntityId?: string;
+    linkedModule?: string;
+    notes?: string;
+    tags?: string[];
+    isFavorite: boolean;
+    isCustom: boolean;
+  };
+}
+
+export interface HabitCompletionData {
+  date: string;
+  completed: boolean;
+  completedAt?: number;
+  note?: string;
+  value?: number;
+}
+
+export interface HabitEntity extends BaseEntity {
+  type: "habit";
+  data: {
+    description?: string;
+    category: string;
+    status: string;
+    frequency: string;
+    specificDays?: string[];
+    targetValue: number;
+    currentValue: number;
+    unit: string;
+    streak: {
+      current: number;
+      longest: number;
+      lastCompletedDate?: string;
+    };
+    completions?: HabitCompletionData[];
+    startDate: number;
+    endDate?: number;
+    reminder?: {
+      enabled: boolean;
+      time?: string;
+    };
+    notes?: string;
+    tags?: string[];
+    isFavorite: boolean;
+    isCustom: boolean;
+  };
+}
+
 export type DomainEntity =
   | TransactionEntity
   | AccountEntity
@@ -436,7 +515,9 @@ export type DomainEntity =
   | PurchaseEntity
   | BookEntity
   | BookNoteEntity
-  | ReadingGoalEntity;
+  | ReadingGoalEntity
+  | GoalEntity
+  | HabitEntity;
 export type EntityType = DomainEntity["type"];
 
 export interface CreateEntityInput<T extends BaseEntity = BaseEntity> {

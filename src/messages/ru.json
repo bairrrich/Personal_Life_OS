@@ -23,6 +23,8 @@
     "finance": "Финансы",
     "nutrition": "Питание",
     "workouts": "Тренировки",
+    "goals": "Цели",
+    "habits": "Привычки",
     "books": "Книги",
     "products": "Продукты",
     "analytics": "Аналитика",
@@ -52,6 +54,115 @@
     "eur": "Euro",
     "rub": "Russian Ruble",
     "gbp": "British Pound"
+  },
+  "goals": {
+    "title": "Цели",
+    "description": "Ставьте и отслеживайте долгосрочные цели",
+    "addGoal": "Добавить цель",
+    "editGoal": "Редактировать цель",
+    "deleteGoal": "Удалить цель",
+    "confirmDeleteGoal": "Удалить эту цель?",
+    "noGoals": "Цели не найдены",
+    "noGoalsFound": "Цели не найдены. Создайте свою первую цель!",
+    "category": "Категория",
+    "priority": "Приоритет",
+    "timeframe": "Срок",
+    "targetValue": "Целевое значение",
+    "currentValue": "Текущее значение",
+    "unit": "Единица",
+    "deadline": "Дедлайн",
+    "notes": "Заметки",
+    "notesPlaceholder": "Дополнительные заметки о этой цели...",
+    "tags": "Теги",
+    "tagsHint": "Разделяйте теги запятыми",
+    "milestones": "Вехи",
+    "addMilestones": "Добавить вехи",
+    "hideMilestones": "Скрыть вехи",
+    "titlePlaceholder": "например, Накопить $10,000",
+    "descriptionPlaceholder": "Опишите вашу цель...",
+    "categories": {
+      "finance": "Финансы",
+      "fitness": "Фитнес",
+      "learning": "Обучение",
+      "career": "Карьера",
+      "health": "Здоровье",
+      "relationships": "Отношения",
+      "personal": "Личное",
+      "travel": "Путешествия",
+      "creative": "Творчество",
+      "other": "Другое"
+    },
+    "status": {
+      "active": "Активна",
+      "completed": "Завершена",
+      "paused": "На паузе",
+      "abandoned": "Заброшена"
+    },
+    "priority": {
+      "low": "Низкий",
+      "medium": "Средний",
+      "high": "Высокий",
+      "urgent": "Срочно"
+    },
+    "timeframe": {
+      "short_term": "Краткосрок (< 3 мес)",
+      "medium_term": "Среднесрок (3-12 мес)",
+      "long_term": "Долгосрок (> 1 года)"
+    }
+  },
+  "habits": {
+    "title": "Привычки",
+    "description": "Создавайте и отслеживайте ежедневные привычки",
+    "addHabit": "Добавить привычку",
+    "editHabit": "Редактировать привычку",
+    "deleteHabit": "Удалить привычку",
+    "confirmDeleteHabit": "Удалить эту привычку?",
+    "noHabits": "Привычки не найдены",
+    "noHabitsFound": "Привычки не найдены. Создайте свою первую привычку!",
+    "category": "Категория",
+    "frequency": "Частота",
+    "targetValue": "Целевое значение",
+    "unit": "Единица",
+    "reminder": "Включить напоминание",
+    "notes": "Заметки",
+    "notesPlaceholder": "Дополнительные заметки об этой привычке...",
+    "tags": "Теги",
+    "tagsHint": "Разделяйте теги запятыми",
+    "titlePlaceholder": "например, Выпивать 8 стаканов воды",
+    "descriptionPlaceholder": "Опишите вашу привычку...",
+    "categories": {
+      "health": "Здоровье",
+      "fitness": "Фитнес",
+      "nutrition": "Питание",
+      "mindfulness": "Осознанность",
+      "learning": "Обучение",
+      "productivity": "Продуктивность",
+      "finance": "Финансы",
+      "relationships": "Отношения",
+      "creative": "Творчество",
+      "other": "Другое"
+    },
+    "frequency": {
+      "daily": "Ежедневно",
+      "weekly": "Еженедельно",
+      "monthly": "Ежемесячно",
+      "specific_days": "Определённые дни"
+    },
+    "status": {
+      "active": "Активна",
+      "paused": "На паузе",
+      "completed": "Завершена",
+      "abandoned": "Заброшена"
+    },
+    "days": {
+      "monday": "Понедельник",
+      "tuesday": "Вторник",
+      "wednesday": "Среда",
+      "thursday": "Четверг",
+      "friday": "Пятница",
+      "saturday": "Суббота",
+      "sunday": "Воскресенье"
+    }
   },
   "books": {
     "title": "Книги",
@@ -666,23 +777,63 @@
     "totalSpent": "Всего потрачено",
     "noData": "Нет данных",
     "period": "Период",
-    "year": "Год",
     "periods": {
-      "week": "Неделя",
-      "month": "Месяц",
-      "year": "Год"
+      "week": "Последняя неделя",
+      "month": "Последний месяц",
+      "year": "Последний год",
+      "all": "Всё время"
     },
     "finance": {
       "title": "Финансовая аналитика",
-      "description": "Отслеживайте доходы, расходы и бюджеты"
+      "description": "Отслеживайте доходы, расходы и бюджеты",
+      "totalIncome": "Общий доход",
+      "totalExpenses": "Общие расходы",
+      "netBalance": "Баланс",
+      "savingsRate": "Норма сбережений",
+      "expensesByCategory": "Расходы по категориям",
+      "incomeByCategory": "Доходы по категориям",
+      "topExpenses": "Крупные расходы",
+      "budgetProgress": "Прогресс бюджета"
     },
     "nutrition": {
       "title": "Аналитика питания",
-      "description": "Анализируйте калории и макронутриенты"
+      "description": "Анализируйте калории и макронутриенты",
+      "avgCalories": "Ср. калории",
+      "avgProtein": "Ср. белки",
+      "avgFat": "Ср. жиры",
+      "avgCarbs": "Ср. углеводы",
+      "waterIntake": "Потребление воды",
+      "macroDistribution": "Распределение макросов",
+      "calorieTrend": "Динамика калорий",
+      "dailyCompliance": "Дневное соответствие",
+      "mealFrequency": "Частота приёмов пищи"
     },
     "workouts": {
       "title": "Аналитика тренировок",
-      "description": "Отслеживайте свой фитнес-прогресс"
+      "description": "Отслеживайте свой фитнес-прогресс",
+      "totalWorkouts": "Всего тренировок",
+      "totalDuration": "Общая длительность",
+      "avgDuration": "Ср. длительность",
+      "totalVolume": "Общий объём",
+      "currentStreak": "Текущая серия",
+      "longestStreak": "Самая длинная серия",
+      "weeklyFrequency": "Недельная частота",
+      "volumeTrend": "Динамика объёма",
+      "workoutsByType": "Тренировки по типу",
+      "topExercises": "Топ упражнений"
+    },
+    "books": {
+      "title": "Аналитика книг",
+      "description": "Отслеживайте свой прогресс чтения",
+      "totalBooks": "Всего книг",
+      "booksRead": "Прочитано книг",
+      "avgRating": "Средний рейтинг",
+      "pagesRead": "Прочитано страниц",
+      "readingGoal": "Цель чтения",
+      "booksByGenre": "Книги по жанрам",
+      "booksByFormat": "Книги по формату",
+      "booksByStatus": "Книги по статусу",
+      "topAuthors": "Топ авторов"
     }
   },
   "settings": {

@@ -1,141 +1,103 @@
 "use client";
 
+import { useState } from "react";
 import { AppLayout } from "@/components/layout/app-layout";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
-import {
-  TrendingUp,
-  PieChart,
-  Dumbbell,
-  Utensils,
-  Wallet,
-  BarChart3,
-} from "lucide-react";
-
-const analyticsSections = [
-  {
-    id: "finance",
-    title: "Finance Analytics",
-    description: "Track income, expenses, and budgets",
-    icon: Wallet,
-    color: "text-green-500",
-    bgColor: "bg-green-500/10",
-    href: "/analytics/finance",
-    features: [
-      "Spending by Category",
-      "Income vs Expenses",
-      "Monthly Overview",
-    ],
-  },
-  {
-    id: "nutrition",
-    title: "Nutrition Analytics",
-    description: "Analyze calories and macronutrients",
-    icon: Utensils,
-    color: "text-orange-500",
-    bgColor: "bg-orange-500/10",
-    href: "/analytics/nutrition",
-    features: ["Calories Trend", "Macros Distribution", "Weekly/Monthly Stats"],
-  },
-  {
-    id: "workouts",
-    title: "Workout Analytics",
-    description: "Track your fitness progress",
-    icon: Dumbbell,
-    color: "text-blue-500",
-    bgColor: "bg-blue-500/10",
-    href: "/analytics/workouts",
-    features: ["Workout Frequency", "Volume Tracking", "Completion Rate"],
-  },
-];
+import { Wallet, Utensils, Dumbbell, BookOpen } from "lucide-react";
+import { FinanceAnalyticsView } from "@/components/features/analytics/finance-analytics";
+import { NutritionAnalyticsView } from "@/components/features/analytics/nutrition-analytics";
+import { WorkoutsAnalyticsView } from "@/components/features/analytics/workouts-analytics";
+import { BooksAnalyticsView } from "@/components/features/analytics/books-analytics";
+import type {
+  AnalyticsFilters,
+  AnalyticsPeriod,
+} from "@/features/analytics/types";
 
 export default function AnalyticsPage() {
   const t = useTranslations();
+  const [activeTab, setActiveTab] = useState("finance");
+  const [period, setPeriod] = useState<AnalyticsPeriod>("month");
+
+  const filters: AnalyticsFilters = { period };
 
   return (
     <AppLayout>
       <div className="space-y-6">
         {/* Header */}
-        <div>
-          <h1 className="text-3xl font-bold">{t("analytics.title")}</h1>
-          <p className="text-muted-foreground">{t("analytics.description")}</p>
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <h1 className="text-3xl font-bold">{t("analytics.title")}</h1>
+            <p className="text-muted-foreground">
+              {t("analytics.description")}
+            </p>
+          </div>
+
+          {/* Period Selector */}
+          <Select
+            value={period}
+            onValueChange={(value) => setPeriod(value as AnalyticsPeriod)}
+          >
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Select period" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="week">Last Week</SelectItem>
+              <SelectItem value="month">Last Month</SelectItem>
+              <SelectItem value="year">Last Year</SelectItem>
+              <SelectItem value="all">All Time</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
-        {/* Overview Cards */}
-        <div className="grid gap-4 md:grid-cols-3">
-          {analyticsSections.map((section) => {
-            const Icon = section.icon;
-            return (
-              <Card
-                key={section.id}
-                className="relative overflow-hidden transition-all hover:shadow-lg cursor-pointer"
-              >
-                <CardHeader className="pb-3">
-                  <div
-                    className={`w-12 h-12 rounded-lg ${section.bgColor} flex items-center justify-center mb-3`}
-                  >
-                    <Icon className={`h-6 w-6 ${section.color}`} />
-                  </div>
-                  <CardTitle className="text-xl">{section.title}</CardTitle>
-                  <CardDescription>{section.description}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ul className="space-y-2 text-sm text-muted-foreground">
-                    {section.features.map((feature, index) => (
-                      <li key={index} className="flex items-center gap-2">
-                        <div
-                          className={`w-1.5 h-1.5 rounded-full ${section.color.replace("text-", "bg-")}`}
-                        />
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  <Button asChild className="w-full mt-4">
-                    <Link href={section.href}>
-                      <BarChart3 className="h-4 w-4 mr-2" />
-                      View Analytics
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+        {/* Tabs */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="finance" className="flex items-center gap-2">
+              <Wallet className="w-4 h-4" />
+              Finance
+            </TabsTrigger>
+            <TabsTrigger value="nutrition" className="flex items-center gap-2">
+              <Utensils className="w-4 h-4" />
+              Nutrition
+            </TabsTrigger>
+            <TabsTrigger value="workouts" className="flex items-center gap-2">
+              <Dumbbell className="w-4 h-4" />
+              Workouts
+            </TabsTrigger>
+            <TabsTrigger value="books" className="flex items-center gap-2">
+              <BookOpen className="w-4 h-4" />
+              Books
+            </TabsTrigger>
+          </TabsList>
 
-        {/* Quick Stats Placeholder */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <PieChart className="h-5 w-5" />
-              Overview
-            </CardTitle>
-            <CardDescription>Quick summary across all areas</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 md:grid-cols-3">
-              <div className="space-y-1">
-                <div className="text-sm text-muted-foreground">Finance</div>
-                <div className="text-2xl font-bold">Track your spending</div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-sm text-muted-foreground">Nutrition</div>
-                <div className="text-2xl font-bold">Monitor your diet</div>
-              </div>
-              <div className="space-y-1">
-                <div className="text-sm text-muted-foreground">Workouts</div>
-                <div className="text-2xl font-bold">Build strength</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+          {/* Finance Tab */}
+          <TabsContent value="finance">
+            <FinanceAnalyticsView filters={filters} />
+          </TabsContent>
+
+          {/* Nutrition Tab */}
+          <TabsContent value="nutrition">
+            <NutritionAnalyticsView filters={filters} />
+          </TabsContent>
+
+          {/* Workouts Tab */}
+          <TabsContent value="workouts">
+            <WorkoutsAnalyticsView filters={filters} />
+          </TabsContent>
+
+          {/* Books Tab */}
+          <TabsContent value="books">
+            <BooksAnalyticsView filters={filters} />
+          </TabsContent>
+        </Tabs>
       </div>
     </AppLayout>
   );

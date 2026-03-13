@@ -23,6 +23,8 @@
     "finance": "Finance",
     "nutrition": "Nutrition",
     "workouts": "Workouts",
+    "goals": "Goals",
+    "habits": "Habits",
     "books": "Books",
     "products": "Products",
     "analytics": "Analytics",
@@ -262,6 +264,115 @@
       "income": "Income",
       "expense": "Expense",
       "transfer": "Transfer"
+    }
+  },
+  "goals": {
+    "title": "Goals",
+    "description": "Set and track your long-term goals",
+    "addGoal": "Add Goal",
+    "editGoal": "Edit Goal",
+    "deleteGoal": "Delete Goal",
+    "confirmDeleteGoal": "Delete this goal?",
+    "noGoals": "No goals found",
+    "noGoalsFound": "No goals found. Create your first goal!",
+    "category": "Category",
+    "priority": "Priority",
+    "timeframe": "Timeframe",
+    "targetValue": "Target Value",
+    "currentValue": "Current Value",
+    "unit": "Unit",
+    "deadline": "Deadline",
+    "notes": "Notes",
+    "notesPlaceholder": "Additional notes about this goal...",
+    "tags": "Tags",
+    "tagsHint": "Separate tags with commas",
+    "milestones": "Milestones",
+    "addMilestones": "Add Milestones",
+    "hideMilestones": "Hide Milestones",
+    "titlePlaceholder": "e.g., Save $10,000",
+    "descriptionPlaceholder": "Describe your goal...",
+    "categories": {
+      "finance": "Finance",
+      "fitness": "Fitness",
+      "learning": "Learning",
+      "career": "Career",
+      "health": "Health",
+      "relationships": "Relationships",
+      "personal": "Personal",
+      "travel": "Travel",
+      "creative": "Creative",
+      "other": "Other"
+    },
+    "status": {
+      "active": "Active",
+      "completed": "Completed",
+      "paused": "Paused",
+      "abandoned": "Abandoned"
+    },
+    "priority": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "urgent": "Urgent"
+    },
+    "timeframe": {
+      "short_term": "Short Term (< 3 months)",
+      "medium_term": "Medium Term (3-12 months)",
+      "long_term": "Long Term (> 1 year)"
+    }
+  },
+  "habits": {
+    "title": "Habits",
+    "description": "Build and track daily habits",
+    "addHabit": "Add Habit",
+    "editHabit": "Edit Habit",
+    "deleteHabit": "Delete Habit",
+    "confirmDeleteHabit": "Delete this habit?",
+    "noHabits": "No habits found",
+    "noHabitsFound": "No habits found. Create your first habit!",
+    "category": "Category",
+    "frequency": "Frequency",
+    "targetValue": "Target Value",
+    "unit": "Unit",
+    "reminder": "Enable Reminder",
+    "notes": "Notes",
+    "notesPlaceholder": "Additional notes about this habit...",
+    "tags": "Tags",
+    "tagsHint": "Separate tags with commas",
+    "titlePlaceholder": "e.g., Drink 8 glasses of water",
+    "descriptionPlaceholder": "Describe your habit...",
+    "categories": {
+      "health": "Health",
+      "fitness": "Fitness",
+      "nutrition": "Nutrition",
+      "mindfulness": "Mindfulness",
+      "learning": "Learning",
+      "productivity": "Productivity",
+      "finance": "Finance",
+      "relationships": "Relationships",
+      "creative": "Creative",
+      "other": "Other"
+    },
+    "frequency": {
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "specific_days": "Specific Days"
+    },
+    "status": {
+      "active": "Active",
+      "paused": "Paused",
+      "completed": "Completed",
+      "abandoned": "Abandoned"
+    },
+    "days": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
     }
   },
   "books": {
@@ -666,23 +777,63 @@
     "totalSpent": "Total Spent",
     "noData": "No data",
     "period": "Period",
-    "year": "Year",
     "periods": {
-      "week": "Week",
-      "month": "Month",
-      "year": "Year"
+      "week": "Last Week",
+      "month": "Last Month",
+      "year": "Last Year",
+      "all": "All Time"
     },
     "finance": {
       "title": "Finance Analytics",
-      "description": "Track income, expenses, and budgets"
+      "description": "Track income, expenses, and budgets",
+      "totalIncome": "Total Income",
+      "totalExpenses": "Total Expenses",
+      "netBalance": "Net Balance",
+      "savingsRate": "Savings Rate",
+      "expensesByCategory": "Expenses by Category",
+      "incomeByCategory": "Income by Category",
+      "topExpenses": "Top Expenses",
+      "budgetProgress": "Budget Progress"
     },
     "nutrition": {
       "title": "Nutrition Analytics",
-      "description": "Analyze calories and macronutrients"
+      "description": "Analyze calories and macronutrients",
+      "avgCalories": "Avg Calories",
+      "avgProtein": "Avg Protein",
+      "avgFat": "Avg Fat",
+      "avgCarbs": "Avg Carbs",
+      "waterIntake": "Water Intake",
+      "macroDistribution": "Macro Distribution",
+      "calorieTrend": "Calorie Trend",
+      "dailyCompliance": "Daily Compliance",
+      "mealFrequency": "Meal Frequency"
     },
     "workouts": {
       "title": "Workout Analytics",
-      "description": "Track your fitness progress"
+      "description": "Track your fitness progress",
+      "totalWorkouts": "Total Workouts",
+      "totalDuration": "Total Duration",
+      "avgDuration": "Avg Duration",
+      "totalVolume": "Total Volume",
+      "currentStreak": "Current Streak",
+      "longestStreak": "Longest Streak",
+      "weeklyFrequency": "Weekly Frequency",
+      "volumeTrend": "Volume Trend",
+      "workoutsByType": "Workouts by Type",
+      "topExercises": "Top Exercises"
+    },
+    "books": {
+      "title": "Books Analytics",
+      "description": "Track your reading progress",
+      "totalBooks": "Total Books",
+      "booksRead": "Books Read",
+      "avgRating": "Average Rating",
+      "pagesRead": "Pages Read",
+      "readingGoal": "Reading Goal",
+      "booksByGenre": "Books by Genre",
+      "booksByFormat": "Books by Format",
+      "booksByStatus": "Books by Status",
+      "topAuthors": "Top Authors"
     }
   },
   "settings": {

@@ -10,6 +10,8 @@ import {
   Utensils,
   Dumbbell,
   BookOpen,
+  Target,
+  Flame,
   Package,
   BarChart3,
   Settings,
@@ -58,6 +60,18 @@ export function AppLayout({ children }: AppLayoutProps) {
         name: t("workouts"),
         href: "/workouts",
         icon: Dumbbell,
+      },
+      {
+        id: "goals",
+        name: t("goals"),
+        href: "/goals",
+        icon: Target,
+      },
+      {
+        id: "habits",
+        name: t("habits"),
+        href: "/habits",
+        icon: Flame,
       },
       {
         id: "books",
