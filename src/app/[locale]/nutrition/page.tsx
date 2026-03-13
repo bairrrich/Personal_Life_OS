@@ -22,14 +22,17 @@ import {
   ChevronDown,
   X,
   BookOpen,
+  Calendar,
 } from "lucide-react";
 import {
   MealCard,
   FoodCard,
   RecipeCard,
+  WeeklyMealPlan,
   AddMealDialog,
   AddFoodDialog,
   AddRecipeDialog,
+  AddMealPlanDialog,
   DailyLogSummary,
   WaterTracker,
 } from "@/components/features/nutrition";
@@ -41,11 +44,16 @@ import {
   deleteFood,
 } from "@/features/nutrition/actions";
 import { getRecipes, deleteRecipe } from "@/features/nutrition/recipe-actions";
+import {
+  getMealPlans,
+  deleteMealPlan,
+} from "@/features/nutrition/meal-plan-actions";
 import type {
   Meal,
   FoodItem,
   NutritionSummary,
   Recipe,
+  MealPlan,
 } from "@/features/nutrition/types";
 import {
   foodCategories,
@@ -58,12 +66,13 @@ export default function NutritionPage() {
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0],
   );
-  const [activeTab, setActiveTab] = useState<"diary" | "foods" | "recipes">(
-    "diary",
-  );
+  const [activeTab, setActiveTab] = useState<
+    "diary" | "foods" | "recipes" | "mealplan"
+  >("diary");
   const [meals, setMeals] = useState<Meal[]>([]);
   const [foods, setFoods] = useState<FoodItem[]>([]);
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [mealPlans, setMealPlans] = useState<MealPlan[]>([]);
   const [defaultFoods, setDefaultFoods] = useState<
     Array<{
       id: string;
@@ -84,9 +93,11 @@ export default function NutritionPage() {
   const [addMealOpen, setAddMealOpen] = useState(false);
   const [addFoodOpen, setAddFoodOpen] = useState(false);
   const [addRecipeOpen, setAddRecipeOpen] = useState(false);
+  const [addMealPlanOpen, setAddMealPlanOpen] = useState(false);
   const [editingMeal, setEditingMeal] = useState<Meal | null>(null);
   const [editingFood, setEditingFood] = useState<FoodItem | null>(null);
   const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
+  const [editingMealPlan, setEditingMealPlan] = useState<MealPlan | null>(null);
 
   // Load data
   useEffect(() => {
@@ -94,17 +105,19 @@ export default function NutritionPage() {
   }, [selectedDate]);
 
   const loadData = async () => {
-    const [dailyLog, allFoods, nutritionSummary, allRecipes] =
+    const [dailyLog, allFoods, nutritionSummary, allRecipes, allMealPlans] =
       await Promise.all([
         getDailyLog(selectedDate),
         getFoods(),
         getNutritionSummary(selectedDate),
         getRecipes(),
+        getMealPlans(),
       ]);
 
     setMeals(dailyLog.meals);
     setFoods(allFoods);
     setRecipes(allRecipes);
+    setMealPlans(allMealPlans);
     setSummary(nutritionSummary);
 
     // Load default foods
@@ -155,6 +168,13 @@ export default function NutritionPage() {
     }
   };
 
+  const handleDeleteMealPlan = async (mealPlanId: string) => {
+    if (confirm(t("nutrition.confirmDeleteMealPlan"))) {
+      await deleteMealPlan(mealPlanId);
+      loadData();
+    }
+  };
+
   const handleEditMeal = (meal: Meal) => {
     setEditingMeal(meal);
     setAddMealOpen(true);
@@ -168,6 +188,11 @@ export default function NutritionPage() {
   const handleEditRecipe = (recipe: Recipe) => {
     setEditingRecipe(recipe);
     setAddRecipeOpen(true);
+  };
+
+  const handleEditMealPlan = (mealPlan: MealPlan) => {
+    setEditingMealPlan(mealPlan);
+    setAddMealPlanOpen(true);
   };
 
   const filteredFoods = foods.filter((food) =>
@@ -220,16 +245,16 @@ export default function NutritionPage() {
         <Tabs
           value={activeTab}
           onValueChange={(v) =>
-            setActiveTab(v as "diary" | "foods" | "recipes")
+            setActiveTab(v as "diary" | "foods" | "recipes" | "mealplan")
           }
         >
-          <TabsList className="grid w-full grid-cols-3 gap-2 bg-transparent p-0 h-auto">
+          <TabsList className="grid w-full grid-cols-4 gap-2 bg-transparent p-0 h-auto">
             <TabsTrigger
               value="diary"
               className="flex items-center justify-center gap-2 py-3 px-2 rounded-lg font-medium transition-all data-[state=inactive]:bg-muted/50 data-[state=inactive]:text-muted-foreground hover:data-[state=inactive]:bg-muted"
             >
               <Utensils className="h-4 w-4" />
-              <span className="hidden sm:inline">
+              <span className="hidden lg:inline">
                 {t("nutrition.foodDiary")}
               </span>
             </TabsTrigger>
@@ -238,7 +263,7 @@ export default function NutritionPage() {
               className="flex items-center justify-center gap-2 py-3 px-2 rounded-lg font-medium transition-all data-[state=inactive]:bg-muted/50 data-[state=inactive]:text-muted-foreground hover:data-[state=inactive]:bg-muted"
             >
               <Apple className="h-4 w-4" />
-              <span className="hidden sm:inline">
+              <span className="hidden lg:inline">
                 {t("nutrition.foodsDatabase")}
               </span>
             </TabsTrigger>
@@ -247,7 +272,16 @@ export default function NutritionPage() {
               className="flex items-center justify-center gap-2 py-3 px-2 rounded-lg font-medium transition-all data-[state=inactive]:bg-muted/50 data-[state=inactive]:text-muted-foreground hover:data-[state=inactive]:bg-muted"
             >
               <BookOpen className="h-4 w-4" />
-              <span className="hidden sm:inline">{t("nutrition.recipes")}</span>
+              <span className="hidden lg:inline">{t("nutrition.recipes")}</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="mealplan"
+              className="flex items-center justify-center gap-2 py-3 px-2 rounded-lg font-medium transition-all data-[state=inactive]:bg-muted/50 data-[state=inactive]:text-muted-foreground hover:data-[state=inactive]:bg-muted"
+            >
+              <Calendar className="h-4 w-4" />
+              <span className="hidden lg:inline">
+                {t("nutrition.mealPlans")}
+              </span>
             </TabsTrigger>
           </TabsList>
 
@@ -511,6 +545,60 @@ export default function NutritionPage() {
               </div>
             )}
           </TabsContent>
+
+          {/* Meal Plan Tab */}
+          <TabsContent value="mealplan" className="space-y-4 w-full pt-4">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+              <h2 className="text-xl font-semibold">
+                {t("nutrition.mealPlans")}
+              </h2>
+              <Button
+                onClick={() => {
+                  setEditingMealPlan(null);
+                  setAddMealPlanOpen(true);
+                }}
+                className="w-full sm:w-auto"
+              >
+                <Plus className="h-4 w-4 sm:mr-2" />
+                <span className="sm:inline">{t("nutrition.addMealPlan")}</span>
+              </Button>
+            </div>
+
+            {/* Meal Plans List */}
+            {mealPlans.length === 0 ? (
+              <GlassCard className="p-8 text-center">
+                <p className="text-lg font-medium">
+                  {t("nutrition.noMealPlans")}
+                </p>
+                <p className="text-muted-foreground mt-2">
+                  {t("nutrition.startPlanning")}
+                </p>
+                <Button
+                  className="mt-4"
+                  onClick={() => setAddMealPlanOpen(true)}
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  {t("nutrition.addMealPlan")}
+                </Button>
+              </GlassCard>
+            ) : (
+              <div className="grid gap-6">
+                {mealPlans.map((plan) => (
+                  <WeeklyMealPlan
+                    key={plan.id}
+                    mealPlan={plan}
+                    recipes={recipes.map((r) => ({
+                      id: r.id,
+                      name: r.name,
+                      image: r.image,
+                    }))}
+                    onEdit={() => handleEditMealPlan(plan)}
+                    onDelete={() => handleDeleteMealPlan(plan.id)}
+                  />
+                ))}
+              </div>
+            )}
+          </TabsContent>
         </Tabs>
       </div>
 
@@ -533,6 +621,12 @@ export default function NutritionPage() {
         onOpenChange={setAddRecipeOpen}
         onSuccess={loadData}
         editRecipe={editingRecipe}
+      />
+      <AddMealPlanDialog
+        open={addMealPlanOpen}
+        onOpenChange={setAddMealPlanOpen}
+        onSuccess={loadData}
+        editMealPlan={editingMealPlan}
       />
     </AppLayout>
   );

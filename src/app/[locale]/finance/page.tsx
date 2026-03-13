@@ -12,9 +12,9 @@ import {
   deleteTransaction,
   type Transaction,
 } from "@/actions/transactions";
-import { AddTransactionDialog } from "@/features/add-transaction";
-import { EditTransactionDialog } from "@/features/edit-transaction";
-import { ImportExportDialog } from "@/features/import-export";
+import { AddTransactionDialog } from "@/components/features/finance/add-transaction-dialog";
+import { EditTransactionDialog } from "@/components/features/finance/edit-transaction-dialog";
+import { ImportExportDialog } from "@/components/features/finance/import-export-dialog";
 import {
   Plus,
   Filter,
@@ -189,7 +189,7 @@ export default function FinancePage() {
               asChild
               className="hidden sm:inline-flex"
             >
-              <Link href="/finance/analytics">
+              <Link href="/analytics/finance">
                 <BarChart3 className="h-4 w-4 mr-2" />
                 <span className="hidden lg:inline">{t("analytics.title")}</span>
               </Link>
@@ -270,7 +270,7 @@ export default function FinancePage() {
             </Link>
           </Button>
           <Button variant="outline" size="sm" asChild className="flex-shrink-0">
-            <Link href="/finance/analytics">
+            <Link href="/analytics/finance">
               <BarChart3 className="h-4 w-4" />
             </Link>
           </Button>

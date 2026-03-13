@@ -377,7 +377,34 @@
     "noRecipes": "Пока нет рецептов",
     "startCooking": "Добавьте свои любимые рецепты",
     "totalTime": "Общее время",
-    "macrosPerServing": "На порцию"
+    "macrosPerServing": "На порцию",
+    "mealPlan": "План питания",
+    "mealPlans": "Планы питания",
+    "addMealPlan": "Добавить план",
+    "editMealPlan": "Редактировать план",
+    "deleteMealPlan": "Удалить план",
+    "confirmDeleteMealPlan": "Удалить этот план питания?",
+    "noMealPlans": "Пока нет планов питания",
+    "startPlanning": "Начните планировать своё недельное питание",
+    "planName": "Название плана",
+    "weekStart": "Начало недели (понедельник)",
+    "dailyMeals": "Питание по дням",
+    "dayNote": "Заметка на день",
+    "noMealsPlanned": "Нет запланированных приёмов пищи",
+    "nutritionAnalytics": "Аналитика питания",
+    "avgCalories": "Средние калории",
+    "avgProtein": "Средние белки",
+    "avgFat": "Средние жиры",
+    "avgCarbs": "Средние углеводы",
+    "perDay": "в день",
+    "dailyCaloriesTrend": "Тренд калорий по дням",
+    "weeklyAverageCalories": "Средние калории по неделям",
+    "monthlyAverageCalories": "Средние калории по месяцам",
+    "macrosDistribution": "Распределение макронутриентов",
+    "macrosBreakdown": "Разбивка макронутриентов",
+    "last7days": "Последние 7 дней",
+    "last30days": "Последние 30 дней",
+    "last90days": "Последние 90 дней"
   },
   "workouts": {
     "title": "Тренировки",
@@ -407,6 +434,18 @@
       "week": "Неделя",
       "month": "Месяц",
       "year": "Год"
+    },
+    "finance": {
+      "title": "Финансовая аналитика",
+      "description": "Отслеживайте доходы, расходы и бюджеты"
+    },
+    "nutrition": {
+      "title": "Аналитика питания",
+      "description": "Анализируйте калории и макронутриенты"
+    },
+    "workouts": {
+      "title": "Аналитика тренировок",
+      "description": "Отслеживайте свой фитнес-прогресс"
     }
   },
   "settings": {

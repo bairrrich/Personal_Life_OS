@@ -145,6 +145,47 @@ export interface RecipeEntity extends BaseEntity {
   };
 }
 
+export interface MealPlanEntity extends BaseEntity {
+  type: "mealPlan";
+  data: {
+    name: string;
+    weekStart: string;
+    weekEnd: string;
+    days: Array<{
+      day:
+        | "monday"
+        | "tuesday"
+        | "wednesday"
+        | "thursday"
+        | "friday"
+        | "saturday"
+        | "sunday";
+      date: string;
+      breakfast?: {
+        recipeId?: string;
+        mealType?: "breakfast" | "lunch" | "dinner" | "snack";
+        note?: string;
+      };
+      lunch?: {
+        recipeId?: string;
+        mealType?: "breakfast" | "lunch" | "dinner" | "snack";
+        note?: string;
+      };
+      dinner?: {
+        recipeId?: string;
+        mealType?: "breakfast" | "lunch" | "dinner" | "snack";
+        note?: string;
+      };
+      snacks?: Array<{
+        recipeId?: string;
+        mealType?: "breakfast" | "lunch" | "dinner" | "snack";
+        note?: string;
+      }>;
+      note?: string;
+    }>;
+  };
+}
+
 export interface ExerciseEntity extends BaseEntity {
   type: "exercise";
   data: {
@@ -222,6 +263,7 @@ export type DomainEntity =
   | FoodEntity
   | MealEntity
   | RecipeEntity
+  | MealPlanEntity
   | ExerciseEntity
   | WorkoutEntity
   | BudgetEntity

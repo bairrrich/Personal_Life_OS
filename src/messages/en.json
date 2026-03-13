@@ -377,7 +377,34 @@
     "noRecipes": "No recipes yet",
     "startCooking": "Start adding your favorite recipes",
     "totalTime": "Total Time",
-    "macrosPerServing": "Per Serving"
+    "macrosPerServing": "Per Serving",
+    "mealPlan": "Meal Plan",
+    "mealPlans": "Meal Plans",
+    "addMealPlan": "Add Meal Plan",
+    "editMealPlan": "Edit Meal Plan",
+    "deleteMealPlan": "Delete Meal Plan",
+    "confirmDeleteMealPlan": "Delete this meal plan?",
+    "noMealPlans": "No meal plans yet",
+    "startPlanning": "Start planning your weekly meals",
+    "planName": "Plan Name",
+    "weekStart": "Week Start (Monday)",
+    "dailyMeals": "Daily Meals",
+    "dayNote": "Day Note",
+    "noMealsPlanned": "No meals planned",
+    "nutritionAnalytics": "Nutrition Analytics",
+    "avgCalories": "Avg Calories",
+    "avgProtein": "Avg Protein",
+    "avgFat": "Avg Fat",
+    "avgCarbs": "Avg Carbs",
+    "perDay": "per day",
+    "dailyCaloriesTrend": "Daily Calories Trend",
+    "weeklyAverageCalories": "Weekly Average Calories",
+    "monthlyAverageCalories": "Monthly Average Calories",
+    "macrosDistribution": "Macros Distribution",
+    "macrosBreakdown": "Macros Breakdown",
+    "last7days": "Last 7 days",
+    "last30days": "Last 30 days",
+    "last90days": "Last 90 days"
   },
   "workouts": {
     "title": "Workouts",
@@ -407,6 +434,18 @@
       "week": "Week",
       "month": "Month",
       "year": "Year"
+    },
+    "finance": {
+      "title": "Finance Analytics",
+      "description": "Track income, expenses, and budgets"
+    },
+    "nutrition": {
+      "title": "Nutrition Analytics",
+      "description": "Analyze calories and macronutrients"
+    },
+    "workouts": {
+      "title": "Workout Analytics",
+      "description": "Track your fitness progress"
     }
   },
   "settings": {

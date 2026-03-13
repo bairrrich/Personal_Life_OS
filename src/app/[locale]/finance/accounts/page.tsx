@@ -11,7 +11,7 @@ import {
   type Account,
   getTotalBalance,
 } from "@/actions/accounts";
-import { AddAccountDialog } from "@/features/add-account";
+import { AddAccountDialog } from "@/components/features/finance/add-account-dialog";
 import { Plus, Pencil, Trash2, Wallet } from "lucide-react";
 import { cn } from "@/lib/utils";
 

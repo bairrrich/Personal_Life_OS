@@ -198,3 +198,50 @@ export interface UpdateRecipeInput {
   instructions?: string[];
   tags?: string[];
 }
+
+export type DayOfWeek =
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday"
+  | "sunday";
+
+export interface PlannedMeal {
+  recipeId?: string;
+  mealType?: MealType;
+  note?: string;
+}
+
+export interface DayPlan {
+  day: DayOfWeek;
+  date: string; // ISO date string
+  breakfast?: PlannedMeal;
+  lunch?: PlannedMeal;
+  dinner?: PlannedMeal;
+  snacks?: PlannedMeal[];
+  note?: string;
+}
+
+export interface MealPlan {
+  id: string;
+  name: string;
+  weekStart: string; // ISO date string (Monday)
+  weekEnd: string; // ISO date string (Sunday)
+  days: DayPlan[];
+  createdAt: number;
+  updatedAt: number;
+}
+
+export interface CreateMealPlanInput {
+  name: string;
+  weekStart: string;
+  days: DayPlan[];
+}
+
+export interface UpdateMealPlanInput {
+  id: string;
+  name?: string;
+  days?: DayPlan[];
+}
