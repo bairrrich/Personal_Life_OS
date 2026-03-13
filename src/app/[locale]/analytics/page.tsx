@@ -52,9 +52,8 @@ const analyticsSections = [
     icon: Dumbbell,
     color: "text-blue-500",
     bgColor: "bg-blue-500/10",
-    href: "/workouts",
-    features: ["Workout Frequency", "Exercise Progress", "Muscle Groups"],
-    comingSoon: true,
+    href: "/analytics/workouts",
+    features: ["Workout Frequency", "Volume Tracking", "Completion Rate"],
   },
 ];
 
@@ -77,9 +76,7 @@ export default function AnalyticsPage() {
             return (
               <Card
                 key={section.id}
-                className={`relative overflow-hidden transition-all hover:shadow-lg ${
-                  section.comingSoon ? "opacity-60" : "cursor-pointer"
-                }`}
+                className="relative overflow-hidden transition-all hover:shadow-lg cursor-pointer"
               >
                 <CardHeader className="pb-3">
                   <div
@@ -101,20 +98,12 @@ export default function AnalyticsPage() {
                       </li>
                     ))}
                   </ul>
-                  {!section.comingSoon && (
-                    <Button asChild className="w-full mt-4">
-                      <Link href={section.href}>
-                        <BarChart3 className="h-4 w-4 mr-2" />
-                        View Analytics
-                      </Link>
-                    </Button>
-                  )}
-                  {section.comingSoon && (
-                    <Button disabled className="w-full mt-4">
-                      <TrendingUp className="h-4 w-4 mr-2" />
-                      Coming Soon
-                    </Button>
-                  )}
+                  <Button asChild className="w-full mt-4">
+                    <Link href={section.href}>
+                      <BarChart3 className="h-4 w-4 mr-2" />
+                      View Analytics
+                    </Link>
+                  </Button>
                 </CardContent>
               </Card>
             );

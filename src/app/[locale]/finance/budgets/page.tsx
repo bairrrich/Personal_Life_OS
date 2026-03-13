@@ -7,7 +7,7 @@ import { GlassCard } from "@/components/custom-ui/glass-components";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { getBudgets, deleteBudget, type Budget } from "@/actions/budgets";
-import { AddBudgetDialog } from "@/components/features/finance/add-budget-dialog";
+import { AddBudgetDialog } from "@/components/features/finance";
 import { Plus, Pencil, Trash2, Target } from "lucide-react";
 import { cn } from "@/lib/utils";
 

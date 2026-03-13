@@ -10,7 +10,7 @@ import {
   deleteCategory,
   type Category,
 } from "@/actions/categories";
-import { AddCategoryDialog } from "@/components/features/finance/add-category-dialog";
+import { AddCategoryDialog } from "@/components/features/finance";
 import {
   expenseCategories,
   incomeCategories,

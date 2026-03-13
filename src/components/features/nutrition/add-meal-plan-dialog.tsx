@@ -108,7 +108,7 @@ export function AddMealPlanDialog({
 
   const onSubmit = async () => {
     if (!name || !weekStart) {
-      setError("Please fill in required fields");
+      setError(t("common.error"));
       return;
     }
 
@@ -136,18 +136,18 @@ export function AddMealPlanDialog({
       onSuccess?.();
       onOpenChange(false);
     } else {
-      setError(result.error || "Failed to save meal plan");
+      setError(result.error || t("common.error"));
     }
   };
 
   const dayNames: Record<string, string> = {
-    monday: "Monday",
-    tuesday: "Tuesday",
-    wednesday: "Wednesday",
-    thursday: "Thursday",
-    friday: "Friday",
-    saturday: "Saturday",
-    sunday: "Sunday",
+    monday: t("nutrition.monday"),
+    tuesday: t("nutrition.tuesday"),
+    wednesday: t("nutrition.wednesday"),
+    thursday: t("nutrition.thursday"),
+    friday: t("nutrition.friday"),
+    saturday: t("nutrition.saturday"),
+    sunday: t("nutrition.sunday"),
   };
 
   return (
@@ -155,7 +155,9 @@ export function AddMealPlanDialog({
       <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {editMealPlan ? "Edit Meal Plan" : "Create Meal Plan"}
+            {editMealPlan
+              ? t("nutrition.editMealPlan")
+              : t("nutrition.addMealPlan")}
           </DialogTitle>
         </DialogHeader>
 
@@ -163,17 +165,17 @@ export function AddMealPlanDialog({
           {/* Plan Name and Week Start */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Plan Name *</Label>
+              <Label htmlFor="name">{t("nutrition.planName")} *</Label>
               <Input
                 id="name"
                 type="text"
-                placeholder="e.g., Weekly Meal Plan"
+                placeholder={t("nutrition.planName")}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="weekStart">Week Start (Monday) *</Label>
+              <Label htmlFor="weekStart">{t("nutrition.weekStart")} *</Label>
               <Input
                 id="weekStart"
                 type="date"

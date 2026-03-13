@@ -12,7 +12,7 @@ import {
   processRecurringTransactions,
   type RecurringTransaction,
 } from "@/actions/recurring-transactions";
-import { AddRecurringTransactionDialog } from "@/components/features/finance/add-recurring-transaction-dialog";
+import { AddRecurringTransactionDialog } from "@/components/features/finance";
 import { Plus, Pencil, Trash2, RefreshCw, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {

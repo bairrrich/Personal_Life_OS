@@ -189,10 +189,33 @@ export interface MealPlanEntity extends BaseEntity {
 export interface ExerciseEntity extends BaseEntity {
   type: "exercise";
   data: {
-    muscleGroup?: string;
-    equipment?: string;
+    description?: string;
+    muscleGroups?: string[];
+    equipment?: string[];
     difficulty?: "beginner" | "intermediate" | "advanced";
+    instructions?: string[];
+    videoUrl?: string;
   };
+}
+
+export interface WorkoutSetData {
+  setNumber: number;
+  weight: number;
+  reps: number;
+  rpe?: number;
+  completed: boolean;
+  restTime?: number;
+}
+
+export interface WorkoutExerciseData {
+  exerciseId: string;
+  exerciseName: string;
+  targetSets: number;
+  targetReps?: number;
+  targetWeight?: number;
+  sets: WorkoutSetData[];
+  notes?: string;
+  order: number;
 }
 
 export interface WorkoutEntity extends BaseEntity {
@@ -200,7 +223,17 @@ export interface WorkoutEntity extends BaseEntity {
   data: {
     date: number;
     duration?: number;
-    note?: string;
+    type:
+      | "strength"
+      | "hypertrophy"
+      | "endurance"
+      | "power"
+      | "hiit"
+      | "cardio";
+    exercises?: WorkoutExerciseData[];
+    notes?: string;
+    rating?: number;
+    completed: boolean;
   };
 }
 

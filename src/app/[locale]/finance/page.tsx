@@ -12,9 +12,11 @@ import {
   deleteTransaction,
   type Transaction,
 } from "@/actions/transactions";
-import { AddTransactionDialog } from "@/components/features/finance/add-transaction-dialog";
-import { EditTransactionDialog } from "@/components/features/finance/edit-transaction-dialog";
-import { ImportExportDialog } from "@/components/features/finance/import-export-dialog";
+import {
+  AddTransactionDialog,
+  EditTransactionDialog,
+  ImportExportDialog,
+} from "@/components/features/finance";
 import {
   Plus,
   Filter,

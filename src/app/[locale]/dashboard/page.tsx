@@ -4,6 +4,7 @@ import { DashboardSummary } from "@/widgets/dashboard-summary";
 import { BalanceWidget } from "@/widgets/balance-widget";
 import { RecentTransactionsWidget } from "@/widgets/recent-transactions-widget";
 import { NutritionSummaryWidget } from "@/widgets/nutrition-summary-widget";
+import { WorkoutsSummaryWidget } from "@/widgets/workouts-summary-widget";
 
 export default function DashboardPage() {
   const t = useTranslations();
@@ -28,6 +29,7 @@ export default function DashboardPage() {
         {/* Nutrition Widget */}
         <div className="grid gap-6 lg:grid-cols-3">
           <NutritionSummaryWidget />
+          <WorkoutsSummaryWidget />
         </div>
       </div>
     </AppLayout>

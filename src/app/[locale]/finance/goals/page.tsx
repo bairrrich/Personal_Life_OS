@@ -13,7 +13,7 @@ import {
   addSavingsGoalContribution,
   type SavingsGoal,
 } from "@/actions/savings-goals";
-import { AddSavingsGoalDialog } from "@/components/features/finance/add-savings-goal-dialog";
+import { AddSavingsGoalDialog } from "@/components/features/finance";
 import {
   Plus,
   Pencil,
