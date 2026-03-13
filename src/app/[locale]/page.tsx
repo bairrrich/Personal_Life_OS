@@ -9,6 +9,7 @@ import {
   Utensils,
   Dumbbell,
   Package,
+  BookOpen,
   BarChart3,
   ArrowRight,
 } from "lucide-react";
@@ -41,6 +42,13 @@ const features = [
     href: "/workouts",
     icon: Dumbbell,
     color: "from-purple-500 to-purple-600",
+  },
+  {
+    nameKey: "navigation.books",
+    descriptionKey: "books.description",
+    href: "/books",
+    icon: BookOpen,
+    color: "from-indigo-500 to-indigo-600",
   },
   {
     nameKey: "navigation.products",

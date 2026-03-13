@@ -290,6 +290,132 @@ export interface SavingsGoalEntity extends BaseEntity {
   };
 }
 
+export interface ProductEntity extends BaseEntity {
+  type: "product";
+  data: {
+    brand?: string;
+    category: string;
+    subcategory?: string;
+    description?: string;
+    image?: string;
+    barcode?: string;
+    defaultUnit: string;
+    defaultQuantity: number;
+    defaultPrice?: number;
+    currency: string;
+    nutritionPer100g?: {
+      calories: number;
+      protein: number;
+      fat: number;
+      carbs: number;
+      fiber?: number;
+      sugar?: number;
+    };
+    tags?: string[];
+    isFavorite: boolean;
+    isCustom: boolean;
+  };
+}
+
+export interface PriceHistoryEntity extends BaseEntity {
+  type: "priceHistory";
+  data: {
+    productId: string;
+    price: number;
+    currency: string;
+    quantity: number;
+    unit: string;
+    store?: string;
+  };
+}
+
+export interface ShoppingListItemEntity extends BaseEntity {
+  type: "shoppingListItem";
+  data: {
+    productId?: string;
+    quantity: number;
+    unit: string;
+    estimatedPrice?: number;
+    currency: string;
+    category?: string;
+    checked: boolean;
+    note?: string;
+  };
+}
+
+export interface ShoppingListEntity extends BaseEntity {
+  type: "shoppingList";
+  data: {
+    items?: string[]; // IDs of ShoppingListItemEntity
+  };
+}
+
+export interface PurchaseEntity extends BaseEntity {
+  type: "purchase";
+  data: {
+    items: Array<{
+      productId?: string;
+      name: string;
+      quantity: number;
+      unit: string;
+      price: number;
+      currency: string;
+    }>;
+    totalAmount: number;
+    currency: string;
+    store?: string;
+    note?: string;
+  };
+}
+
+export interface BookEntity extends BaseEntity {
+  type: "book";
+  data: {
+    author: string;
+    isbn?: string;
+    publisher?: string;
+    publishYear?: number;
+    language?: string;
+    pages?: number;
+    genre: string;
+    subgenre?: string;
+    description?: string;
+    coverImage?: string;
+    format: string;
+    status: string;
+    rating?: number;
+    review?: string;
+    tags?: string[];
+    series?: string;
+    seriesPosition?: number;
+    currentPage?: number;
+    dateStarted?: number;
+    dateCompleted?: number;
+    isFavorite: boolean;
+    isCustom: boolean;
+  };
+}
+
+export interface BookNoteEntity extends BaseEntity {
+  type: "bookNote";
+  data: {
+    bookId: string;
+    content: string;
+    page?: number;
+    chapter?: string;
+    type: "quote" | "note" | "highlight";
+  };
+}
+
+export interface ReadingGoalEntity extends BaseEntity {
+  type: "readingGoal";
+  data: {
+    year: number;
+    targetBooks: number;
+    completedBooks: number;
+  };
+}
+
 export type DomainEntity =
   | TransactionEntity
   | AccountEntity
@@ -302,7 +428,15 @@ export type DomainEntity =
   | BudgetEntity
   | RecurringTransactionEntity
   | SavingsGoalEntity
-  | CategoryEntity;
+  | CategoryEntity
+  | ProductEntity
+  | PriceHistoryEntity
+  | ShoppingListItemEntity
+  | ShoppingListEntity
+  | PurchaseEntity
+  | BookEntity
+  | BookNoteEntity
+  | ReadingGoalEntity;
 export type EntityType = DomainEntity["type"];
 
 export interface CreateEntityInput<T extends BaseEntity = BaseEntity> {
